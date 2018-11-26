@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from music.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/account/login/', AccountLoginView.as_view()),
+    path('api/account/logout/', AccountLogoutView.as_view()),
+    path('api/account/password/', AccountChangePasswordView.as_view()),
+    path('api/account/',AccountDetailView.as_view())
 ]
