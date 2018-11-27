@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="mm-app">
 <head>
-    <title>{% block title %}Music Management{% endblock %}</title>
-    {% load static %}
-    
+    <title>{% block title %}Music Management{% endblock %}</title>  
 </head>
 <body>
     {% include "navbar.html" %}
     {% block main %}
     {% endblock%}
+    {% load static %}
     <script src="{% static './app.js' %}"></script>
 </body>
 
