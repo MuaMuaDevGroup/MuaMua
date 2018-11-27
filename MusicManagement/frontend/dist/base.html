@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Music Management{% endblock %}</title>
+    {% load static %}
+    
+</head>
+<body>
+    {% include "navbar.html" %}
+    {% block main %}
+    {% endblock%}
+    <script src="{% static './app.js' %}"></script>
+</body>
+
+</html>

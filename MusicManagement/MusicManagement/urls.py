@@ -16,11 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from music.views import *
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/account/login/', AccountLoginView.as_view()),
     path('api/account/logout/', AccountLogoutView.as_view()),
     path('api/account/password/', AccountChangePasswordView.as_view()),
-    path('api/account/',AccountDetailView.as_view())
+    path('api/account/', AccountDetailView.as_view()),
+    path('web/', TemplateView.as_view(template_name="index.html")),
 ]
