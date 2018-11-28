@@ -1,5 +1,32 @@
 {% verbatim %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" ng-controller="NavbarController as navbar">
+<!-- Modal -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" ng-controller="NavbarController">
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">登录</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" ng-model="loginUsername" class="form-control" placeholder="用户名">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" ng-model="loginPassword" class="form-control" placeholder="密码"></input>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" ng-click="login();" class="btn btn-primary">登录</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <a class="navbar-brand" href="#">MuaMua</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,13 +41,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">歌单</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">音乐</a>
-            </li>
         </ul>
     </div>
     <div class="my-2 my-lg-0">
-        <button class="btn btn-outline-success my-2 my-sm-0">{{navbar.Name}}</button>
+        <button class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#loginModal">{{loginUsername}}登录</button>
     </div>
 </nav>
 {% endverbatim %}
