@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/account/password/', AccountChangePasswordView.as_view()),
     path('api/account/', AccountDetailView.as_view()),
     path('web/', TemplateView.as_view(template_name="index.html")),
+    path('web/manage/', TemplateView.as_view(template_name="music_manage.html")),
 ]

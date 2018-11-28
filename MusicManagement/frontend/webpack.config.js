@@ -1,11 +1,17 @@
 const path = require('path');
 module.exports = {
     entry: {
-        app: ['./src/index.js', './src/navbar.js']
+        app: ['./src/index.js', './src/navbar.js'],
+        style:['./styles/global.css']
     },
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, './dist')
+    },
+    optimization: {
+        splitChunks: {
+            chunks: 'all'
+        }
     },
     module: {
         rules: [{

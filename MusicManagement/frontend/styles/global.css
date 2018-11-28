@@ -1,0 +1,12 @@
+
+.body-content{
+    padding: 20px;
+}
+
+.nav-pills .nav-link.active{
+    background-color: #343a40!important;
+}
+
+a.nav-link{
+    color: #343a40;
+}
