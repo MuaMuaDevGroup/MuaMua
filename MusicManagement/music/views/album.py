@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from music.serializers import AlbumCreationSerializer, AlbumDetailSerializer, AlbumUpdateSerializer
+from music.serializers import AlbumCreationSerializer, AlbumDetailSerializer, AlbumUpdateSerializer, AlbumSerializer
 from music.models import Album
 
 
@@ -18,8 +18,9 @@ class AlbumView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, format=None):
-        serializer = AlbumDetailSerializer(Album.objects.all(), many=True)
+        serializer = AlbumSerializer(Album.objects.all(), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class AlbumDetailView(APIView):
     permission_classes = (IsAuthenticated, IsAdminUser,)
