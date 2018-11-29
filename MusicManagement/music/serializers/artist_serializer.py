@@ -8,9 +8,16 @@ class ArtistCreationSerializer(serializers.ModelSerializer):
         model = Artist
         fields = ('name', 'country', 'birth')
 
+
+class ArtistUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Artist
+        fields = ('name', 'country', 'birth')
+
+
 class ArtistDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Artist
         fields = ('id', 'name', 'country', 'birth')
-        

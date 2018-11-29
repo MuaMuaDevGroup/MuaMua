@@ -16,7 +16,6 @@ angular.module('mm-app').controller('ManageController', ['$http', '$scope', ($ht
     $scope.addArtistCountry = "";
     $scope.addArtistBirth = "";
     $scope.addArtist = () => {
-        Date.parse()
         let d = {
             name: $scope.addArtistName,
             country: $scope.addArtistCountry,
@@ -33,4 +32,34 @@ angular.module('mm-app').controller('ManageController', ['$http', '$scope', ($ht
             $scope.refreshArtist();
         });
     };
+    $scope.editArtistId = null;
+    $scope.editArtistName = "";
+    $scope.editArtistCountry = "";
+    $scope.editArtistBirth = "";
+    $scope.toEditArtist = (id, name, country, birth) => {
+        $scope.editArtistId = id;
+        $scope.editArtistName = name;
+        $scope.editArtistCountry = country;
+        $scope.editArtistBirth = birth;
+    };
+    $scope.editArtist = () => {
+        let u = "/api/artist/" + $scope.editArtistId + "/";
+        let d = {
+            name: $scope.editArtistName,
+            country: $scope.editArtistCountry,
+            birth: $scope.editArtistBirth
+        };
+        $http({
+            url: u,
+            method: "PUT",
+            data: d
+        }).then((response) => { 
+            $scope.editArtistId = null;
+            $scope.editArtistName = "";
+            $scope.editArtistCountry = "";
+            $scope.editArtistBirth = "";
+            $scope.refreshArtist();
+        });
+    };
+
 }])
