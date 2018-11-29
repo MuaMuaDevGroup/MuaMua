@@ -10,8 +10,8 @@ angular.module('mm-app', []).controller('NavbarController', ["$http", "$scope", 
             $scope.email = response.data.email;
             $scope.isLogin = true;
             $scope.$apply();
-            }, function (response) {
-                $scope.isLogin = false;
+        }, function (response) {
+            $scope.isLogin = false;
         });
     };
     $scope.checkLogin();
@@ -40,6 +40,18 @@ angular.module('mm-app', []).controller('NavbarController', ["$http", "$scope", 
     };
     $scope.logout = function () {
         $http({ method: "POST", url: "/api/account/logout/" }).then(function () { $scope.checkLogin(); });
+    };
+}]).controller('ManageController', ['$http', '$scope', ($http, $scope) => {
+    $scope.artists = [];
+    $scope.refreshArtist = () => {
+        $http({
+            method: "GET",
+            url: "http://127.0.0.1:8000/api/artist/"
+        }).then((response) => {
+            $scope.artists = response.data;
+            console.log($scope.artists);
+            $scope.$apply();
+        });
     };
 }]).config(["$httpProvider", function ($httpProvider) {
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
