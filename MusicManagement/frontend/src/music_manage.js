@@ -1,6 +1,6 @@
 import 'angular'
 
-angular.module('mm-app').controller('ManageController', ['$http', '$scope', ($http, $scope) => {
+angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope', ($http, $scope) => {
     $scope.artists = [];
     $scope.refreshArtist = () => {
         $http({
