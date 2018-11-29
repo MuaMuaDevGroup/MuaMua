@@ -5,11 +5,32 @@ angular.module('mm-app').controller('ManageController', ['$http', '$scope', ($ht
     $scope.refreshArtist = () => {
         $http({
             method: "GET",
-            url: "http://127.0.0.1:8000/api/artist/"
+            url: "/api/artist/"
         }).then((response) => {
             $scope.artists = response.data;
             console.log($scope.artists);
             $scope.$apply();
+        });
+    };
+    $scope.addArtistName = "";
+    $scope.addArtistCountry = "";
+    $scope.addArtistBirth = "";
+    $scope.addArtist = () => {
+        Date.parse()
+        let d = {
+            name: $scope.addArtistName,
+            country: $scope.addArtistCountry,
+            birth: $scope.addArtistBirth
+        }
+        $http({
+            method: "POST",
+            url: "/api/artist/",
+            data: d
+        }).then((response) => {
+            $scope.addArtistName = "";
+            $scope.addArtistBirth = "";
+            $scope.addArtistCountry = "";
+            $scope.refreshArtist();
         });
     };
 }])
