@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import 'angular'
-angular.module('mm-app', []).controller('NavbarController', ["$http", "$scope", function ($http, $scope) {
+angular.module('mm-app').controller('NavbarController', ["$http", "$scope", function ($http, $scope) {
     $scope.checkLogin = function () {
         $http({
             method: "GET",
@@ -41,7 +41,4 @@ angular.module('mm-app', []).controller('NavbarController', ["$http", "$scope", 
     $scope.logout = function () {
         $http({ method: "POST", url: "/api/account/logout/" }).then(function () { $scope.checkLogin(); });
     };
-}]).config(["$httpProvider", function ($httpProvider) {
-    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 }]);
