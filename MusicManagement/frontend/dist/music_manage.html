@@ -25,10 +25,51 @@
         <!--专辑页面-->
         <div class="tab-pane fade" id="v-pills-album" role="tabpanel" aria-labelledby="v-pills-album-tab" ng-controller="AlbumManageController">
             <!--对话框开始-->
+            <!-- 添加新专辑 -->
+            <div class="modal fade" id="albumAddModal" tabindex="-1" role="dialog" aria-labelledby="albumAddModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="albumAddModalLabel">添加专辑</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="album-title-add" class="col-form-label">专辑标题：</label>
+                                    <input ng-model="addAlbumTitle" type="text" class="form-control" id="album-title-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="album-year-add" class="col-form-label">出版时间:</label>
+                                    <input ng-model="addAlbumYear" type="text" placeholder="1970-01-01" class="form-control" id="album-year-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="album-publisher-add" class="col-form-label">唱片公司:</label>
+                                    <input ng-model="addAlbumPublisher" type="text" class="form-control" id="album-publisher-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="album-description-add" class="col-form-label">唱片公司:</label>
+                                    <textarea ng-model="addAlbumDescription" type="text" class="form-control" id="album-description-add"></textarea>    
+                                </div>
+                                <div class="form-group">
+                                    <label for="album-track-add" class="col-form-label">歌曲Id:</label>
+                                    <input ng-model="addAlbumTracks" type="text" class="form-control" id="album-track-add">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addAlbum();">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!--对话框结束-->
             <div class="btn-group" role="group" aria-label="Album Management Toolbar">
                 <button type="button" ng-click="refreshAlbums();" class="btn btn-secondary">刷新</button>
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#albumModalAdd">添加</button>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#albumAddModal">添加</button>
             </div>
             <hr />
             <table class="table">

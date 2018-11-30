@@ -77,6 +77,32 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
         });
 
     };
+    $scope.addAlbumTitle = "";
+    $scope.addAlbumPublisher = "";
+    $scope.addAlbumYear = "";
+    $scope.addAlbumTracks = "";
+    $scope.addAlbumDescription = "";
+    $scope.addAlbum = () => {
+        let d = {
+            title: $scope.addAlbumTitle,
+            publisher: $scope.addAlbumPublisher,
+            year: $scope.addAlbumYear,
+            description: $scope.addAlbumDescription,
+            tracks: $scope.addAlbumTracks.split(",").select(t => parseInt(t))
+        };
+        $http({
+            url: "/api/album/",
+            method: "POST",
+            data: d
+        }).then(response => {
+            $scope.addAlbumTitle = "";
+            $scope.addAlbumPublisher = "";
+            $scope.addAlbumYear = "";
+            $scope.addAlbumTracks = "";
+            $scope.addAlbumDescription = "";
+            $scope.refreshAlbums();
+        });
+    };
     $scope.loadAlbumTrack = (id) => {
         $http({
             url: "/api/album/" + id + "/",
@@ -84,9 +110,15 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
         }).then((response) => {
             let a = $scope.albums.first(a => a.id == id);
             a.tracks = [];
-            response.data.tracks.forEach(tid => { 
-                $http({ url: "/api/music/" + tid + "/", method: "GET" }).then((response) => { 
+            response.data.tracks.forEach(tid => {
+                $http({ url: "/api/music/" + tid + "/", method: "GET" }).then((response) => {
+                    let singers = [];
+                    response.data.artist.forEach(sid => { 
+                        $http({ url: "/api/artist/" + sid + "/", method: "Get" }).then(response => singers.push(response.data.name));
+                    });
+                    response.data.artist = singers;
                     a.tracks.push(response.data);
+                  
                 });
             });
             $scope.viewTracksAlbum = a;

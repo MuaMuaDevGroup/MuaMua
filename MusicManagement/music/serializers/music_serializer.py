@@ -14,9 +14,9 @@ class MusicCreationSerializer(serializers.ModelSerializer):
 
 
 class MusicDetailSerializer(serializers.ModelSerializer):
-    album = serializers.SlugRelatedField(slug_field="title", read_only=True)
+    album = serializers.SlugRelatedField(slug_field="id", read_only=True)
     artist = serializers.SlugRelatedField(
-        slug_field="name", many=True, read_only=True)
+        slug_field="id", many=True, read_only=True)
 
     class Meta:
         model = Music
