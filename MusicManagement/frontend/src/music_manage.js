@@ -1,5 +1,5 @@
 import 'angular'
-
+import 'linqjs'
 angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope', ($http, $scope) => {
     $scope.artists = [];
     $scope.refreshArtist = () => {
@@ -53,7 +53,7 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
             url: u,
             method: "PUT",
             data: d
-        }).then((response) => { 
+        }).then((response) => {
             $scope.editArtistId = null;
             $scope.editArtistName = "";
             $scope.editArtistCountry = "";
@@ -61,5 +61,36 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
             $scope.refreshArtist();
         });
     };
+}]);
 
-}])
+angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope', ($http, $scope) => {
+
+    $scope.albums = [];
+    $scope.viewTracksAlbum = null;
+    $scope.refreshAlbums = () => {
+        $http({
+            url: "/api/album/",
+            method: "GET"
+        }).then(response => {
+            $scope.albums = response.data;
+            $scope.albums.forEach(a => a.tracks = []);
+        });
+
+    };
+    $scope.loadAlbumTrack = (id) => {
+        $http({
+            url: "/api/album/" + id + "/",
+            method: "GET"
+        }).then((response) => {
+            let a = $scope.albums.first(a => a.id == id);
+            a.tracks = [];
+            response.data.tracks.forEach(tid => { 
+                $http({ url: "/api/music/" + tid + "/", method: "GET" }).then((response) => { 
+                    a.tracks.push(response.data);
+                });
+            });
+            $scope.viewTracksAlbum = a;
+        });
+    };
+
+}]);

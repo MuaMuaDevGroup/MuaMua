@@ -20,3 +20,10 @@ class MusicView(APIView):
     def get(self, request, format=None):
         serializer = MusicDetailSerializer(Music.objects.all(), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class MusicDetailView(APIView):
+    permission_classes = (IsAuthenticated, IsAdminUser,)
+    
+    def get(self, request, pk, format=None):
+        serializer = MusicDetailSerializer(Music.objects.get(pk=pk))
+        return Response(serializer.data, status=status.HTTP_200_OK)
