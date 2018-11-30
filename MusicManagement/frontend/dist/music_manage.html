@@ -25,44 +25,6 @@
         <!--专辑页面-->
         <div class="tab-pane fade" id="v-pills-album" role="tabpanel" aria-labelledby="v-pills-album-tab" ng-controller="AlbumManageController">
             <!--对话框开始-->
-            <!--查看专辑歌曲信息对话框-->
-            <div class="modal fade" id="viewAlbumTracksInfoModal" tabindex="-1" role="dialog" aria-labelledby="viewAlbumTracksInfoModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="viewAlbumTracksInfoModalLabel">{{viewTracksAlbum.title}}专辑歌曲信息</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">id</th>
-                                        <th scope="col">标题</th>
-                                        <th scope="col">歌手</th>
-                                        <th scope="col">时长</th>
-                                        <th scope="col">风格</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="track in viewTracksAlbum.tracks">
-                                        <th>{{track.id}}</th>
-                                        <td>{{track.title}}</td>
-                                        <td>{{track.artist.join(",")}}</td>
-                                        <td>{{track.duration}}</td>
-                                        <td>{{track.style}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <!--对话框结束-->
             <div class="btn-group" role="group" aria-label="Album Management Toolbar">
                 <button type="button" ng-click="refreshAlbums();" class="btn btn-secondary">刷新</button>
@@ -82,12 +44,36 @@
                 <tbody>
                     <tr ng-repeat="album in albums">
                         <th>{{album.id}}</th>
-                        <td>{{album.title}}</td>
+                        <td>
+                            <div class="dropdown">
+                                <a href="#" ng-click="loadAlbumTrack(album.id);" data-toggle="dropdown">{{album.title}}</a>
+                                <div class="dropdown-menu">
+                                    <h6 class="dropdown-header">{{album.title}}专辑歌曲列表</h6>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">标题</th>
+                                                <th scope="col">歌手</th>
+                                                <th scope="col">时长</th>
+                                                <th scope="col">风格</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="track in viewTracksAlbum.tracks">
+                                                <td>{{track.title}}</td>
+                                                <td>{{track.artist.join(",")}}</td>
+                                                <td>{{track.duration}}</td>
+                                                <td>{{track.style}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </td>
                         <td>{{album.year}}</td>
                         <td>{{album.description}}</td>
                         <td>
-                            <button type="button" class="btn btn-secondary" ng-click="loadAlbumTrack(album.id);"
-                                data-toggle="modal" data-target="#viewAlbumTracksInfoModal">查看歌曲</button>
+                            
                         </td>
                     </tr>
                 </tbody>
