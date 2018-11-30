@@ -77,6 +77,33 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
         });
 
     };
+    $scope.editingAlbum = null;
+    $scope.toEditAlbum = (id) => {
+        $scope.editingAlbum = $scope.albums.first(a => a.id == id);
+        $http({
+            url: "/api/album/" + $scope.editingAlbum.id + "/",
+            method: "GET"
+        }).then(response => { 
+            $scope.editingAlbum.rawTracks = response.data.tracks.select(a => a.toString()).join(",");
+        }); 
+    };
+    $scope.editAlbum = () => {
+        let d = {
+            title: $scope.editingAlbum.title,
+            publisher: $scope.editingAlbum.publisher,
+            year: $scope.editingAlbum.year,
+            description: $scope.editingAlbum.description,
+            tracks: $scope.editingAlbum.rawTracks == "" ? null : $scope.editingAlbum.rawTracks.split(",").select(t => parseInt(t))
+        };
+        $http({
+            url: "/api/album/" + $scope.editingAlbum.id + "/",
+            method: "PUT",
+            data: d
+        }).then(response => {
+            $scope.refreshAlbums();
+        });
+    };
+
     $scope.deletingAlbum = null;
     $scope.setDeleteId = (id) => {
         $scope.deletingAlbum = $scope.albums.first(a => a.id == id);

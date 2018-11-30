@@ -29,7 +29,8 @@ class AlbumCreationSerializer(serializers.ModelSerializer):
 
 class AlbumUpdateSerializer(serializers.ModelSerializer):
 
-    tracks = serializers.ListField(child=serializers.IntegerField())
+    tracks = serializers.ListField(
+        child=serializers.IntegerField(), allow_null=True)
 
     class Meta:
         model = Album
@@ -40,10 +41,11 @@ class AlbumUpdateSerializer(serializers.ModelSerializer):
         for music in Music.objects.filter(album=instance):
             music.album = None
             music.save()
-        for track_id in tracks_data:
-            m = Music.objects.get(pk=track_id)
-            m.album = instance
-            m.save()
+        if tracks_data != None:
+            for track_id in tracks_data:
+                m = Music.objects.get(pk=track_id)
+                m.album = instance
+                m.save()
         instance.title = validated_date.get("title")
         instance.year = validated_date.get("year")
         instance.publisher = validated_date.get("publisher")

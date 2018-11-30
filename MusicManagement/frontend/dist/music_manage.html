@@ -66,6 +66,51 @@
                     </div>
                 </div>
             </div>
+            <!-- 编辑专辑 -->
+            <div class="modal fade" id="albumEditModal" tabindex="-1" role="dialog" aria-labelledby="albumEditModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="albumEditModalLabel">编辑专辑</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="album-id-edit" class="col-form-label">专辑Id：</label>
+                                    <input ng-model="editingAlbum.id" type="text" class="form-control" id="album-id-edit" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="album-title-edit" class="col-form-label">专辑标题：</label>
+                                    <input ng-model="editingAlbum.title" type="text" class="form-control" id="album-title-edit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="album-year-adeditd" class="col-form-label">出版时间:</label>
+                                    <input ng-model="editingAlbum.year" type="text" placeholder="1970-01-01" class="form-control" id="album-year-edit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="album-publisher-edit" class="col-form-label">唱片公司:</label>
+                                    <input ng-model="editingAlbum.publisher" type="text" class="form-control" id="album-publisher-edit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="album-description-edit" class="col-form-label">唱片公司:</label>
+                                    <textarea ng-model="editingAlbum.description" type="text" class="form-control" id="album-description-edit"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="album-track-edit" class="col-form-label">歌曲Id:</label>
+                                    <input ng-model="editingAlbum.rawTracks" type="text" class="form-control" id="album-track-edit">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="editAlbum();">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- 删除专辑确认 -->
             <div class="modal fade" id="albumDeleteModal" tabindex="-1" role="dialog" aria-labelledby="albumDeleteModalLabel"
                 aria-hidden="true">
@@ -136,6 +181,7 @@
                         <td>{{album.description}}</td>
                         <td>
                             <button type="button" ng-click="setDeleteId(album.id);" data-toggle="modal" data-target="#albumDeleteModal" class="btn btn-danger">删除</button>
+                            <button type="button" ng-click="toEditAlbum(album.id);" data-toggle="modal" data-target="#albumEditModal" class="btn btn-info">编辑</button>
                         </td>
                     </tr>
                 </tbody>
