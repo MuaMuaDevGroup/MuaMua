@@ -156,7 +156,8 @@
                                 <a href="#" ng-click="loadAlbumTrack(album.id);" data-toggle="dropdown">{{album.title}}</a>
                                 <div class="dropdown-menu">
                                     <h6 class="dropdown-header">{{album.title}}专辑歌曲列表</h6>
-                                    <table class="table">
+                                    <a class="dropdown-item disabled" ng-hide="viewTracksAlbum.tracks.length!=0" href="#">该专辑暂无歌曲</a>
+                                    <table class="table" ng-show="viewTracksAlbum.tracks.length!=0">
                                         <thead>
                                             <tr>
                                                 <th scope="col">标题</th>
