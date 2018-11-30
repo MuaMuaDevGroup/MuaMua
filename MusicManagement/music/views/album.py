@@ -37,3 +37,8 @@ class AlbumDetailView(APIView):
     def get(self, request, pk, format=None):
         serializer = AlbumDetailSerializer(Album.objects.get(pk=pk))
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk, format=None):
+        album = Album.objects.get(pk=pk)
+        album.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -77,6 +77,18 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
         });
 
     };
+    $scope.deletingAlbum = null;
+    $scope.setDeleteId = (id) => {
+        $scope.deletingAlbum = $scope.albums.first(a => a.id == id);
+    };
+    $scope.deleteAlbum = (id) => {
+        $http({
+            url: "/api/album/" + id + "/",
+            method: "DELETE"
+        }).then(response => {
+            $scope.refreshAlbums();
+        });
+    };
     $scope.addAlbumTitle = "";
     $scope.addAlbumPublisher = "";
     $scope.addAlbumYear = "";
@@ -88,7 +100,7 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
             publisher: $scope.addAlbumPublisher,
             year: $scope.addAlbumYear,
             description: $scope.addAlbumDescription,
-            tracks: $scope.addAlbumTracks.split(",").select(t => parseInt(t))
+            tracks: $scope.addAlbumTracks == "" ? null : $scope.addAlbumTracks.split(",").select(t => parseInt(t))
         };
         $http({
             url: "/api/album/",
@@ -113,12 +125,12 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
             response.data.tracks.forEach(tid => {
                 $http({ url: "/api/music/" + tid + "/", method: "GET" }).then((response) => {
                     let singers = [];
-                    response.data.artist.forEach(sid => { 
+                    response.data.artist.forEach(sid => {
                         $http({ url: "/api/artist/" + sid + "/", method: "Get" }).then(response => singers.push(response.data.name));
                     });
                     response.data.artist = singers;
                     a.tracks.push(response.data);
-                  
+
                 });
             });
             $scope.viewTracksAlbum = a;

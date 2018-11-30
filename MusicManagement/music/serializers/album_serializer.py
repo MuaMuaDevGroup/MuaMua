@@ -4,7 +4,8 @@ from music.models import Album, Music
 
 class AlbumCreationSerializer(serializers.ModelSerializer):
 
-    tracks = serializers.ListField(child=serializers.IntegerField())
+    tracks = serializers.ListField(
+        child=serializers.IntegerField(), allow_null=True)
 
     class Meta:
         model = Album
@@ -18,10 +19,11 @@ class AlbumCreationSerializer(serializers.ModelSerializer):
         a.publisher = validated_date.pop("publisher")
         a.description = validated_date.pop("description")
         a.save()
-        for track_id in tracks_data:
-            m = Music.objects.get(pk=track_id)
-            m.album = a
-            m.save()
+        if tracks_data != None:
+            for track_id in tracks_data:
+                m = Music.objects.get(pk=track_id)
+                m.album = a
+                m.save()
         return a
 
 

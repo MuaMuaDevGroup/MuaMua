@@ -66,6 +66,27 @@
                     </div>
                 </div>
             </div>
+            <!-- 删除专辑确认 -->
+            <div class="modal fade" id="albumDeleteModal" tabindex="-1" role="dialog" aria-labelledby="albumDeleteModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="albumDeleteModalTitle">删除专辑</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            您确定要删除专辑{{deletingAlbum.title}}？
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-danger" ng-click="deleteAlbum(deletingAlbum.id);" data-dismiss="modal">删除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!--对话框结束-->
             <div class="btn-group" role="group" aria-label="Album Management Toolbar">
                 <button type="button" ng-click="refreshAlbums();" class="btn btn-secondary">刷新</button>
@@ -114,7 +135,7 @@
                         <td>{{album.year}}</td>
                         <td>{{album.description}}</td>
                         <td>
-                            
+                            <button type="button" ng-click="setDeleteId(album.id);" data-toggle="modal" data-target="#albumDeleteModal" class="btn btn-danger">删除</button>
                         </td>
                     </tr>
                 </tbody>
