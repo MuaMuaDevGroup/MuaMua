@@ -79,8 +79,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'sql_server.pyodbc',
         'NAME': 'MusicManagement',
-        'USER': 'sa',
-        'PASSWORD': '1111111',
+        'USER': '',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '',
 
