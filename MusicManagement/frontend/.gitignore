@@ -80,3 +80,4 @@ typings/
 
 #Custom Files
 dist/*.js
+package-lock.json
