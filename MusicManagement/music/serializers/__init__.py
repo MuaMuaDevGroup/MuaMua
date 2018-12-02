@@ -1,5 +1,5 @@
 from .account_serializer import AccountChangePasswordSerializer, AccountDetailSerializer, AccountLoginSerializer
-from .music_serializer import MusicCreationSerializer, MusicDetailSerializer
+from .music_serializer import MusicCreationSerializer, MusicDetailSerializer, MusicUpdateSerializer
 from .artist_serializer import ArtistCreationSerializer, ArtistDetailSerializer, ArtistUpdateSerializer
 from .album_serializer import AlbumCreationSerializer, AlbumDetailSerializer, AlbumUpdateSerializer, AlbumSerializer
 from .user_serializer import UserCreationSerializer,UserDetailSerializer,UserPasswordChangeSerializer,UserUpdateSerializer,UserSerializer
