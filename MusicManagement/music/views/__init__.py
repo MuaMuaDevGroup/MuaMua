@@ -2,3 +2,4 @@ from .account import AccountLoginView, AccountLogoutView, AccountChangePasswordV
 from .music import MusicView, MusicDetailView
 from .artist import ArtistView, ArtistDetailView
 from .album import AlbumView, AlbumDetailView
+from .user import UserDetailChangePasswordView, UserDetailView, UserView

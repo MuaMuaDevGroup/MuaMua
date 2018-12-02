@@ -30,6 +30,9 @@ urlpatterns = [
     path('api/artist/<int:pk>/', ArtistDetailView.as_view()),
     path('api/album/', AlbumView.as_view()),
     path('api/album/<int:pk>/', AlbumDetailView.as_view()),
+    path('api/user/', UserView.as_view()),
+    path('api/user/<int:pk>/', UserDetailView.as_view()),
+    path('api/user/<int:pk>/password/', UserDetailChangePasswordView.as_view()),
     path('web/', TemplateView.as_view(template_name="index.html")),
     path('web/manage/', TemplateView.as_view(template_name="music_manage.html")),
 ]

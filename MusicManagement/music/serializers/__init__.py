@@ -2,3 +2,4 @@ from .account_serializer import AccountChangePasswordSerializer, AccountDetailSe
 from .music_serializer import MusicCreationSerializer, MusicDetailSerializer
 from .artist_serializer import ArtistCreationSerializer, ArtistDetailSerializer, ArtistUpdateSerializer
 from .album_serializer import AlbumCreationSerializer, AlbumDetailSerializer, AlbumUpdateSerializer, AlbumSerializer
+from .user_serializer import UserCreationSerializer,UserDetailSerializer,UserPasswordChangeSerializer,UserUpdateSerializer,UserSerializer
