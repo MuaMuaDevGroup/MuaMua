@@ -4,7 +4,7 @@
 {% verbatim %}
 <div class="body-content">
     <h1>音乐管理</h1>
-    <hr/>
+    <hr />
     <ul class="nav nav-pills">
         <li class="nav-item">
             <a class="nav-link active" href="#v-pills-music" data-toggle="pill" href="#">歌曲管理</a>
@@ -19,14 +19,128 @@
             <a class="nav-link" href="#v-pills-playlist" data-toggle="pill" href="#">歌单管理</a>
         </li>
     </ul>
-    <hr/>
+    <hr />
+
     <div class="tab-content" id="v-pills-tabContent">
-        <div class="tab-pane fade show active" id="v-pills-music" role="tabpanel" aria-labelledby="v-pills-music-tab"></div>
+        <!--歌曲管理-->
+        <div class="tab-pane fade show active" id="v-pills-music" role="tabpanel" aria-labelledby="v-pills-music-tab">
+            <!--对话框开始-->
+            <!-- 添加新歌曲 -->
+            <div class="modal fade" id="musicAddModal" tabindex="-1" role="dialog" aria-labelledby="musicAddModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="musicAddModalLabel">添加歌曲</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div calss="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="music-id-add" class="col-form-label">歌曲Id:</label>
+                                    <input ng-model="addMusicId" type="text" class="form-control" id="music-id-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="music-title-add" class="col-form-label">歌曲标题:</label>
+                                    <input ng-model="addMusicTitle" type="text" class="form-control" id="music-title-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="music-artist-add" class="col-form-label">歌手姓名:</label>
+                                    <input ng-model="addMusicArtist" type="text" class="form-control" id="music-artist-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="music-album-add" class="col-form-label">专辑标题:</label>
+                                    <input ng-model="addMusiAlbum" type="text" class="form-control" id="music-album-add">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addMusic();">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--编辑歌曲-->
+            <div class="modal fade" id="musicModalEdit" tabindex="-1" role="dialog" aria-labelledby="musicModalEditLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="musicModalEditLabel">编辑歌曲</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <form>
+                                <div class="form-group">
+                                    <label for="music-id-edit" class="col-form-label">歌曲Id:</label>
+                                    <input ng-model="editMusicId" type="text" class="form-control" id="music-id-edit"
+                                        disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="music-title-edit" class="col-form-label">歌曲标题:</label>
+                                    <input ng-model="editMusicTitle" type="text" class="form-control" id="music-title-edit"
+                                        disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="music-artist-edit" class="col-form-label">歌手姓名:</label>
+                                    <input ng-model="editMusicArtist" type="text" class="form-control" id="music-artist-edit"
+                                        disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="music-album-edit" class="col-form-label">专辑标题:</label>
+                                    <input ng-model="editMusicAlbum" type="text" class="form-control" id="music-album-edit"
+                                        disabled>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">算了，不改</button>
+                            <button type="button" class="btn btn-primary" ng-click="editMusic();" data-dismiss="modal">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--对话框结束-->
+            <div class="btn-group" role="group" aria-label="Music Management Toolbar">
+                <button type="button" ng-click="refreshMusic();" class="btn btn-secondary">刷新</button>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#musicModalAdd">添加</button>
+            </div>
+            <hr />
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">歌曲Id</th>
+                        <th scope="col">歌曲标题</th>
+                        <th scope="col">歌手姓名</th>
+                        <th scope="col">专辑标题</th>
+                        <th scope="col">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="music in musics">
+                        <th scope="row">{{music.id}}</th>
+                        <td>{{music.title}}</td>
+                        <td>{{music.artist}}</td>
+                        <td>{{music.album}}</td>
+                        <td><button type="button" class="btn btn-secondary" ng-click="toEditMusic(music.id,music.title,music.artist,music.album)"
+                                data-toggle="modal" data-target="#musicModalEdit">编辑</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <!--专辑页面-->
         <div class="tab-pane fade" id="v-pills-album" role="tabpanel" aria-labelledby="v-pills-album-tab" ng-controller="AlbumManageController">
             <!--对话框开始-->
             <!-- 添加新专辑 -->
-            <div class="modal fade" id="albumAddModal" tabindex="-1" role="dialog" aria-labelledby="albumAddModalLabel" aria-hidden="true">
+            <div class="modal fade" id="albumAddModal" tabindex="-1" role="dialog" aria-labelledby="albumAddModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -43,15 +157,16 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="album-year-add" class="col-form-label">出版时间:</label>
-                                    <input ng-model="addAlbumYear" type="text" placeholder="1970-01-01" class="form-control" id="album-year-add">
+                                    <input ng-model="addAlbumYear" type="date" placeholder="1970-01-01" class="form-control"
+                                        id="album-year-add">
                                 </div>
                                 <div class="form-group">
                                     <label for="album-publisher-add" class="col-form-label">唱片公司:</label>
                                     <input ng-model="addAlbumPublisher" type="text" class="form-control" id="album-publisher-add">
                                 </div>
                                 <div class="form-group">
-                                    <label for="album-description-add" class="col-form-label">唱片公司:</label>
-                                    <textarea ng-model="addAlbumDescription" type="text" class="form-control" id="album-description-add"></textarea>    
+                                    <label for="album-description-add" class="col-form-label">唱片简介:</label>
+                                    <textarea ng-model="addAlbumDescription" type="text" class="form-control" id="album-description-add"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="album-track-add" class="col-form-label">歌曲Id:</label>
@@ -67,7 +182,8 @@
                 </div>
             </div>
             <!-- 编辑专辑 -->
-            <div class="modal fade" id="albumEditModal" tabindex="-1" role="dialog" aria-labelledby="albumEditModalLabel" aria-hidden="true">
+            <div class="modal fade" id="albumEditModal" tabindex="-1" role="dialog" aria-labelledby="albumEditModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -80,7 +196,8 @@
                             <form>
                                 <div class="form-group">
                                     <label for="album-id-edit" class="col-form-label">专辑Id：</label>
-                                    <input ng-model="editingAlbum.id" type="text" class="form-control" id="album-id-edit" disabled>
+                                    <input ng-model="editingAlbum.id" type="text" class="form-control" id="album-id-edit"
+                                        disabled>
                                 </div>
                                 <div class="form-group">
                                     <label for="album-title-edit" class="col-form-label">专辑标题：</label>
@@ -88,14 +205,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="album-year-adeditd" class="col-form-label">出版时间:</label>
-                                    <input ng-model="editingAlbum.year" type="text" placeholder="1970-01-01" class="form-control" id="album-year-edit">
+                                    <input ng-model="editingAlbum.year" type="date" placeholder="1970-01-01" class="form-control"
+                                        id="album-year-edit">
                                 </div>
                                 <div class="form-group">
                                     <label for="album-publisher-edit" class="col-form-label">唱片公司:</label>
                                     <input ng-model="editingAlbum.publisher" type="text" class="form-control" id="album-publisher-edit">
                                 </div>
                                 <div class="form-group">
-                                    <label for="album-description-edit" class="col-form-label">唱片公司:</label>
+                                    <label for="album-description-edit" class="col-form-label">唱片简介:</label>
                                     <textarea ng-model="editingAlbum.description" type="text" class="form-control" id="album-description-edit"></textarea>
                                 </div>
                                 <div class="form-group">
@@ -127,7 +245,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-danger" ng-click="deleteAlbum(deletingAlbum.id);" data-dismiss="modal">删除</button>
+                            <button type="button" class="btn btn-danger" ng-click="deleteAlbum(deletingAlbum.id);"
+                                data-dismiss="modal">删除</button>
                         </div>
                     </div>
                 </div>
@@ -181,15 +300,18 @@
                         <td>{{album.year}}</td>
                         <td>{{album.description}}</td>
                         <td>
-                            <button type="button" ng-click="setDeleteId(album.id);" data-toggle="modal" data-target="#albumDeleteModal" class="btn btn-danger">删除</button>
-                            <button type="button" ng-click="toEditAlbum(album.id);" data-toggle="modal" data-target="#albumEditModal" class="btn btn-info">编辑</button>
+                            <button type="button" ng-click="setDeleteId(album.id);" data-toggle="modal" data-target="#albumDeleteModal"
+                                class="btn btn-danger">删除</button>
+                            <button type="button" ng-click="toEditAlbum(album.id);" data-toggle="modal" data-target="#albumEditModal"
+                                class="btn btn-info">编辑</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <!--歌手页面-->
-        <div class="tab-pane fade" id="v-pills-artist" role="tabpanel" aria-labelledby="v-pills-artist-tab" ng-controller="ArtistManageController">
+        <div class="tab-pane fade" id="v-pills-artist" role="tabpanel" aria-labelledby="v-pills-artist-tab"
+            ng-controller="ArtistManageController">
             <!-- 对话框开始 -->
             <!-- 歌手添加对话框 -->
             <div class="modal fade" id="artistModalAdd" tabindex="-1" role="dialog" aria-labelledby="artistModalAddLabel"
@@ -214,7 +336,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="artist-birthday-add" class="col-form-label">出生日期:</label>
-                                    <input ng-model="addArtistBirth" type="text" placeholder="1970-01-01" class="form-control" id="artist-birthday-add">
+                                    <input ng-model="addArtistBirth" type="text" placeholder="1970-01-01" class="form-control"
+                                        id="artist-birthday-add">
                                 </div>
                             </form>
                         </div>
@@ -240,7 +363,8 @@
                             <form>
                                 <div class="form-group">
                                     <label for="artist-id-edit" class="col-form-label">歌手Id：</label>
-                                    <input ng-model="editArtistId" type="text" class="form-control" id="artist-id-edit" disabled>
+                                    <input ng-model="editArtistId" type="text" class="form-control" id="artist-id-edit"
+                                        disabled>
                                 </div>
                                 <div class="form-group">
                                     <label for="artist-name-edit" class="col-form-label">歌手姓名：</label>
@@ -252,7 +376,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="artist-birthday-edit" class="col-form-label">出生日期:</label>
-                                    <input ng-model="editArtistBirth" type="text" placeholder="1970-01-01" class="form-control" id="artist-birthday-edit">
+                                    <input ng-model="editArtistBirth" type="text" placeholder="1970-01-01" class="form-control"
+                                        id="artist-birthday-edit">
                                 </div>
                             </form>
                         </div>
@@ -285,12 +410,14 @@
                         <td>{{artist.name}}</td>
                         <td>{{artist.country}}</td>
                         <td>{{artist.birth}}</td>
-                        <td><button type="button" class="btn btn-secondary" ng-click="toEditArtist(artist.id,artist.name,artist.country,artist.birth)" data-toggle="modal" data-target="#artistModalEdit">编辑</button></td>
+                        <td><button type="button" class="btn btn-secondary" ng-click="toEditArtist(artist.id,artist.name,artist.country,artist.birth)"
+                                data-toggle="modal" data-target="#artistModalEdit">编辑</button></td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="tab-pane fade" id="v-pills-playlist" role="tabpanel" aria-labelledby="v-pills-playlist-tab">d</div>
+
     </div>
 </div>
 {% endverbatim %}

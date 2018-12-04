@@ -18,7 +18,7 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
     $scope.addArtist = () => {
         let d = {
             name: $scope.addArtistName,
-            country: $scope.addArtistCountry,
+            country: $scope.addArtistCountrye,
             birth: $scope.addArtistBirth
         }
         $http({
