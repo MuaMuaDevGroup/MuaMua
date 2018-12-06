@@ -16,11 +16,23 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from music.views import *
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/account/login/', AccountLoginView.as_view()),
     path('api/account/logout/', AccountLogoutView.as_view()),
     path('api/account/password/', AccountChangePasswordView.as_view()),
-    path('api/account/',AccountDetailView.as_view())
+    path('api/account/', AccountDetailView.as_view()),
+    path('api/music/', MusicView.as_view()),
+    path('api/music/<int:pk>/', MusicDetailView.as_view()),
+    path('api/artist/', ArtistView.as_view()),
+    path('api/artist/<int:pk>/', ArtistDetailView.as_view()),
+    path('api/album/', AlbumView.as_view()),
+    path('api/album/<int:pk>/', AlbumDetailView.as_view()),
+    path('api/user/', UserView.as_view()),
+    path('api/user/<int:pk>/', UserDetailView.as_view()),
+    path('api/user/<int:pk>/password/', UserDetailChangePasswordView.as_view()),
+    path('web/', TemplateView.as_view(template_name="index.html")),
+    path('web/manage/', TemplateView.as_view(template_name="music_manage.html")),
 ]

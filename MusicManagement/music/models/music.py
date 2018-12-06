@@ -6,5 +6,6 @@ class Music(models.Model):
     style = models.TextField(null=True)
     duration = models.IntegerField()
     title = models.TextField()
-    album = models.ForeignKey("Album", on_delete=models.SET_NULL, null=True)
+    album = models.ForeignKey(
+        "Album",  related_name="tracks", on_delete=models.SET_NULL, null=True)
     artist = models.ManyToManyField("Artist")
