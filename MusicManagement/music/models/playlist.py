@@ -9,4 +9,4 @@ class Playlist(models.Model):
     name = models.TextField()
     description = models.TextField(null=True)
     play_count = models.IntegerField(validators=[MinValueValidator(0)])
-    owners = models.ManyToManyField(User)
+    owners = models.ManyToManyField(User, null=True)
