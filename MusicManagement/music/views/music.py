@@ -32,11 +32,18 @@ class MusicDetailView(APIView):
     permission_classes = (IsAuthenticated, IsAdminUser,)
 
     def get(self, request, pk, format=None):
-        serializer = MusicDetailSerializer(Music.objects.get(pk=pk))
+        musics = Music.objects.filter(pk=pk)
+        if len(musics) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        music = musics.get(pk=pk)
+        serializer = MusicDetailSerializer(music)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk, format=None):
-        music = Music.objects.get(pk=pk)
+        musics = Music.objects.filter(pk=pk)
+        if len(musics) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        music = musics.get(pk=pk)
         serializer = MusicUpdateSerializer(music, data=request.data)
         if serializer.is_valid():
             serializer.save()

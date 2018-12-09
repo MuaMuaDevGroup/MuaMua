@@ -31,11 +31,17 @@ class PlaylistView(ListAPIView):
 class PlaylistDetailView(APIView):
 
     def get(self, request, pk, format=None):
-        serializer = PlaylistDetailSerializer(Playlist.objects.get(pk=pk))
+        playlists = Playlist.objects.filter(pk=pk)
+        if len(playlists) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = PlaylistDetailSerializer(playlists.get(pk=pk))
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk, format=None):
-        playlist = Playlist.objects.get(pk=pk)
+        playlists = Playlist.objects.filter(pk=pk)
+        if len(playlists) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        playlist = playlists.get(pk=pk)
         serializer = PlaylistUpdateSerializer(playlist, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -44,7 +50,10 @@ class PlaylistDetailView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
-        playlist = Playlist.objects.get(pk=pk)
+        playlists = Playlist.objects.filter(pk=pk)
+        if len(playlists) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        playlist = playlists.get(pk=pk)
         playlist.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -52,13 +61,19 @@ class PlaylistDetailView(APIView):
 class PlaylistDetailOwnershipView(APIView):
 
     def get(self, request, pk, format=None):
+        playlists = Playlist.objects.filter(pk=pk)
+        if len(playlists) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = PlayListOwnersDetailSerializer(
-            Playlist.objects.get(pk=pk))
+            playlists.get(pk=pk))
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, pk, format=None):
+        playlists = Playlist.objects.filter(pk=pk)
+        if len(playlists) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = PlaylistOwnersAddSerializer(
-            Playlist.objects.get(pk=pk), data=request.data)
+            playlists.get(pk=pk), data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
@@ -66,8 +81,11 @@ class PlaylistDetailOwnershipView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, pk, format=None):
+        playlists = Playlist.objects.filter(pk=pk)
+        if len(playlists) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = PlayListOwnersDeleteSerializer(
-            Playlist.objects.get(pk=pk), data=request.data)
+            playlists.get(pk=pk), data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
