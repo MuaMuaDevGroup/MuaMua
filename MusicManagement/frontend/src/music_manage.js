@@ -13,7 +13,7 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
                 m.artist.forEach(a => {
                     $http({ method: "GET", url: "/api/artist/" + a + "/" }).then((response) => { m.artistNames.push(response.data.name); });
                 });
-                if(m.album != null)
+                if (m.album != null)
                     $http({ method: "GET", url: "/api/album/" + m.album + "/" }).then(response => m.AlbumName = response.data.title);
             });
             $scope.$apply();
@@ -253,5 +253,96 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
             $scope.viewTracksAlbum = a;
         });
     };
+}]);
 
+angular.module('mm-app').controller('UserManageController', ['$http', '$scope', ($http, $scope) => {
+
+    $scope.users = [];
+    //Refresh User sections
+    $scope.refreshUser = () => {
+        $http({
+            url: "/api/user/",
+            method: "GET"
+        }).then(response => {
+            $scope.users = response.data;
+        });
+    };
+    //Add user sections
+    $scope.addUserName = "";
+    $scope.addUserPass = "";
+    $scope.addUserEmail = "";
+    $scope.addUserFirstname = "";
+    $scope.addUserLastname = "";
+    $scope.addUserIsAdminRaw = "false";
+    $scope.addUser = () => {
+        let d = {
+            username: $scope.addUserName,
+            password: $scope.addUserPass,
+            email: $scope.addUserEmail,
+            first_name: $scope.addUserFirstname,
+            last_name: $scope.addUserLastname,
+            is_admin: $scope.addUserIsAdminRaw == "true" ? true : false
+        };
+        $http({
+            method: "POST",
+            url: "/api/user/",
+            data: d
+        }).then(response => {
+            $scope.addUserName = "";
+            $scope.addUserPass = "";
+            $scope.addUserEmail = "";
+            $scope.addUserFirstname = "";
+            $scope.addUserLastname = "";
+            $scope.addUserIsAdminRaw = "false";
+            $scope.refreshUser();
+        });
+
+    };
+    //Edit user sections
+    $scope.editUser = null;
+    $scope.toEditUser = (id) => {
+        $http({ url: "/api/user/" + id + "/", method: "GET" }).then(response => {
+            $scope.editUser = response.data;
+            $scope.editUser.isAdminRaw = $scope.editUser.is_staff == true ? "true" : "false";
+        });
+    };
+    $scope.editUserDo = () => {
+        let d = {
+            email: $scope.editUser.email,
+            first_name: $scope.editUser.first_name,
+            last_name: $scope.editUser.last_name,
+            is_admin: $scope.editUser.isAdminRaw = $scope.editUser.isAdminRaw == "true" ? true : false
+        };
+        $http({
+            url: "/api/user/" + $scope.editUser.id + "/",
+            method: "PUT",
+            data: d
+        }).then(response => {
+            $scope.editUser = null;
+            $scope.refreshUser();
+        });
+    };
+    //Edit password sections
+    $scope.editPassId = "";
+    $scope.editPassName = "";
+    $scope.editPassNew = "";
+    $scope.toEditPass = (id, name) => {
+        $scope.editPassId = id;
+        $scope.editPassName = name;
+    };
+    $scope.editPass = () => {
+        let d = {
+            new_password: $scope.editPassNew
+        };
+        $http({
+            url: "/api/user/" + $scope.editPassId + "/password/",
+            method: "PUT",
+            data: d
+        }).then(response => { 
+            $scope.editPassId = "";
+            $scope.editPassName = "";
+            $scope.editPassNew = "";
+            $scope.refreshUser();
+        });
+    };
 }]);
