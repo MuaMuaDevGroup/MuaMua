@@ -338,7 +338,7 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
             url: "/api/user/" + $scope.editPassId + "/password/",
             method: "PUT",
             data: d
-        }).then(response => { 
+        }).then(response => {
             $scope.editPassId = "";
             $scope.editPassName = "";
             $scope.editPassNew = "";
@@ -347,16 +347,42 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
     };
 }]);
 
-angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scope', ($http, $scope) => { 
+angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scope', ($http, $scope) => {
 
+    //Query Playlist
     $scope.playlists = [];
-    $scope.refreshPlaylists = () => { 
+    $scope.refreshPlaylists = () => {
         $http({
             url: "/api/playlist/",
             method: "GET"
-        }).then(response => { 
+        }).then(response => {
             $scope.playlists = response.data;
         });
     };
-
+    $scope.viewSongPlaylist = [];
+    $scope.loadPlaylistTrack = (id) => {
+        let playlist = $scope.playlists.first(p => p.id == id);
+        $http({
+            url: "/api/playlist/" + id + "/",
+            method: "GET"
+        }).then(response => {
+            $scope.viewSongPlaylist = [];
+            response.data.songs.forEach(p => {
+                $http({
+                    url: "/api/music/" + p + "/",
+                    method: "GET"
+                }).then(response => { $scope.viewSongPlaylist.push(response.data); });
+            });
+        });
+    };
+    $scope.loadPlaylistDescription = (id) => { 
+        let playlist = $scope.playlists.first(p => p.id == id);
+        let i = $scope.playlists.indexOf(playlist);
+        $http({
+            url: "/api/playlist/" + id + "/",
+            method: "GET"
+        }).then(response => {
+            $scope.playlists[i] = response.data;
+        });
+    };
 }]);
