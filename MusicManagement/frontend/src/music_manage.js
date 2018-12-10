@@ -13,7 +13,7 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
                 m.artist.forEach(a => {
                     $http({ method: "GET", url: "/api/artist/" + a + "/" }).then((response) => { m.artistNames.push(response.data.name); });
                 });
-                if(m.album != null)
+                if (m.album != null)
                     $http({ method: "GET", url: "/api/album/" + m.album + "/" }).then(response => m.AlbumName = response.data.title);
             });
             $scope.$apply();
@@ -253,5 +253,51 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
             $scope.viewTracksAlbum = a;
         });
     };
+}]);
 
+angular.module('mm-app').controller('UserManageController', ['$http', '$scope', ($http, $scope) => {
+
+    $scope.users = [];
+    //Refresh User sections
+    $scope.refreshUser = () => {
+        $http({
+            url: "/api/user/",
+            method: "GET"
+        }).then(response => { 
+            $scope.users = response.data;
+        });
+    };
+    //Add user sections
+    $scope.addUserName = "";
+    $scope.addUserPass = "";
+    $scope.addUserEmail = "";
+    $scope.addUserFirstname = "";
+    $scope.addUserLastname = "";
+    $scope.addUserIsAdminRaw = "false";
+    $scope.addUser = () => {
+        let d = {
+            username: $scope.addUserName,
+            password: $scope.addUserPass,
+            email: $scope.addUserEmail,
+            first_name: $scope.addUserFirstname,
+            last_name: $scope.addUserLastname,
+            is_admin: $scope.addUserIsAdminRaw == "true" ? true : false
+        };
+        $http({
+            method: "POST",
+            url: "/api/user/",
+            data: d
+        }).then(response => {
+            $scope.addUserName = "";
+            $scope.addUserPass = "";
+            $scope.addUserEmail = "";
+            $scope.addUserFirstname = "";
+            $scope.addUserLastname = "";
+            $scope.addUserIsAdminRaw = "false";
+            $scope.refreshUser();
+        });
+
+    };
+    //Edit user sections
+    
 }]);
