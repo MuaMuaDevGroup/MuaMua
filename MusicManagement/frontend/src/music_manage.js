@@ -25,12 +25,12 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
     $scope.addMusicAlbum = "";
     $scope.addMusic = () => {
         let d = {
-            Id: $scope.addMusicId,
-            Sytle: $scope.addStyle,
-            Duration: $scope.addDuration,
-            Title: $scope.addMusicTitle,
-            Artist: $scope.addRawArtists == "" ? null : $scope.addRawArtists.split(",").select(t => parseInt(t)),
-            Album: $scope.addMusicAlbum
+            id: $scope.addMusicId,
+            style: $scope.addStyle,
+            duration: $scope.addDuration,
+            title: $scope.addMusicTitle,
+            artist: $scope.addRawArtists == "" ? null : $scope.addRawArtists.split(",").select(t => parseInt(t)),
+            album: $scope.addMusicAlbum == "" ? null : parseInt($scope.addMusicAlbum)
         }
         $http({
             method: "POST",
@@ -64,12 +64,12 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
     $scope.editMusic = () => {
         let u = "/api/music/" + $scope.editMuiscId + "/";
         let d = {
-            Id: $scope.editMusicId,
-            Sytle: $scope.editStyle,
-            Duration: $scope.editDuration,
-            Title: $scope.editMusicTitle,
-            Artist: $scope.editMusicRawArtists == "" ? null : $scope.editMusicRawArtists.split(",").select(t => parseInt(t)),
-            Album: $scope.editMusicAlbum
+            id: $scope.editMusicId,
+            style: $scope.editMusicStyle,
+            duration: $scope.editMusicDuration,
+            title: $scope.editMusicTitle,
+            artist: $scope.editMusicRawArtists == "" ? null : $scope.editMusicRawArtists.split(",").select(t => parseInt(t)),
+            album: $scope.editMusicAlbum == "" ? null : parseInt($scope.editMusicAlbum)
         }
         $http({
             url: u,
