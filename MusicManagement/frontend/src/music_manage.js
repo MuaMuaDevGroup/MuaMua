@@ -375,7 +375,7 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             });
         });
     };
-    $scope.loadPlaylistDescription = (id) => { 
+    $scope.loadPlaylistDescription = (id) => {
         let playlist = $scope.playlists.first(p => p.id == id);
         let i = $scope.playlists.indexOf(playlist);
         $http({
@@ -389,7 +389,7 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
     $scope.addPlaylistTitle = "";
     $scope.addPlaylistDescription = "";
     $scope.addPlaylistTracks = "";
-    $scope.addPlaylist = () => { 
+    $scope.addPlaylist = () => {
         let d = {
             name: $scope.addPlaylistTitle,
             description: $scope.addPlaylistDescription,
@@ -399,7 +399,7 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             url: "/api/playlist/",
             method: "POST",
             data: d
-        }).then(response => { 
+        }).then(response => {
             $scope.addPlaylistTitle = "";
             $scope.addPlaylistDescription = "";
             $scope.addPlaylistTracks = "";
@@ -408,7 +408,7 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
     };
     //Edit playlist sections
     $scope.editingPlaylist = null;
-    $scope.toEditPlaylist = (id) => { 
+    $scope.toEditPlaylist = (id) => {
         $http({
             url: "/api/playlist/" + id + "/",
             method: "GET"
@@ -417,7 +417,7 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             $scope.editingPlaylist.rawSongs = response.data.songs.join(",")
         });
     };
-    $scope.editPlaylist = () => { 
+    $scope.editPlaylist = () => {
         let d = {
             name: $scope.editingPlaylist.name,
             description: $scope.editingPlaylist.description,
@@ -428,23 +428,42 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             url: "/api/playlist/" + $scope.editingPlaylist.id + "/",
             method: "PUT",
             data: d
-        }).then(response => { 
+        }).then(response => {
             $scope.editingPlaylist = null;
             $scope.refreshPlaylists();
         });
     };
     //Delete playlist sections
     $scope.deletingPlaylist = null;
-    $scope.setDeletePlaylistId = (id) => { 
+    $scope.setDeletePlaylistId = (id) => {
         $scope.deletingPlaylist = $scope.playlists.first(p => p.id == id);
     };
-    $scope.deletePlaylist = (id) => { 
+    $scope.deletePlaylist = (id) => {
         $http({
             url: "/api/playlist/" + id + "/",
             method: "DELETE"
-        }).then(response => { 
+        }).then(response => {
             $scope.deletingPlaylist = null;
             $scope.refreshPlaylists();
         });
     };
+    //Edit owner sections
+    $scope.ownerAddUserUserRaw = "";
+    $scope.ownerAddUserId = null;
+    $scope.addOwner = () => {
+        if ($scope.ownerAddUserUserRaw == "") return;
+        let d = {
+            owners: $scope.ownerAddUserUserRaw.split(",").select(t => parseInt(t))
+        };
+        $http({
+            url: "/api/playlist/" + $scope.ownerAddUserId + "/owner/",
+            method: "POST",
+            data: d
+        }).then(response => { 
+            $scope.ownerAddUserUserRaw = "";
+            $scope.ownerAddUserId = null;
+        });
+    };
+    $scope.setOwnerAdd = (id) => $scope.ownerAddUserId = id;
+    
 }]);
