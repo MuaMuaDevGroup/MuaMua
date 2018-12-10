@@ -1,5 +1,86 @@
 import 'angular'
 import 'linqjs'
+angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', ($http, $scope) => {
+    $scope.musics=[];
+    $scope.refreshMusic=()=>{
+        $http({
+            method:"GET",
+            url:"/api/music"
+        }).then((response) => {
+            $scope.musics=response.data;
+            console.log($scope.musics);
+            $scope.$apply();
+        });
+    };
+    $scope.addStyle="";
+    $scope.addDuration="";
+    $scope.addMusicTitle="";
+    $scope.addMusicArtist="";
+    $scope.addMusicAlbum="";
+    $scope.addMusic=()=>{
+        let d={
+            Id:$scope.addMusicId,
+            Sytle:$scope.addStyle,
+            Duration:$scope.addDuration,
+            Title=$scope.addMusicTitle,
+            Artist=$scope.addMusicArtist,
+            Album=$scope.addMusicAlbum
+        }
+        $http({
+            method: "POST",
+            url: "/api/music/",
+            data: d
+        }).then((response) => {
+            $scope.addMusicId="";
+            $scope.addStyle="";
+            $scope.addDuration="";
+            $scope.addMusicTitle="";
+            $scope.addMusicArtist="";
+            $scope.addMusicAlbum="";
+            $scope.refreshMusic();
+        });
+    };
+    $scope.editMusicId=null;
+    $scope.editMusicStyle="";
+    $scope.editMusicDuration="";
+    $scope.editMusicTitle="";
+    $scope.editMusicArtist="";
+    $scope.editMusicAlbum="";
+
+    $scope.toEditMusic = (id, style, duration, title, artist, album) => {
+        $scope.editMusicId = id;
+        $scope.editMusicStyle = style;
+        $scope.editMusicDuration = duration;
+        $scope.editMusicTitle = title;
+        $scope.editMusicArtist=artist;
+        $scope.editMusicAlbum=album;
+    };
+    $scope.editMusic = () => {
+        let u = "/api/music/" + $scope.editMuiscId + "/";
+        let d={
+            Id:$scope.editMusicId,
+            Sytle:$scope.editStyle,
+            Duration:$scope.editDuration,
+            Title=$scope.editMusicTitle,
+            Artist=$scope.editMusicArtist,
+            Album=$scope.editMusicAlbum
+        }
+        $http({
+            url: u,
+            method: "PUT",
+            data: d
+        }).then((response) => {
+            $scope.editMusicId = null;
+            $scope.editStyle = "";
+            $scope.editDuration = "";
+            $scope.editMusicTitle = "";
+            $scope.editMusicArtist = "";
+            $scope.editMusicAlbum = "";
+            $scope.refreshMusic();
+        });
+    };
+}]);
+
 angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope', ($http, $scope) => {
     $scope.artists = [];
     $scope.refreshArtist = () => {
