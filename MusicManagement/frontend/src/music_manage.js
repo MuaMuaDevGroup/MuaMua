@@ -346,3 +346,17 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
         });
     };
 }]);
+
+angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scope', ($http, $scope) => { 
+
+    $scope.playlists = [];
+    $scope.refreshPlaylists = () => { 
+        $http({
+            url: "/api/playlist/",
+            method: "GET"
+        }).then(response => { 
+            $scope.playlists = response.data;
+        });
+    };
+
+}]);
