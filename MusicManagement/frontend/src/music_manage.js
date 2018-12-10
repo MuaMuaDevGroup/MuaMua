@@ -1,5 +1,95 @@
 import 'angular'
 import 'linqjs'
+angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', ($http, $scope) => {
+    $scope.musics = [];
+    $scope.refreshMusic = () => {
+        $http({
+            method: "GET",
+            url: "/api/music"
+        }).then((response) => {
+            $scope.musics = response.data;
+            $scope.musics.forEach(m => {
+                m.artistNames = [];
+                m.artist.forEach(a => {
+                    $http({ method: "GET", url: "/api/artist/" + a + "/" }).then((response) => { m.artistNames.push(response.data.name); });
+                });
+                if(m.album != null)
+                    $http({ method: "GET", url: "/api/album/" + m.album + "/" }).then(response => m.AlbumName = response.data.title);
+            });
+            $scope.$apply();
+        });
+    };
+    $scope.addStyle = "";
+    $scope.addDuration = "";
+    $scope.addMusicTitle = "";
+    $scope.addRawArtists = "";
+    $scope.addMusicAlbum = "";
+    $scope.addMusic = () => {
+        let d = {
+            id: $scope.addMusicId,
+            style: $scope.addStyle,
+            duration: $scope.addDuration,
+            title: $scope.addMusicTitle,
+            artist: $scope.addRawArtists == "" ? null : $scope.addRawArtists.split(",").select(t => parseInt(t)),
+            album: $scope.addMusicAlbum == "" ? null : parseInt($scope.addMusicAlbum)
+        }
+        $http({
+            method: "POST",
+            url: "/api/music/",
+            data: d
+        }).then((response) => {
+            $scope.addStyle = "";
+            $scope.addDuration = "";
+            $scope.addMusicTitle = "";
+            $scope.addRawArtists = "";
+            $scope.addMusicAlbum = "";
+            $scope.refreshMusic();
+        });
+    };
+    $scope.editMusicId = null;
+    $scope.editMusicStyle = "";
+    $scope.editMusicDuration = "";
+    $scope.editMusicTitle = "";
+    $scope.editMusicRawArtists = "";
+    $scope.editMusicAlbum = "";
+
+    $scope.toEditMusic = (id) => {
+        let m = $scope.musics.first(m => m.id == id);
+        console.log(m);
+        $scope.editMusicId = m.id;
+        $scope.editMusicStyle = m.style;
+        $scope.editMusicDuration = m.duration;
+        $scope.editMusicTitle = m.title;
+        $scope.editMusicRawArtists = m.artist.join(",");
+        $scope.editMusicAlbum = m.album;
+    };
+    $scope.editMusic = () => {
+        let u = "/api/music/" + $scope.editMusicId + "/";
+        console.log($scope.editMusicRawArtists);
+        let d = {
+            id: $scope.editMusicId,
+            style: $scope.editMusicStyle,
+            duration: $scope.editMusicDuration,
+            title: $scope.editMusicTitle,
+            artist: $scope.editMusicRawArtists == "" ? null : ($scope.editMusicRawArtists.split(",").select(t => parseInt(t))),
+            album: $scope.editMusicAlbum == "" ? null : parseInt($scope.editMusicAlbum)
+        }
+        $http({
+            url: u,
+            method: "PUT",
+            data: d
+        }).then((response) => {
+            $scope.editMusicId = null;
+            $scope.editStyle = "";
+            $scope.editDuration = "";
+            $scope.editMusicTitle = "";
+            $scope.editMusicRawArtists = "";
+            $scope.editMusicAlbum = "";
+            $scope.refreshMusic();
+        });
+    };
+}]);
+
 angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope', ($http, $scope) => {
     $scope.artists = [];
     $scope.refreshArtist = () => {
@@ -83,9 +173,9 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
         $http({
             url: "/api/album/" + $scope.editingAlbum.id + "/",
             method: "GET"
-        }).then(response => { 
+        }).then(response => {
             $scope.editingAlbum.rawTracks = response.data.tracks.select(a => a.toString()).join(",");
-        }); 
+        });
     };
     $scope.editAlbum = () => {
         let d = {
