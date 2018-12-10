@@ -385,4 +385,26 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             $scope.playlists[i] = response.data;
         });
     };
+    //Add Playlist sections
+    $scope.addPlaylistTitle = "";
+    $scope.addPlaylistDescription = "";
+    $scope.addPlaylistTracks = "";
+    $scope.addPlaylist = () => { 
+        let d = {
+            name: $scope.addPlaylistTitle,
+            description: $scope.addPlaylistDescription,
+            songs: $scope.addPlaylistTracks == "" ? [] : $scope.addPlaylistTracks.split(",").select(t => parseInt(t))
+        };
+        $http({
+            url: "/api/playlist/",
+            method: "POST",
+            data: d
+        }).then(response => { 
+            $scope.addPlaylistTitle = "";
+            $scope.addPlaylistDescription = "";
+            $scope.addPlaylistTracks = "";
+            $scope.refreshPlaylists();
+        });
+    };
+
 }]);
