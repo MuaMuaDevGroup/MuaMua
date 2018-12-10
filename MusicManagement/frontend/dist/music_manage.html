@@ -23,7 +23,7 @@
 
     <div class="tab-content" id="v-pills-tabContent">
         <!--歌曲管理-->
-        <div class="tab-pane fade show active" id="v-pills-music" role="tabpanel" aria-labelledby="v-pills-music-tab">
+        <div class="tab-pane fade show active" id="v-pills-music" role="tabpanel" aria-labelledby="v-pills-music-tab" ng-controller="MusicManageController">
             <!--对话框开始-->
             <!-- 添加新歌曲 -->
             <div class="modal fade" id="musicAddModal" tabindex="-1" role="dialog" aria-labelledby="musicAddModalLabel" aria-hidden="true">
@@ -40,6 +40,14 @@
                                 <div class="form-group">
                                     <label for="music-id-add" class="col-form-label">歌曲Id:</label>
                                     <input ng-model="addMusicId" type="text" class="form-control" id="music-id-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="music-style-add" class="col-form-label">风格:</label>
+                                    <input ng-model="addMusicStyle" type="text" class="form-control" id="music-style-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="music-duration-add" class="col-form-label">时长:</label>
+                                    <input ng-model="addMusicDuration" type="text" class="form-control" id="music-duration-add">
                                 </div>
                                 <div class="form-group">
                                     <label for="music-title-add" class="col-form-label">歌曲标题:</label>
@@ -80,11 +88,25 @@
                                     <input ng-model="editMusicId" type="text" class="form-control" id="music-id-edit"
                                         disabled>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="music-style-edit" class="col-form-label">风格:</label>
+                                    <input ng-model="editMusicSytle" type="text" class="form-control" id="music-style-edit"
+                                        disabled>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="music-duration-edit" class="col-form-label">歌曲时长:</label>
+                                    <input ng-model="editMusicDuration" type="text" class="form-control" id="music-duration-edit"
+                                        disabled>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="music-title-edit" class="col-form-label">歌曲标题:</label>
                                     <input ng-model="editMusicTitle" type="text" class="form-control" id="music-title-edit"
                                         disabled>
                                 </div>
+
                                 <div class="form-group">
                                     <label for="music-artist-edit" class="col-form-label">歌手姓名:</label>
                                     <input ng-model="editMusicArtist" type="text" class="form-control" id="music-artist-edit"
@@ -108,7 +130,11 @@
             <!--对话框结束-->
             <div class="btn-group" role="group" aria-label="Music Management Toolbar">
                 <button type="button" ng-click="refreshMusic();" class="btn btn-secondary">刷新</button>
+<<<<<<< stage-management
                 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#musicAddModal">添加</button>
+=======
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#musicModalEdit">添加</button>
+>>>>>>> 添加歌曲管理gui
             </div>
             <hr />
             <table class="table">
@@ -414,8 +440,183 @@
                 </tbody>
             </table>
         </div>
-        <div class="tab-pane fade" id="v-pills-playlist" role="tabpanel" aria-labelledby="v-pills-playlist-tab">d</div>
-
+        
+        
+        <!--歌单页面-->
+        <div class="tab-pane fade" id="v-pills-playlist" role="tabpanel" aria-labelledby="v-pills-playlist-tab" ng-controller="PlaylistManageController">
+            <!--对话框开始-->
+            <!-- 添加新歌单 -->
+            <div class="modal fade" id="playlistAddModal" tabindex="-1" role="dialog" aria-labelledby="playlistAddModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="playlistAddModalLabel">添加歌单</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="playlist-title-add" class="col-form-label">歌单标题：</label>
+                                    <input ng-model="addPlaylistTitle" type="text" class="form-control" id="playlist-title-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-author-add" class="col-form-label">歌单作者:</label>
+                                    <input ng-model="addPlaylistAuthor" type="text" class="form-control" id="playlist-author-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-date-add" class="col-form-label">创建时间:</label>
+                                    <input ng-model="addPlaylistDate" type="text" placeholder="1970-01-01" class="form-control" id="playlist-date-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-description-add" class="col-form-label">歌单简介:</label>
+                                    <textarea ng-model="addPlaylistDescription" type="text" class="form-control" id="playlist-description-add"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-track-add" class="col-form-label">歌曲Id:</label>
+                                    <input ng-model="addPlaylistTracks" type="text" class="form-control" id="playlist-track-add">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addPlaylist();">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 编辑歌单 -->
+            <div class="modal fade" id="playlistEditModal" tabindex="-1" role="dialog" aria-labelledby="playlistEditModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="playlistEditModalLabel">编辑歌单</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="playlist-id-edit" class="col-form-label">歌单Id：</label>
+                                    <input ng-model="editingPlaylist.id" type="text" class="form-control" id="playlist-id-edit"
+                                        disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-title-edit" class="col-form-label">歌单标题：</label>
+                                    <input ng-model="editingPlaylist.title" type="text" class="form-control" id="playlist-title-edit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-date-adeditd" class="col-form-label">创建时间:</label>
+                                    <input ng-model="editingPlaylist.date" type="text" placeholder="1970-01-01" class="form-control"
+                                        id="playlist-date-edit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-author-edit" class="col-form-label">歌单作者:</label>
+                                    <input ng-model="editingPlaylist.author" type="text" class="form-control" id="playlist-author-edit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-description-edit" class="col-form-label">歌单简介:</label>
+                                    <textarea ng-model="editingPlaylist.description" type="text" class="form-control" id="playlist-description-edit"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-track-edit" class="col-form-label">歌曲Id:</label>
+                                    <input ng-model="editingPlaylist.rawTracks" type="text" class="form-control" id="playlist-track-edit">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="editPlaylist();">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 删除歌单确认 -->
+            <div class="modal fade" id="playlistDeleteModal" tabindex="-1" role="dialog" aria-labelledby="playlistDeleteModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="playlistDeleteModalTitle">删除歌单</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            您确定要删除歌单{{deletingPlaylist.title}}？
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-danger" ng-click="deletePlaylist(deletingPlaylist.id);"
+                                data-dismiss="modal">删除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--对话框结束-->
+            <div class="btn-group" role="group" aria-label="Playlist Management Toolbar">
+                <button type="button" ng-click="refreshPlaylists();" class="btn btn-secondary">刷新</button>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#playlistAddModal">添加</button>
+            </div>
+            <hr />
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">歌单标题</th>
+                        <th scope="col">歌单作者</th>
+                        <th scope="col">创建日期</th>
+                        <th scope="col">简介</th>
+                        <th scope="col">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="playlist in playlists">
+                        <th>{{playlist.id}}</th>
+                        <td>
+                            <div class="dropdown">
+                                <a href="#" ng-click="loadPlaylistTrack(playlist.id);" data-toggle="dropdown">{{playlist.title}}</a>
+                                <div class="dropdown-menu">
+                                    <h6 class="dropdown-header">{{playlist.title}}歌曲列表</h6>
+                                    <a class="dropdown-item disabled" ng-hide="viewTracksPlaylist.tracks.length!=0" href="#">该歌单暂无歌曲</a>
+                                    <table class="table" ng-show="viewTracksPlaylist.tracks.length!=0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">标题</th>
+                                                <th scope="col">歌手</th>
+                                                <th scope="col">时长</th>
+                                                <th scope="col">风格</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="track in viewTracksPlaylist.tracks">
+                                                <td>{{track.title}}</td>
+                                                <td>{{track.artist.join(",")}}</td>
+                                                <td>{{track.duration}}</td>
+                                                <td>{{track.style}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{playlist.date}}</td>
+                        <td>{{playlist.description}}</td>
+                        <td>
+                            <button type="button" ng-click="setDeletePlaylistId(playlist.id);" data-toggle="modal" data-target="#playlistDeleteModal"
+                                class="btn btn-danger">删除</button>
+                            <button type="button" ng-click="toEditPlaylist(album.id);" data-toggle="modal" data-target="#playlistEditModal"
+                                class="btn btn-info">编辑</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
     </div>
 </div>
 {% endverbatim %}
