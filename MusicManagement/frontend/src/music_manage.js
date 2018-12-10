@@ -465,5 +465,21 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
         });
     };
     $scope.setOwnerAdd = (id) => $scope.ownerAddUserId = id;
-    
+    $scope.ownerRemoveUserUserRaw = "";
+    $scope.ownerRemoveUserId = null;
+    $scope.removeOwner = () => {
+        if ($scope.ownerRemoveUserUserRaw == "") return;
+        let d = {
+            owners: $scope.ownerRemoveUserUserRaw.split(",").select(t => parseInt(t))
+        };
+        $http({
+            url: "/api/playlist/" + $scope.ownerRemoveUserId + "/owner/",
+            method: "PUT",
+            data: d
+        }).then(response => {
+            $scope.ownerRemoveUserUserRaw = "";
+            $scope.ownerRemoveUserId = null;
+        });
+    };
+    $scope.setOwnerRemove = (id) => $scope.ownerRemoveUserId = id;
 }]);
