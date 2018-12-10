@@ -406,5 +406,31 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             $scope.refreshPlaylists();
         });
     };
-
+    //Edit playlist sections
+    $scope.editingPlaylist = null;
+    $scope.toEditPlaylist = (id) => { 
+        $http({
+            url: "/api/playlist/" + id + "/",
+            method: "GET"
+        }).then(response => {
+            $scope.editingPlaylist = response.data;
+            $scope.editingPlaylist.rawSongs = response.data.songs.join(",")
+        });
+    };
+    $scope.editPlaylist = () => { 
+        let d = {
+            name: $scope.editingPlaylist.name,
+            description: $scope.editingPlaylist.description,
+            play_count: $scope.editingPlaylist.play_count,
+            songs: $scope.editingPlaylist.songs == "" ? [] : $scope.editingPlaylist.rawSongs.split(",").select(t => parseInt(t))
+        };
+        $http({
+            url: "/api/playlist/" + $scope.editingPlaylist.id + "/",
+            method: "PUT",
+            data: d
+        }).then(response => { 
+            $scope.editingPlaylist = null;
+            $scope.refreshPlaylists();
+        });
+    };
 }]);

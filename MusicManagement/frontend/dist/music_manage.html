@@ -495,11 +495,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="playlist-title-edit" class="col-form-label">歌单标题：</label>
-                                    <input ng-model="editingPlaylist.title" type="text" class="form-control" id="playlist-title-edit">
+                                    <input ng-model="editingPlaylist.name" type="text" class="form-control" id="playlist-title-edit">
                                 </div>
                                 <div class="form-group">
-                                    <label for="playlist-date-adeditd" class="col-form-label">创建时间:</label>
-                                    <input ng-model="editingPlaylist.date" type="text" placeholder="1970-01-01" class="form-control" id="playlist-date-edit">
+                                    <label for="playlist-date-adeditd" class="col-form-label">播放数:</label>
+                                    <input ng-model="editingPlaylist.play_count" type="text" class="form-control" id="playlist-date-edit">
                                 </div>
                                 <div class="form-group">
                                     <label for="playlist-description-edit" class="col-form-label">歌单简介:</label>
@@ -507,7 +507,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="playlist-track-edit" class="col-form-label">歌曲Id:</label>
-                                    <input ng-model="editingPlaylist.rawTracks" type="text" class="form-control" id="playlist-track-edit">
+                                    <input ng-model="editingPlaylist.rawSongs" type="text" class="form-control" id="playlist-track-edit">
                                 </div>
                             </form>
                         </div>
@@ -590,7 +590,7 @@
                         <td>
                             <button type="button" ng-click="setDeletePlaylistId(playlist.id);" data-toggle="modal"
                                 data-target="#playlistDeleteModal" class="btn btn-danger">删除</button>
-                            <button type="button" ng-click="toEditPlaylist(album.id);" data-toggle="modal" data-target="#playlistEditModal"
+                            <button type="button" ng-click="toEditPlaylist(playlist.id);" data-toggle="modal" data-target="#playlistEditModal"
                                 class="btn btn-info">编辑</button>
                             <button type="button" ng-click="toEditPlaylist(album.id);" data-toggle="modal" data-target="#playlistEditOwnersModal" class="btn btn-info">编辑收藏用户</button>
                         </td>
