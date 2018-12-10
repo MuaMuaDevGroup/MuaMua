@@ -13,7 +13,8 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
                 m.artist.forEach(a => {
                     $http({ method: "GET", url: "/api/artist/" + a + "/" }).then((response) => { m.artistNames.push(response.data.name); });
                 });
-                $http({ method: "GET", url: "/api/album/" + m.album + "/" }).then(response => m.AlbumName = response.data.title);
+                if(m.album != null)
+                    $http({ method: "GET", url: "/api/album/" + m.album + "/" }).then(response => m.AlbumName = response.data.title);
             });
             $scope.$apply();
         });
