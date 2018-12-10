@@ -433,4 +433,18 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             $scope.refreshPlaylists();
         });
     };
+    //Delete playlist sections
+    $scope.deletingPlaylist = null;
+    $scope.setDeletePlaylistId = (id) => { 
+        $scope.deletingPlaylist = $scope.playlists.first(p => p.id == id);
+    };
+    $scope.deletePlaylist = (id) => { 
+        $http({
+            url: "/api/playlist/" + id + "/",
+            method: "DELETE"
+        }).then(response => { 
+            $scope.deletingPlaylist = null;
+            $scope.refreshPlaylists();
+        });
+    };
 }]);
