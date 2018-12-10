@@ -54,21 +54,23 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
 
     $scope.toEditMusic = (id) => {
         let m = $scope.musics.first(m => m.id == id);
+        console.log(m);
         $scope.editMusicId = m.id;
         $scope.editMusicStyle = m.style;
         $scope.editMusicDuration = m.duration;
         $scope.editMusicTitle = m.title;
-        $scope.editMusicRawArtists = m.artist;
+        $scope.editMusicRawArtists = m.artist.join(",");
         $scope.editMusicAlbum = m.album;
     };
     $scope.editMusic = () => {
-        let u = "/api/music/" + $scope.editMuiscId + "/";
+        let u = "/api/music/" + $scope.editMusicId + "/";
+        console.log($scope.editMusicRawArtists);
         let d = {
             id: $scope.editMusicId,
             style: $scope.editMusicStyle,
             duration: $scope.editMusicDuration,
             title: $scope.editMusicTitle,
-            artist: $scope.editMusicRawArtists == "" ? null : $scope.editMusicRawArtists.split(",").select(t => parseInt(t)),
+            artist: $scope.editMusicRawArtists == "" ? null : ($scope.editMusicRawArtists.split(",").select(t => parseInt(t))),
             album: $scope.editMusicAlbum == "" ? null : parseInt($scope.editMusicAlbum)
         }
         $http({
