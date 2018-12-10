@@ -20,7 +20,7 @@ class UserView(APIView):
             if serializer.validated_data["last_name"] != None:
                 user.last_name = serializer.validated_data["last_name"]
             if serializer.validated_data["first_name"] != None:
-                user.last_name = serializer.validated_data["first_name"]
+                user.first_name = serializer.validated_data["first_name"]
             user.is_staff = serializer.validated_data["is_admin"]
             user.save()
             return Response(status=status.HTTP_201_CREATED)
