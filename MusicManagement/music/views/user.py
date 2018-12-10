@@ -74,7 +74,6 @@ class UserDetailChangePasswordView(APIView):
             if len(users) == 0:
                 return Response(status=status.HTTP_404_NOT_FOUND)
             user = users.get(pk=pk)
-            serializer = UserDetailSerializer(user)
             user.set_password(serializer.validated_data["new_password"])
             user.save()
             return Response(status=status.HTTP_201_CREATED)
