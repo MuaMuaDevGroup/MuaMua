@@ -22,9 +22,9 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
             Id:$scope.addMusicId,
             Sytle:$scope.addStyle,
             Duration:$scope.addDuration,
-            Title=$scope.addMusicTitle,
-            Artist=$scope.addMusicArtist,
-            Album=$scope.addMusicAlbum
+            Title:$scope.addMusicTitle,
+            Artist:$scope.addMusicArtist,
+            Album:$scope.addMusicAlbum
         }
         $http({
             method: "POST",
@@ -61,9 +61,9 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
             Id:$scope.editMusicId,
             Sytle:$scope.editStyle,
             Duration:$scope.editDuration,
-            Title=$scope.editMusicTitle,
-            Artist=$scope.editMusicArtist,
-            Album=$scope.editMusicAlbum
+            Title:$scope.editMusicTitle,
+            Artist:$scope.editMusicArtist,
+            Album:$scope.editMusicAlbum
         }
         $http({
             url: u,
