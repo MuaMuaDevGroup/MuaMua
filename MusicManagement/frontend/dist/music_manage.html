@@ -81,6 +81,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
+
                         <div class="modal-body">
                             <form>
                                 <div class="form-group">
@@ -91,31 +92,26 @@
 
                                 <div class="form-group">
                                     <label for="music-style-edit" class="col-form-label">风格:</label>
-                                    <input ng-model="editMusicSytle" type="text" class="form-control" id="music-style-edit"
-                                        disabled>
+                                    <input ng-model="editMusicSytle" type="text" class="form-control" id="music-style-edit">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="music-duration-edit" class="col-form-label">歌曲时长:</label>
-                                    <input ng-model="editMusicDuration" type="text" class="form-control" id="music-duration-edit"
-                                        disabled>
+                                    <input ng-model="editMusicDuration" type="text" class="form-control" id="music-duration-edit">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="music-title-edit" class="col-form-label">歌曲标题:</label>
-                                    <input ng-model="editMusicTitle" type="text" class="form-control" id="music-title-edit"
-                                        disabled>
+                                    <input ng-model="editMusicTitle" type="text" class="form-control" id="music-title-edit">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="music-artist-edit" class="col-form-label">歌手姓名:</label>
-                                    <input ng-model="editMusicArtist" type="text" class="form-control" id="music-artist-edit"
-                                        disabled>
+                                    <input ng-model="editMusicArtist" type="text" class="form-control" id="music-artist-edit">
                                 </div>
                                 <div class="form-group">
                                     <label for="music-album-edit" class="col-form-label">专辑标题:</label>
-                                    <input ng-model="editMusicAlbum" type="text" class="form-control" id="music-album-edit"
-                                        disabled>
+                                    <input ng-model="editMusicAlbum" type="text" class="form-control" id="music-album-edit">
                                 </div>
                             </form>
                         </div>
@@ -130,11 +126,7 @@
             <!--对话框结束-->
             <div class="btn-group" role="group" aria-label="Music Management Toolbar">
                 <button type="button" ng-click="refreshMusic();" class="btn btn-secondary">刷新</button>
-<<<<<<< stage-management
                 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#musicAddModal">添加</button>
-=======
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#musicModalEdit">添加</button>
->>>>>>> 添加歌曲管理gui
             </div>
             <hr />
             <table class="table">
