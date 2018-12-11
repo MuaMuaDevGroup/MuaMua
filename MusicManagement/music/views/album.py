@@ -34,7 +34,10 @@ class AlbumDetailView(APIView):
     permission_classes = (IsAuthenticated, IsAdminUser,)
 
     def put(self, request, pk, format=None):
-        album = Album.objects.get(pk=pk)
+        albums = Album.objects.filter(pk=pk)
+        if len(albums) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        album = albums.get(pk=pk)
         serializer = AlbumUpdateSerializer(album, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -43,10 +46,17 @@ class AlbumDetailView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, pk, format=None):
-        serializer = AlbumDetailSerializer(Album.objects.get(pk=pk))
+        albums = Album.objects.filter(pk=pk)
+        if len(albums) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        album = albums.get(pk=pk)
+        serializer = AlbumDetailSerializer(album)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, pk, format=None):
-        album = Album.objects.get(pk=pk)
+        albums = Album.objects.filter(pk=pk)
+        if len(albums) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        album = albums.get(pk=pk)
         album.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
