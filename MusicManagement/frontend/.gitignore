@@ -81,3 +81,6 @@ typings/
 #Custom Files
 dist/*.js
 package-lock.json
+
+# Development Temp media files
+media

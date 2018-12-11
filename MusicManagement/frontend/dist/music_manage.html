@@ -151,7 +151,9 @@
                         <td>{{music.artistNames.join(",")}}</td>
                         <td>{{music.AlbumName}}</td>
                         <td><button type="button" class="btn btn-secondary" ng-click="toEditMusic(music.id)"
-                                data-toggle="modal" data-target="#musicModalEdit">编辑</button></td>
+                                data-toggle="modal" data-target="#musicModalEdit">编辑</button>
+                            <audio ng-src="{{music.entity}}" controls="controls"></audio>    
+                        </td>
                     </tr>
                 </tbody>
             </table>

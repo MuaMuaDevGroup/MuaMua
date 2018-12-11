@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from music.views import *
 from django.views.generic import TemplateView
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +28,7 @@ urlpatterns = [
     path('api/account/', AccountDetailView.as_view()),
     path('api/music/', MusicView.as_view()),
     path('api/music/<int:pk>/', MusicDetailView.as_view()),
+    path('api/music/<int:pk>/file/', MusicDetailUploadView.as_view()),
     path('api/artist/', ArtistView.as_view()),
     path('api/artist/<int:pk>/', ArtistDetailView.as_view()),
     path('api/album/', AlbumView.as_view()),
@@ -38,4 +41,4 @@ urlpatterns = [
     path('api/playlist/<int:pk>/owner/', PlaylistDetailOwnershipView.as_view()),
     path('web/', TemplateView.as_view(template_name="index.html")),
     path('web/manage/', TemplateView.as_view(template_name="music_manage.html")),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
