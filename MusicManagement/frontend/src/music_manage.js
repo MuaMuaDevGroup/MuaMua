@@ -1,8 +1,25 @@
 import 'angular'
 import 'linqjs'
 import 'angular-audio'
+import 'angular-file-upload'
 
-angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', 'ngAudio', ($http, $scope, ngAudio) => {
+angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', 'ngAudio', 'FileUploader', '$cookies', ($http, $scope, ngAudio, FileUploader, $cookies) => {
+    //File Upload
+    var nowUploader = $scope.nowUploader = null;
+    $scope.nowUploadingId = null;
+    $scope.nowUploadingFilename = "";
+    $scope.setUploadId = (id) => {
+        $scope.nowUploadingId = id;
+        if ($scope.nowUploader != null)
+            $scope.nowUploader.url = "/api/music/" + id + "/file/";
+        else
+            $scope.nowUploader = new FileUploader({
+                url: "/api/music/" + id + "/file/",
+                method: "POST"
+            });
+        $scope.nowUploader.headers = { 'X-CSRFToken': $cookies.get("csrftoken") };
+    };
+    //Query Sections
     $scope.musics = [];
     $scope.refreshMusic = () => {
         $http({

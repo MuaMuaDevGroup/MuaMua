@@ -124,6 +124,49 @@
                     </div>
                 </div>
             </div>
+            <!-- 歌曲上传 -->
+            <div class="modal fade" id="musicUploadModal" tabindex="-1" role="dialog" aria-labelledby="musicUploadModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="musicUploadModalLabel">上传歌曲</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+            
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="music-id-upload" class="col-form-label">歌曲Id:</label>
+                                    <input ng-model="nowUploadingId" type="text" class="form-control" id="music-id-upload" disabled>
+                                </div>
+            
+                                <div class="form-group">
+                                    <label for="music-style-edit" class="col-form-label">文件:</label>
+                                    <div class="input-group">
+                                        <div class="custom-file" ng-if="nowUploader">
+                                            <input type="file" class="custom-file-input" id="music-file-upload" nv-file-select uploader="nowUploader">
+                                            <label class="custom-file-label" for="inputGroupFile03">{{nowUploader.queue == 0?"Choose File":nowUploader.queue[0].file.name}}</label>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-success" type="button" ng-click="nowUploader.uploadAll()">上传</button>
+                                            <button class="btn btn-outline-danger" type="button" ng-click="nowUploader.clearQueue()">删除</button>
+                                        </div>
+                                    </div>
+                                </div>
+            
+                                
+                            </form>
+                        </div>
+            
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!--对话框结束-->
             <div class="btn-group" role="group" aria-label="Music Management Toolbar">
                 <button type="button" ng-click="refreshMusic();" class="btn btn-secondary">刷新</button>
@@ -153,11 +196,14 @@
                         <td><button type="button" class="btn btn-secondary" ng-click="toEditMusic(music.id)"
                                 data-toggle="modal" data-target="#musicModalEdit">编辑</button>
                             <button type="button" class="btn btn-success" ng-show="music.audio != undefined" ng-click="music.audio.paused ? music.audio.play() : music.audio.pause()">播放</button>
+                            <button type="button" class="btn btn-info" ng-click="setUploadId(music.id)" data-toggle="modal" data-target="#musicUploadModal">上传</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
+
+
         <!--专辑页面-->
         <div class="tab-pane fade" id="v-pills-album" role="tabpanel" aria-labelledby="v-pills-album-tab" ng-controller="AlbumManageController">
             <!--对话框开始-->

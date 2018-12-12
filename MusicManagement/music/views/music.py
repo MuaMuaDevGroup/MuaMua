@@ -3,7 +3,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter
-from rest_framework.parsers import FileUploadParser
+from rest_framework.parsers import MultiPartParser, FormParser
 from django_filters.rest_framework.backends import DjangoFilterBackend
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -56,9 +56,9 @@ class MusicDetailView(APIView):
 
 
 class MusicDetailUploadView(APIView):
-    parser_classes = (FileUploadParser,)
+    parser_classes = (MultiPartParser,)
 
-    def put(self, request, pk, format=None):
+    def post(self, request, pk, format=None):
         musics = Music.objects.filter(pk=pk)
         if len(musics) == 0:
             return Response(status=status.HTTP_404_NOT_FOUND)
