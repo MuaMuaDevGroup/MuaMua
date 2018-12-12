@@ -12,7 +12,8 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
             $scope.musics = response.data;
             $scope.musics.forEach(m => {
                 //add audio
-                m.audio = ngAudio.load(m.entity);
+                if (m.entity != null)
+                    m.audio = ngAudio.load(m.entity);
                 m.artistNames = [];
                 m.artist.forEach(a => {
                     $http({ method: "GET", url: "/api/artist/" + a + "/" }).then((response) => { m.artistNames.push(response.data.name); });
