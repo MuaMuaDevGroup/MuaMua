@@ -1,6 +1,8 @@
 import 'angular'
 import 'linqjs'
-angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', ($http, $scope) => {
+import 'angular-audio'
+
+angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', 'ngAudio', ($http, $scope, ngAudio) => {
     $scope.musics = [];
     $scope.refreshMusic = () => {
         $http({
@@ -9,6 +11,8 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
         }).then((response) => {
             $scope.musics = response.data;
             $scope.musics.forEach(m => {
+                //add audio
+                m.audio = ngAudio.load(m.entity);
                 m.artistNames = [];
                 m.artist.forEach(a => {
                     $http({ method: "GET", url: "/api/artist/" + a + "/" }).then((response) => { m.artistNames.push(response.data.name); });
@@ -459,7 +463,7 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             url: "/api/playlist/" + $scope.ownerAddUserId + "/owner/",
             method: "POST",
             data: d
-        }).then(response => { 
+        }).then(response => {
             $scope.ownerAddUserUserRaw = "";
             $scope.ownerAddUserId = null;
         });

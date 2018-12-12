@@ -152,7 +152,7 @@
                         <td>{{music.AlbumName}}</td>
                         <td><button type="button" class="btn btn-secondary" ng-click="toEditMusic(music.id)"
                                 data-toggle="modal" data-target="#musicModalEdit">编辑</button>
-                            <audio ng-src="{{music.entity}}" controls="controls"></audio>    
+                            <button type="button" class="btn btn-success" ng-click="music.audio.paused ? music.audio.play() : music.audio.pause()">播放</button>
                         </td>
                     </tr>
                 </tbody>
