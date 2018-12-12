@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import os
+
 from django.contrib import admin
 from django.urls import path
 from music.views import *
@@ -41,4 +43,8 @@ urlpatterns = [
     path('api/playlist/<int:pk>/owner/', PlaylistDetailOwnershipView.as_view()),
     path('web/', TemplateView.as_view(template_name="index.html")),
     path('web/manage/', TemplateView.as_view(template_name="music_manage.html")),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+if os.environ.get("DJANGO_CONFIGURATION") == "Development":
+    urlpatterns = urlpatterns + \
+        static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
