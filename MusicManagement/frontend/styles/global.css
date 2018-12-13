@@ -14,3 +14,7 @@ a.nav-link{
 div.dropdown{
     display: inline!important;
 }
+
+div.dropdown-menu img{
+    width: 200px;
+}

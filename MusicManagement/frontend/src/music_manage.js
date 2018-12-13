@@ -476,10 +476,12 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
     $scope.addPlaylistTitle = "";
     $scope.addPlaylistDescription = "";
     $scope.addPlaylistTracks = "";
+    $scope.addPlaylistOwner = "";
     $scope.addPlaylist = () => {
         let d = {
             name: $scope.addPlaylistTitle,
             description: $scope.addPlaylistDescription,
+            owner: $scope.addPlaylistOwner,
             songs: $scope.addPlaylistTracks == "" ? [] : $scope.addPlaylistTracks.split(",").select(t => parseInt(t))
         };
         $http({
@@ -490,6 +492,7 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             $scope.addPlaylistTitle = "";
             $scope.addPlaylistDescription = "";
             $scope.addPlaylistTracks = "";
+            $scope.addPlaylistOwner = "";
             $scope.refreshPlaylists();
         });
     };
@@ -509,6 +512,7 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             name: $scope.editingPlaylist.name,
             description: $scope.editingPlaylist.description,
             play_count: $scope.editingPlaylist.play_count,
+            owner: $scope.editingPlaylist.owner,
             songs: $scope.editingPlaylist.songs == "" ? [] : $scope.editingPlaylist.rawSongs.split(",").select(t => parseInt(t))
         };
         $http({
@@ -534,39 +538,39 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             $scope.refreshPlaylists();
         });
     };
-    //Edit owner sections
-    $scope.ownerAddUserUserRaw = "";
-    $scope.ownerAddUserId = null;
-    $scope.addOwner = () => {
-        if ($scope.ownerAddUserUserRaw == "") return;
+    //Edit collector sections
+    $scope.collectorAddUserUserRaw = "";
+    $scope.collectorAddUserId = null;
+    $scope.addCollector = () => {
+        if ($scope.collectorAddUserUserRaw == "") return;
         let d = {
-            owners: $scope.ownerAddUserUserRaw.split(",").select(t => parseInt(t))
+            collectors: $scope.collectorAddUserUserRaw.split(",").select(t => parseInt(t))
         };
         $http({
-            url: "/api/playlist/" + $scope.ownerAddUserId + "/owner/",
+            url: "/api/playlist/" + $scope.collectorAddUserId + "/collector/",
             method: "POST",
             data: d
         }).then(response => {
-            $scope.ownerAddUserUserRaw = "";
-            $scope.ownerAddUserId = null;
+            $scope.collectorAddUserUserRaw = "";
+            $scope.collectorAddUserId = null;
         });
     };
-    $scope.setOwnerAdd = (id) => $scope.ownerAddUserId = id;
-    $scope.ownerRemoveUserUserRaw = "";
-    $scope.ownerRemoveUserId = null;
-    $scope.removeOwner = () => {
-        if ($scope.ownerRemoveUserUserRaw == "") return;
+    $scope.setCollectorAdd = (id) => $scope.collectorAddUserId = id;
+    $scope.collectorRemoveUserUserRaw = "";
+    $scope.collectorRemoveUserId = null;
+    $scope.removeCollector = () => {
+        if ($scope.collectorRemoveUserUserRaw == "") return;
         let d = {
-            owners: $scope.ownerRemoveUserUserRaw.split(",").select(t => parseInt(t))
+            collectors: $scope.collectorRemoveUserUserRaw.split(",").select(t => parseInt(t))
         };
         $http({
-            url: "/api/playlist/" + $scope.ownerRemoveUserId + "/owner/",
+            url: "/api/playlist/" + $scope.collectorRemoveUserId + "/collector/",
             method: "PUT",
             data: d
         }).then(response => {
-            $scope.ownerRemoveUserUserRaw = "";
-            $scope.ownerRemoveUserId = null;
+            $scope.collectorRemoveUserUserRaw = "";
+            $scope.collectorRemoveUserId = null;
         });
     };
-    $scope.setOwnerRemove = (id) => $scope.ownerRemoveUserId = id;
+    $scope.setCollectorRemove = (id) => $scope.collectorRemoveUserId = id;
 }]);

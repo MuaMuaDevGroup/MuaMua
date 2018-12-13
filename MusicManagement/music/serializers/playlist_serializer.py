@@ -10,12 +10,13 @@ class PlaylistCreationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Playlist
-        fields = ('name', 'description', 'songs')
+        fields = ('name', 'description', 'songs', 'owner')
 
     def create(self, validated_data):
         playlist = Playlist()
         playlist.name = validated_data.get("name")
         playlist.description = validated_data.get("description")
+        playlist.owner = validated_data.get("owner")
         playlist.play_count = 0
         playlist.save()
         playlist.songs.set(validated_data.get("songs"))
@@ -30,7 +31,7 @@ class PlaylistUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Playlist
-        fields = ('name', 'description', 'songs', 'play_count')
+        fields = ('name', 'description', 'songs', 'play_count', 'owner')
 
 
 class PlaylistSerializer(serializers.ModelSerializer):
@@ -44,50 +45,48 @@ class PlaylistDetailSerializer(serializers.ModelSerializer):
 
     songs = serializers.SlugRelatedField(
         slug_field="id", many=True, read_only=True)
-    owners = serializers.SlugRelatedField(
-        slug_field="id", many=True, read_only=True)
 
     class Meta:
         model = Playlist
         fields = ('id', 'name', 'description',
-                  'play_count', 'songs', 'owners', 'cover')
+                  'play_count', 'songs', 'owner', 'cover')
 
 
 class PlaylistOwnersAddSerializer(serializers.ModelSerializer):
 
-    owners = serializers.ListField(child=serializers.IntegerField())
+    collectors = serializers.ListField(child=serializers.IntegerField())
 
     class Meta:
         model = Playlist
-        fields = ('owners',)
+        fields = ('collectors',)
 
     def update(self, instance, validated_data):
-        for owner in User.objects.filter(pk__in=validated_data.get("owners")):
-            instance.owners.add(owner)
+        for collector in User.objects.filter(pk__in=validated_data.get("collectors")):
+            instance.collectors.add(collector)
         instance.save()
         return instance
 
 
 class PlayListOwnersDetailSerializer(serializers.ModelSerializer):
 
-    owners = serializers.SlugRelatedField(
+    collectors = serializers.SlugRelatedField(
         slug_field="id", many=True, read_only=True)
 
     class Meta:
         model = Playlist
-        fields = ('owners',)
+        fields = ('collectors',)
 
 
 class PlayListOwnersDeleteSerializer(serializers.ModelSerializer):
 
-    owners = serializers.ListField(child=serializers.IntegerField())
+    collectors = serializers.ListField(child=serializers.IntegerField())
 
     class Meta:
         model = Playlist
-        fields = ('owners',)
+        fields = ('collectors',)
 
     def update(self, instance, validated_data):
-        for owner in User.objects.filter(pk__in=validated_data.get("owners")):
-            instance.owners.remove(owner)
+        for collector in User.objects.filter(pk__in=validated_data.get("collectors")):
+            instance.collectors.remove(collector)
         instance.save()
         return instance

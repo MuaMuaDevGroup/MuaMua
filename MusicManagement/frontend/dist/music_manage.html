@@ -107,18 +107,18 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="music-artist-edit" class="col-form-label">歌手ID:</label>
+                                    <label for="music-artist-edit" class="col-form-label">歌手Id:</label>
                                     <input ng-model="editMusicRawArtists" type="text" class="form-control" id="music-artist-edit">
                                 </div>
                                 <div class="form-group">
-                                    <label for="music-album-edit" class="col-form-label">专辑ID:</label>
+                                    <label for="music-album-edit" class="col-form-label">专辑Id:</label>
                                     <input ng-model="editMusicAlbum" type="text" class="form-control" id="music-album-edit">
                                 </div>
                             </form>
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">算了，不改</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                             <button type="button" class="btn btn-primary" ng-click="editMusic();" data-dismiss="modal">保存</button>
                         </div>
                     </div>
@@ -389,7 +389,8 @@
                 <tbody>
                     <tr ng-repeat="album in albums">
                         <th>
-                            <div class="dropdown">
+                            <span ng-if="!album.cover">{{album.id}}</span>
+                            <div ng-if="album.cover" class="dropdown">
                                 <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{album.id}}
                                 </a>
@@ -585,12 +586,14 @@
                 <tbody>
                     <tr ng-repeat="artist in artists">
                         <th scope="row">{{artist.id}}</th>
-                        <td><div class="dropdown">
+                        <td>
+                            <span ng-if="!artist.photo">{{artist.name}}</span>
+                            <div ng-if="artist.photo" class="dropdown">
                             <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{artist.name}}
                             </a>
                             <div class="dropdown-menu">
-                                <img ng-src="{{artist.photo}}" alt="歌手{{artist.name}}图片" style="width: 200px;">
+                                <img ng-src="{{artist.photo}}" alt="歌手{{artist.name}}图片">
                             </div>
                         </div></td>
                         <td>{{artist.country}}</td>
@@ -624,6 +627,10 @@
                                 <div class="form-group">
                                     <label for="playlist-title-add" class="col-form-label">歌单标题：</label>
                                     <input ng-model="addPlaylistTitle" type="text" class="form-control" id="playlist-title-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-owner-add" class="col-form-label">歌单创建者:</label>
+                                    <input ng-model="addPlaylistOwner" type="text" class="form-control" id="playlist-owner-add">
                                 </div>
                                 <div class="form-group">
                                     <label for="playlist-description-add" class="col-form-label">歌单简介:</label>
@@ -663,6 +670,10 @@
                                 <div class="form-group">
                                     <label for="playlist-title-edit" class="col-form-label">歌单标题：</label>
                                     <input ng-model="editingPlaylist.name" type="text" class="form-control" id="playlist-title-edit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-owner-edit" class="col-form-label">歌单创建者：</label>
+                                    <input ng-model="editingPlaylist.owner" type="text" class="form-control" id="playlist-owner-edit">
                                 </div>
                                 <div class="form-group">
                                     <label for="playlist-date-adeditd" class="col-form-label">播放数:</label>
@@ -709,12 +720,12 @@
                 </div>
             </div>
             <!-- 添加收藏歌单的用户 -->
-            <div class="modal fade" id="playlistOwnerAddModal" tabindex="-1" role="dialog" aria-labelledby="playlistOwnerAddModalLabel"
+            <div class="modal fade" id="playlistCollectorAddModal" tabindex="-1" role="dialog" aria-labelledby="playlistCollectorAddModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="playlistOwnerAddModalTitle">添加收藏歌单用户</h5>
+                            <h5 class="modal-title" id="playlistCollectorAddModalTitle">添加收藏歌单用户</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -722,25 +733,25 @@
                         <div class="modal-body">
                             <form>
                                 <div class="form-group">
-                                    <label for="playlist-owner-add" class="col-form-label">用户ID：</label>
-                                    <input ng-model="ownerAddUserUserRaw" type="text" class="form-control" id="playlist-owner-add">
+                                    <label for="playlist-collector-add" class="col-form-label">用户ID：</label>
+                                    <input ng-model="collectorAddUserUserRaw" type="text" class="form-control" id="playlist-collector-add">
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-info" ng-click="addOwner();" data-dismiss="modal">添加</button>
+                            <button type="button" class="btn btn-info" ng-click="addCollector();" data-dismiss="modal">添加</button>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- 删除收藏歌单的用户 -->
-            <div class="modal fade" id="playlistOwnerRemoveModal" tabindex="-1" role="dialog" aria-labelledby="playlistOwnerRemoveModalLabel"
+            <div class="modal fade" id="playlistCollectorRemoveModal" tabindex="-1" role="dialog" aria-labelledby="playlistCollectorRemoveModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="playlistOwnerRemoveModalTitle">添加收藏歌单用户</h5>
+                            <h5 class="modal-title" id="playlistCollectorRemoveModalTitle">添加收藏歌单用户</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -748,14 +759,14 @@
                         <div class="modal-body">
                             <form>
                                 <div class="form-group">
-                                    <label for="playlist-owner-remove" class="col-form-label">用户ID：</label>
-                                    <input ng-model="ownerRemoveUserUserRaw" type="text" class="form-control" id="playlist-owner-remove">
+                                    <label for="playlist-collector-remove" class="col-form-label">用户ID：</label>
+                                    <input ng-model="collectorRemoveUserUserRaw" type="text" class="form-control" id="playlist-collector-remove">
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-danger" ng-click="removeOwner();" data-dismiss="modal">删除</button>
+                            <button type="button" class="btn btn-danger" ng-click="removeCollector();" data-dismiss="modal">删除</button>
                         </div>
                     </div>
                 </div>
@@ -825,7 +836,8 @@
                 <tbody>
                     <tr ng-repeat="playlist in playlists">
                         <th>
-                            <div class="dropdown">
+                            <span ng-if="!playlist.cover">{{playlist.id}}</span>
+                            <div ng-if="playlist.cover" class="dropdown">
                             <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{playlist.id}}
                             </a>
@@ -869,15 +881,15 @@
                             <button type="button" ng-click="setUploadId(playlist.id);" data-toggle="modal" data-target="#playlistCoverUploadModal"
                                     class="btn btn-success">上传</button>
                             <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="playlistOwnerButtonGroup" data-toggle="dropdown"
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="playlistCollectorButtonGroup" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
                                     收藏用户
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="playlistOwnerButtonGroup">
-                                    <a class="dropdown-item" href="#" ng-click="setOwnerAdd(playlist.id);" data-toggle="modal" data-target="#playlistOwnerAddModal"
+                                <div class="dropdown-menu" aria-labelledby="playlistCollectorButtonGroup">
+                                    <a class="dropdown-item" href="#" ng-click="setCollectorAdd(playlist.id);" data-toggle="modal" data-target="#playlistCollectorAddModal"
                                     class="btn btn-primary">添加收藏用户</a>
-                                    <a class="dropdown-item" href="#" ng-click="setOwnerRemove(playlist.id);" data-toggle="modal"
-                                    data-target="#playlistOwnerRemoveModal" class="btn btn-secondary">删除收藏用户</a>
+                                    <a class="dropdown-item" href="#" ng-click="setCollectorRemove(playlist.id);" data-toggle="modal"
+                                    data-target="#playlistCollectorRemoveModal" class="btn btn-secondary">删除收藏用户</a>
                                 </div>
                             </div>
                             
@@ -954,11 +966,11 @@
                             <form>
                                 <div class="form-group">
                                     <label for="user-id-edit" class="col-form-label">用户ID：</label>
-                                    <input ng-model="editUser.id" type="text" class="form-control" id="user-id-edit">
+                                    <input ng-model="editUser.id" type="text" class="form-control" id="user-id-edit" disabled>
                                 </div>
                                 <div class="form-group">
                                     <label for="user-name-edit" class="col-form-label">用户名:</label>
-                                    <input ng-model="editUser.username" type="text" class="form-control" id="user-name-edit">
+                                    <input ng-model="editUser.username" type="text" class="form-control" id="user-name-edit" disabled>
                                 </div>
                                 <div class="form-group">
                                     <label for="user-email-edit" class="col-form-label">电子邮箱:</label>
@@ -966,7 +978,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="user-lastname-edit" class="col-form-label">姓:</label>
-                                    <textarea ng-model="editUser.last_name" type="text" class="form-control" id="user-lastname-edit"></textarea>
+                                    <input ng-model="editUser.last_name" type="text" class="form-control" id="user-lastname-edit">
                                 </div>
                                 <div class="form-group">
                                     <label for="user-firstname-edit" class="col-form-label">名:</label>
