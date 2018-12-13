@@ -33,6 +33,7 @@ urlpatterns = [
     path('api/music/<int:pk>/file/', MusicDetailUploadView.as_view()),
     path('api/artist/', ArtistView.as_view()),
     path('api/artist/<int:pk>/', ArtistDetailView.as_view()),
+    path('api/artist/<int:pk>/photo/', ArtistPhotoUploadView.as_view()),
     path('api/album/', AlbumView.as_view()),
     path('api/album/<int:pk>/', AlbumDetailView.as_view()),
     path('api/album/<int:pk>/cover/', AlbumCoverUploadView.as_view()),

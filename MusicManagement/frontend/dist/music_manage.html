@@ -439,6 +439,8 @@
                 </tbody>
             </table>
         </div>
+
+
         <!--歌手页面-->
         <div class="tab-pane fade" id="v-pills-artist" role="tabpanel" aria-labelledby="v-pills-artist-tab"
             ng-controller="ArtistManageController">
@@ -518,6 +520,52 @@
                     </div>
                 </div>
             </div>
+            <!-- 歌手图片上传 -->
+            <div class="modal fade" id="artistPhotoUploadModal" tabindex="-1" role="dialog" aria-labelledby="artistPhotoUploadModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="artistPhotoUploadModalLabel">上传歌手图片</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+            
+                        <div class="modal-body">
+                            <form>
+                                <div ng-show="isUploadSuccess" class="alert alert-success" role="alert">
+                                    上传成功！
+                                </div>
+                                <div class="form-group">
+                                    <label for="artist-id-upload" class="col-form-label">歌手Id:</label>
+                                    <input ng-model="nowUploadingId" type="text" class="form-control" id="artist-id-upload" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="custom-file" ng-if="nowUploader">
+                                            <input type="file" class="custom-file-input" id="artist-cover-upload" nv-file-select
+                                                uploader="nowUploader">
+                                            <label class="custom-file-label" for="artist-cover-upload">{{nowUploader.queue
+                                                == 0?"选择文件":nowUploader.queue[0].file.name}}</label>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-success" type="button" ng-disabled="!nowUploader.queue.length"
+                                                ng-click="nowUploader.uploadAll()">上传</button>
+                                            <button class="btn btn-outline-danger" type="button" ng-disabled="!nowUploader.queue.length"
+                                                ng-click="nowUploader.clearQueue()">删除</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+            
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- 对话框结束 -->
             <div class="btn-group" role="group" aria-label="Artist Management Toolbar">
                 <button type="button" ng-click="refreshArtist();" class="btn btn-secondary">刷新</button>
@@ -537,11 +585,20 @@
                 <tbody>
                     <tr ng-repeat="artist in artists">
                         <th scope="row">{{artist.id}}</th>
-                        <td>{{artist.name}}</td>
+                        <td><div class="dropdown">
+                            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{artist.name}}
+                            </a>
+                            <div class="dropdown-menu">
+                                <img ng-src="{{artist.photo}}" alt="歌手{{artist.name}}图片" style="width: 200px;">
+                            </div>
+                        </div></td>
                         <td>{{artist.country}}</td>
                         <td>{{artist.birth}}</td>
                         <td><button type="button" class="btn btn-secondary" ng-click="toEditArtist(artist.id,artist.name,artist.country,artist.birth)"
-                                data-toggle="modal" data-target="#artistModalEdit">编辑</button></td>
+                                data-toggle="modal" data-target="#artistModalEdit">编辑</button>
+                        <button type="button" class="btn btn-secondary" ng-click="setUploadId(artist.id)"
+                                data-toggle="modal" data-target="#artistPhotoUploadModal">上传</button></td>
                     </tr>
                 </tbody>
             </table>
