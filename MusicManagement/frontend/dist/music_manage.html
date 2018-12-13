@@ -342,7 +342,15 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="album in albums">
-                        <th>{{album.id}}</th>
+                        <th><div class="dropdown">
+                            <a href="#" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                {{album.id}}
+                            </a>
+                            <div class="dropdown-menu">
+                                <img ng-src="{{album.cover}}" alt="专辑{{album.title}}封面">
+                            </div>
+                        </div></th>
                         <td>
                             <div class="dropdown">
                                 <a href="#" ng-click="loadAlbumTrack(album.id);" data-toggle="dropdown">{{album.title}}</a>
