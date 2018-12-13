@@ -207,7 +207,6 @@
             </table>
         </div>
 
-
         <!--专辑页面-->
         <div class="tab-pane fade" id="v-pills-album" role="tabpanel" aria-labelledby="v-pills-album-tab" ng-controller="AlbumManageController">
             <!--对话框开始-->
@@ -324,6 +323,53 @@
                     </div>
                 </div>
             </div>
+            <!-- 专辑封面上传 -->
+            <div class="modal fade" id="albumCoverUploadModal" tabindex="-1" role="dialog" aria-labelledby="albumCoverUploadModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="musicUploadModalLabel">上传专辑封面</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form>
+                                <div ng-show="isUploadSuccess" class="alert alert-success" role="alert">
+                                    上传成功！
+                                </div>
+                                <div class="form-group">
+                                    <label for="album-id-upload" class="col-form-label">歌曲Id:</label>
+                                    <input ng-model="nowUploadingId" type="text" class="form-control" id="album-id-upload"
+                                        disabled>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="custom-file" ng-if="nowUploader">
+                                            <input type="file" class="custom-file-input" id="album-cover-upload"
+                                                nv-file-select uploader="nowUploader">
+                                            <label class="custom-file-label" for="album-cover-upload">{{nowUploader.queue
+                                                == 0?"选择文件":nowUploader.queue[0].file.name}}</label>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-success" type="button" ng-disabled="!nowUploader.queue.length"
+                                                ng-click="nowUploader.uploadAll()">上传</button>
+                                            <button class="btn btn-outline-danger" type="button" ng-disabled="!nowUploader.queue.length"
+                                                ng-click="nowUploader.clearQueue()">删除</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!--对话框结束-->
             <div class="btn-group" role="group" aria-label="Album Management Toolbar">
                 <button type="button" ng-click="refreshAlbums();" class="btn btn-secondary">刷新</button>
@@ -342,15 +388,16 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="album in albums">
-                        <th><div class="dropdown">
-                            <a href="#" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                                {{album.id}}
-                            </a>
-                            <div class="dropdown-menu">
-                                <img ng-src="{{album.cover}}" alt="专辑{{album.title}}封面">
+                        <th>
+                            <div class="dropdown">
+                                <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{album.id}}
+                                </a>
+                                <div class="dropdown-menu">
+                                    <img ng-src="{{album.cover}}" alt="专辑{{album.title}}封面">
+                                </div>
                             </div>
-                        </div></th>
+                        </th>
                         <td>
                             <div class="dropdown">
                                 <a href="#" ng-click="loadAlbumTrack(album.id);" data-toggle="dropdown">{{album.title}}</a>
@@ -385,6 +432,8 @@
                                 class="btn btn-danger">删除</button>
                             <button type="button" ng-click="toEditAlbum(album.id);" data-toggle="modal" data-target="#albumEditModal"
                                 class="btn btn-info">编辑</button>
+                            <button type="button" ng-click="setUploadId(album.id);" data-toggle="modal" data-target="#albumCoverUploadModal"
+                                class="btn btn-warning">上传</button>
                         </td>
                     </tr>
                 </tbody>
