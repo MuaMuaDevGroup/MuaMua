@@ -3,4 +3,4 @@ from .music import MusicView, MusicDetailView, MusicDetailUploadView
 from .artist import ArtistView, ArtistDetailView, ArtistPhotoUploadView
 from .album import AlbumView, AlbumDetailView, AlbumCoverUploadView
 from .user import UserDetailChangePasswordView, UserDetailView, UserView
-from .playlist import PlaylistDetailView, PlaylistView, PlaylistDetailOwnershipView
+from .playlist import PlaylistDetailView, PlaylistView, PlaylistDetailOwnershipView, PlaylistPhotoUploadView
