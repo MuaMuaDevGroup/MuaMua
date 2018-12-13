@@ -10,12 +10,13 @@ class PlaylistCreationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Playlist
-        fields = ('name', 'description', 'songs')
+        fields = ('name', 'description', 'songs', 'owner')
 
     def create(self, validated_data):
         playlist = Playlist()
         playlist.name = validated_data.get("name")
         playlist.description = validated_data.get("description")
+        playlist.owner = validated_data.get("owner")
         playlist.play_count = 0
         playlist.save()
         playlist.songs.set(validated_data.get("songs"))
@@ -30,7 +31,7 @@ class PlaylistUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Playlist
-        fields = ('name', 'description', 'songs', 'play_count')
+        fields = ('name', 'description', 'songs', 'play_count', 'owner')
 
 
 class PlaylistSerializer(serializers.ModelSerializer):

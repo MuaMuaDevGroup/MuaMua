@@ -626,6 +626,10 @@
                                     <input ng-model="addPlaylistTitle" type="text" class="form-control" id="playlist-title-add">
                                 </div>
                                 <div class="form-group">
+                                    <label for="playlist-owner-add" class="col-form-label">歌单创建者:</label>
+                                    <input ng-model="addPlaylistOwner" type="text" class="form-control" id="playlist-owner-add">
+                                </div>
+                                <div class="form-group">
                                     <label for="playlist-description-add" class="col-form-label">歌单简介:</label>
                                     <textarea ng-model="addPlaylistDescription" type="text" class="form-control" id="playlist-description-add"></textarea>
                                 </div>
@@ -663,6 +667,10 @@
                                 <div class="form-group">
                                     <label for="playlist-title-edit" class="col-form-label">歌单标题：</label>
                                     <input ng-model="editingPlaylist.name" type="text" class="form-control" id="playlist-title-edit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-owner-edit" class="col-form-label">歌单创建者：</label>
+                                    <input ng-model="editingPlaylist.owner" type="text" class="form-control" id="playlist-owner-edit">
                                 </div>
                                 <div class="form-group">
                                     <label for="playlist-date-adeditd" class="col-form-label">播放数:</label>

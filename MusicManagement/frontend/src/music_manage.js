@@ -476,10 +476,12 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
     $scope.addPlaylistTitle = "";
     $scope.addPlaylistDescription = "";
     $scope.addPlaylistTracks = "";
+    $scope.addPlaylistOwner = "";
     $scope.addPlaylist = () => {
         let d = {
             name: $scope.addPlaylistTitle,
             description: $scope.addPlaylistDescription,
+            owner: $scope.addPlaylistOwner,
             songs: $scope.addPlaylistTracks == "" ? [] : $scope.addPlaylistTracks.split(",").select(t => parseInt(t))
         };
         $http({
@@ -490,6 +492,7 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             $scope.addPlaylistTitle = "";
             $scope.addPlaylistDescription = "";
             $scope.addPlaylistTracks = "";
+            $scope.addPlaylistOwner = "";
             $scope.refreshPlaylists();
         });
     };
@@ -509,6 +512,7 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             name: $scope.editingPlaylist.name,
             description: $scope.editingPlaylist.description,
             play_count: $scope.editingPlaylist.play_count,
+            owner: $scope.editingPlaylist.owner,
             songs: $scope.editingPlaylist.songs == "" ? [] : $scope.editingPlaylist.rawSongs.split(",").select(t => parseInt(t))
         };
         $http({
