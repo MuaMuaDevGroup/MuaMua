@@ -38,7 +38,6 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
                 if (m.album != null)
                     $http({ method: "GET", url: "/api/album/" + m.album + "/" }).then(response => m.AlbumName = response.data.title);
             });
-            $scope.$apply();
         });
     };
     $scope.addStyle = "";
@@ -120,8 +119,6 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
             url: "/api/artist/"
         }).then((response) => {
             $scope.artists = response.data;
-            console.log($scope.artists);
-            $scope.$apply();
         });
     };
     $scope.addArtistName = "";
