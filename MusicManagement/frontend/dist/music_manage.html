@@ -135,20 +135,25 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-            
+
                         <div class="modal-body">
-                            <form>
+                            <form id="music-form-upload">
+                                <div ng-show="isUploadSuccess" class="alert alert-success" role="alert">
+                                    上传成功！
+                                </div>
                                 <div class="form-group">
                                     <label for="music-id-upload" class="col-form-label">歌曲Id:</label>
-                                    <input ng-model="nowUploadingId" type="text" class="form-control" id="music-id-upload" disabled>
+                                    <input ng-model="nowUploadingId" type="text" class="form-control" id="music-id-upload"
+                                        disabled>
                                 </div>
-            
                                 <div class="form-group">
                                     <label for="music-style-edit" class="col-form-label">文件:</label>
                                     <div class="input-group">
                                         <div class="custom-file" ng-if="nowUploader">
-                                            <input type="file" class="custom-file-input" id="music-file-upload" nv-file-select uploader="nowUploader">
-                                            <label class="custom-file-label" for="inputGroupFile03">{{nowUploader.queue == 0?"Choose File":nowUploader.queue[0].file.name}}</label>
+                                            <input type="file" class="custom-file-input" id="music-file-upload"
+                                                nv-file-select uploader="nowUploader">
+                                            <label class="custom-file-label" for="music-file-upload">{{nowUploader.queue
+                                                == 0?"Choose File":nowUploader.queue[0].file.name}}</label>
                                         </div>
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-success" type="button" ng-click="nowUploader.uploadAll()">上传</button>
@@ -156,13 +161,11 @@
                                         </div>
                                     </div>
                                 </div>
-            
-                                
                             </form>
                         </div>
-            
+
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="document.getElementById('music-form-upload').reset();">关闭</button>
                         </div>
                     </div>
                 </div>
@@ -196,7 +199,8 @@
                         <td><button type="button" class="btn btn-secondary" ng-click="toEditMusic(music.id)"
                                 data-toggle="modal" data-target="#musicModalEdit">编辑</button>
                             <button type="button" class="btn btn-success" ng-show="music.audio != undefined" ng-click="music.audio.paused ? music.audio.play() : music.audio.pause()">播放</button>
-                            <button type="button" class="btn btn-info" ng-click="setUploadId(music.id)" data-toggle="modal" data-target="#musicUploadModal">上传</button>
+                            <button type="button" class="btn btn-info" ng-click="setUploadId(music.id)" data-toggle="modal"
+                                data-target="#musicUploadModal">上传</button>
                         </td>
                     </tr>
                 </tbody>
@@ -487,7 +491,8 @@
         </div>
 
         <!--歌单页面-->
-        <div class="tab-pane fade" id="v-pills-playlist" role="tabpanel" aria-labelledby="v-pills-playlist-tab" ng-controller="PlaylistManageController">
+        <div class="tab-pane fade" id="v-pills-playlist" role="tabpanel" aria-labelledby="v-pills-playlist-tab"
+            ng-controller="PlaylistManageController">
             <!--对话框开始-->
             <!-- 添加新歌单 -->
             <div class="modal fade" id="playlistAddModal" tabindex="-1" role="dialog" aria-labelledby="playlistAddModalLabel"
@@ -551,7 +556,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="playlist-description-edit" class="col-form-label">歌单简介:</label>
-                                    <textarea ng-model="editingPlaylist.description" type="text" class="form-control" id="playlist-description-edit"></textarea>
+                                    <textarea ng-model="editingPlaylist.description" type="text" class="form-control"
+                                        id="playlist-description-edit"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="playlist-track-edit" class="col-form-label">歌曲Id:</label>
@@ -604,13 +610,12 @@
                                 <div class="form-group">
                                     <label for="playlist-owner-add" class="col-form-label">用户ID：</label>
                                     <input ng-model="ownerAddUserUserRaw" type="text" class="form-control" id="playlist-owner-add">
-                                </div>              
+                                </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-info" ng-click="addOwner();"
-                                data-dismiss="modal">添加</button>
+                            <button type="button" class="btn btn-info" ng-click="addOwner();" data-dismiss="modal">添加</button>
                         </div>
                     </div>
                 </div>
@@ -665,8 +670,7 @@
                                 <a href="#" ng-click="loadPlaylistTrack(playlist.id);" data-toggle="dropdown">{{playlist.name}}</a>
                                 <div class="dropdown-menu">
                                     <h6 class="dropdown-header">{{playlist.title}}歌曲列表</h6>
-                                    <a class="dropdown-item disabled" ng-hide="viewSongPlaylist.length!=0"
-                                        href="#">该歌单暂无歌曲</a>
+                                    <a class="dropdown-item disabled" ng-hide="viewSongPlaylist.length!=0" href="#">该歌单暂无歌曲</a>
                                     <table class="table" ng-show="viewSongPlaylist.length!=0">
                                         <thead>
                                             <tr>
@@ -691,11 +695,12 @@
                         <td>
                             <button type="button" ng-click="setDeletePlaylistId(playlist.id);" data-toggle="modal"
                                 data-target="#playlistDeleteModal" class="btn btn-danger">删除</button>
-                            <button type="button" ng-click="toEditPlaylist(playlist.id);" data-toggle="modal" data-target="#playlistEditModal"
-                                class="btn btn-info">编辑</button>
-                            <button type="button" ng-click="setOwnerAdd(playlist.id);" data-toggle="modal" data-target="#playlistOwnerAddModal" class="btn btn-primary">添加收藏用户</button>
-                            <button type="button" ng-click="setOwnerRemove(playlist.id);" data-toggle="modal" data-target="#playlistOwnerRemoveModal"
-                                class="btn btn-secondary">删除收藏用户</button>
+                            <button type="button" ng-click="toEditPlaylist(playlist.id);" data-toggle="modal"
+                                data-target="#playlistEditModal" class="btn btn-info">编辑</button>
+                            <button type="button" ng-click="setOwnerAdd(playlist.id);" data-toggle="modal" data-target="#playlistOwnerAddModal"
+                                class="btn btn-primary">添加收藏用户</button>
+                            <button type="button" ng-click="setOwnerRemove(playlist.id);" data-toggle="modal"
+                                data-target="#playlistOwnerRemoveModal" class="btn btn-secondary">删除收藏用户</button>
                         </td>
                     </tr>
                 </tbody>

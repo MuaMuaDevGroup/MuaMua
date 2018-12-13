@@ -57,18 +57,22 @@ class MusicDetailView(APIView):
 
 class MusicDetailUploadView(APIView):
     parser_classes = (MultiPartParser,)
-
+    permission_classes = (IsAuthenticated, IsAdminUser,)
+    
     def post(self, request, pk, format=None):
         musics = Music.objects.filter(pk=pk)
         if len(musics) == 0:
             return Response(status=status.HTTP_404_NOT_FOUND)
         music = musics.get(pk=pk)
         file_object = request.FILES["file"]
+        # Hash filename
         hasher = hashlib.md5()
         file_name, file_ext = os.path.splitext(file_object.name)
         hasher.update(str(pk).encode())
         file_name = hasher.hexdigest()
         file_object.name = "{0}{1}".format(file_name, file_ext)
+        if music.entity != None:
+            music.entity.delete()
         music.entity = file_object
         music.save()
         return Response(status=status.HTTP_201_CREATED)

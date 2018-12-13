@@ -5,19 +5,19 @@ import 'angular-file-upload'
 
 angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', 'ngAudio', 'FileUploader', '$cookies', ($http, $scope, ngAudio, FileUploader, $cookies) => {
     //File Upload
-    var nowUploader = $scope.nowUploader = null;
+    var nowUploader = $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
     $scope.nowUploadingId = null;
     $scope.nowUploadingFilename = "";
+    $scope.isUploadSuccess = false;
     $scope.setUploadId = (id) => {
         $scope.nowUploadingId = id;
-        if ($scope.nowUploader != null)
-            $scope.nowUploader.url = "/api/music/" + id + "/file/";
-        else
-            $scope.nowUploader = new FileUploader({
-                url: "/api/music/" + id + "/file/",
-                method: "POST"
-            });
+        $scope.nowUploader.url = "/api/music/" + id + "/file/";
         $scope.nowUploader.headers = { 'X-CSRFToken': $cookies.get("csrftoken") };
+        $scope.isUploadSuccess = false;
+    };
+    $scope.nowUploader.onSuccessItem = function (fileItem, response, status, headers) {
+        $scope.isUploadSuccess = true;
+        $scope.nowUploader.clearQueue();
     };
     //Query Sections
     $scope.musics = [];
