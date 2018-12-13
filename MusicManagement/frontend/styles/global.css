@@ -10,3 +10,7 @@
 a.nav-link{
     color: #343a40;
 }
+
+div.dropdown{
+    display: inline!important;
+}
