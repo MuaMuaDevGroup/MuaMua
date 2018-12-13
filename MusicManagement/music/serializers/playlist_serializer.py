@@ -44,25 +44,23 @@ class PlaylistDetailSerializer(serializers.ModelSerializer):
 
     songs = serializers.SlugRelatedField(
         slug_field="id", many=True, read_only=True)
-    owners = serializers.SlugRelatedField(
-        slug_field="id", many=True, read_only=True)
 
     class Meta:
         model = Playlist
         fields = ('id', 'name', 'description',
-                  'play_count', 'songs', 'owners', 'cover')
+                  'play_count', 'songs', 'owner', 'cover')
 
 
 class PlaylistOwnersAddSerializer(serializers.ModelSerializer):
 
-    owners = serializers.ListField(child=serializers.IntegerField())
+    collectors = serializers.ListField(child=serializers.IntegerField())
 
     class Meta:
         model = Playlist
-        fields = ('owners',)
+        fields = ('collectors',)
 
     def update(self, instance, validated_data):
-        for owner in User.objects.filter(pk__in=validated_data.get("owners")):
+        for owner in User.objects.filter(pk__in=validated_data.get("collectors")):
             instance.owners.add(owner)
         instance.save()
         return instance
@@ -70,24 +68,24 @@ class PlaylistOwnersAddSerializer(serializers.ModelSerializer):
 
 class PlayListOwnersDetailSerializer(serializers.ModelSerializer):
 
-    owners = serializers.SlugRelatedField(
+    collectors = serializers.SlugRelatedField(
         slug_field="id", many=True, read_only=True)
 
     class Meta:
         model = Playlist
-        fields = ('owners',)
+        fields = ('collectors',)
 
 
 class PlayListOwnersDeleteSerializer(serializers.ModelSerializer):
 
-    owners = serializers.ListField(child=serializers.IntegerField())
+    collectors = serializers.ListField(child=serializers.IntegerField())
 
     class Meta:
         model = Playlist
-        fields = ('owners',)
+        fields = ('collectors',)
 
     def update(self, instance, validated_data):
-        for owner in User.objects.filter(pk__in=validated_data.get("owners")):
+        for owner in User.objects.filter(pk__in=validated_data.get("collectors")):
             instance.owners.remove(owner)
         instance.save()
         return instance
