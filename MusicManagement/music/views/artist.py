@@ -5,9 +5,12 @@ from rest_framework import status
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from music.serializers import ArtistCreationSerializer, ArtistDetailSerializer, ArtistUpdateSerializer
 from music.models import Music, Album, Artist
+import os
+import hashlib
 
 
 class ArtistView(ListAPIView):
@@ -52,3 +55,36 @@ class ArtistDetailView(APIView):
             return Response(status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class ArtistPhotoUploadView(APIView):
+
+    parser_classes = (MultiPartParser,)
+    permission_classes = (IsAuthenticated, IsAdminUser,)
+
+    def post(self, request, pk, format=None):
+        artists = Artist.objects.filter(pk=pk)
+        if len(artists) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        artist = artists.get(pk=pk)
+        file_object = request.FILES["file"]
+        # Hash filename
+        hasher = hashlib.md5()
+        file_name, file_ext = os.path.splitext(file_object.name)
+        hasher.update(str(pk).encode())
+        file_name = hasher.hexdigest()
+        file_object.name = "{0}{1}".format(file_name, file_ext)
+        if artist.photo != None:
+            artist.photo.delete()
+        artist.photo = file_object
+        artist.save()
+        return Response(status=status.HTTP_201_CREATED)
+
+    def delete(self, request, pk, format=None):
+        artists = Artist.objects.filter(pk=pk)
+        if len(artists) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        artist = artists.get(pk=pk)
+        if artist.photo != None:
+            artist.photo.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

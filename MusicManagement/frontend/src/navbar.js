@@ -9,7 +9,6 @@ angular.module('mm-app').controller('NavbarController', ["$http", "$scope", func
             $scope.username = response.data.username;
             $scope.email = response.data.email;
             $scope.isLogin = true;
-            $scope.$apply();
         }, function (response) {
             $scope.isLogin = false;
         });

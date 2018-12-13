@@ -5,10 +5,11 @@ from rest_framework.response import Response
 from rest_framework.filters import SearchFilter
 from django_filters.rest_framework.backends import DjangoFilterBackend
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from music.serializers import PlaylistCreationSerializer, PlaylistDetailSerializer, PlaylistOwnersAddSerializer, PlayListOwnersDeleteSerializer, PlayListOwnersDetailSerializer, PlaylistSerializer, PlaylistUpdateSerializer
 from music.models import Music, Album, Artist, Playlist
-
+import os,hashlib
 
 class PlaylistView(ListAPIView):
 
@@ -91,3 +92,36 @@ class PlaylistDetailOwnershipView(APIView):
             return Response(status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class PlaylistPhotoUploadView(APIView):
+
+    parser_classes = (MultiPartParser,)
+    permission_classes = (IsAuthenticated, IsAdminUser,)
+
+    def post(self, request, pk, format=None):
+        playlists = Playlist.objects.filter(pk=pk)
+        if len(playlists) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        playlist = playlists.get(pk=pk)
+        file_object = request.FILES["file"]
+        # Hash filename
+        hasher = hashlib.md5()
+        file_name, file_ext = os.path.splitext(file_object.name)
+        hasher.update(str(pk).encode())
+        file_name = hasher.hexdigest()
+        file_object.name = "{0}{1}".format(file_name, file_ext)
+        if playlist.cover != None:
+            playlist.cover.delete()
+        playlist.cover = file_object
+        playlist.save()
+        return Response(status=status.HTTP_201_CREATED)
+
+    def delete(self, request, pk, format=None):
+        playlists = Playlist.objects.filter(pk=pk)
+        if len(playlists) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        playlist = playlists.get(pk=pk)
+        if playlist.cover != None:
+            playlist.cover.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

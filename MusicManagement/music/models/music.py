@@ -9,3 +9,5 @@ class Music(models.Model):
     album = models.ForeignKey(
         "Album",  related_name="tracks", on_delete=models.SET_NULL, null=True)
     artist = models.ManyToManyField("Artist")
+    entity = models.FileField(upload_to="songs", null=True)
+

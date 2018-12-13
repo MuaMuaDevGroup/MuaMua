@@ -1,6 +1,25 @@
 import 'angular'
 import 'linqjs'
-angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', ($http, $scope) => {
+import 'angular-audio'
+import 'angular-file-upload'
+
+angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', 'ngAudio', 'FileUploader', '$cookies', ($http, $scope, ngAudio, FileUploader, $cookies) => {
+    //File Upload
+    var nowUploader = $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
+    $scope.nowUploadingId = null;
+    $scope.nowUploadingFilename = "";
+    $scope.isUploadSuccess = false;
+    $scope.setUploadId = (id) => {
+        $scope.nowUploadingId = id;
+        $scope.nowUploader.url = "/api/music/" + id + "/file/";
+        $scope.nowUploader.headers = { 'X-CSRFToken': $cookies.get("csrftoken") };
+        $scope.isUploadSuccess = false;
+    };
+    $scope.nowUploader.onSuccessItem = function (fileItem, response, status, headers) {
+        $scope.isUploadSuccess = true;
+        $scope.nowUploader.clearQueue();
+    };
+    //Query Sections
     $scope.musics = [];
     $scope.refreshMusic = () => {
         $http({
@@ -9,6 +28,9 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
         }).then((response) => {
             $scope.musics = response.data;
             $scope.musics.forEach(m => {
+                //add audio
+                if (m.entity != null)
+                    m.audio = ngAudio.load(m.entity);
                 m.artistNames = [];
                 m.artist.forEach(a => {
                     $http({ method: "GET", url: "/api/artist/" + a + "/" }).then((response) => { m.artistNames.push(response.data.name); });
@@ -16,7 +38,6 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
                 if (m.album != null)
                     $http({ method: "GET", url: "/api/album/" + m.album + "/" }).then(response => m.AlbumName = response.data.title);
             });
-            $scope.$apply();
         });
     };
     $scope.addStyle = "";
@@ -90,7 +111,31 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
     };
 }]);
 
-angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope', ($http, $scope) => {
+angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope', 'FileUploader', '$cookies', ($http, $scope, FileUploader, $cookies) => {
+    //File Upload Sections
+    $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
+    $scope.nowUploader.filters.push({
+        name: 'imageFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    $scope.nowUploadingId = null;
+    $scope.nowUploadingFilename = "";
+    $scope.isUploadSuccess = false;
+    $scope.setUploadId = (id) => {
+        $scope.nowUploader.clearQueue();
+        $scope.nowUploadingId = id;
+        $scope.nowUploader.url = "/api/artist/" + id + "/photo/";
+        $scope.nowUploader.headers = { 'X-CSRFToken': $cookies.get("csrftoken") };
+        $scope.isUploadSuccess = false;
+    };
+    $scope.nowUploader.onSuccessItem = function (fileItem, response, status, headers) {
+        $scope.isUploadSuccess = true;
+        $scope.nowUploader.clearQueue();
+    };
+    //Queries Sections
     $scope.artists = [];
     $scope.refreshArtist = () => {
         $http({
@@ -98,8 +143,6 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
             url: "/api/artist/"
         }).then((response) => {
             $scope.artists = response.data;
-            console.log($scope.artists);
-            $scope.$apply();
         });
     };
     $scope.addArtistName = "";
@@ -153,8 +196,31 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
     };
 }]);
 
-angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope', ($http, $scope) => {
-
+angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope', 'FileUploader', '$cookies', ($http, $scope, FileUploader, $cookies) => {
+    //File Upload Sections
+    $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
+    $scope.nowUploader.filters.push({
+        name: 'imageFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    $scope.nowUploadingId = null;
+    $scope.nowUploadingFilename = "";
+    $scope.isUploadSuccess = false;
+    $scope.setUploadId = (id) => {
+        $scope.nowUploader.clearQueue();
+        $scope.nowUploadingId = id;
+        $scope.nowUploader.url = "/api/album/" + id + "/cover/";
+        $scope.nowUploader.headers = { 'X-CSRFToken': $cookies.get("csrftoken") };
+        $scope.isUploadSuccess = false;
+    };
+    $scope.nowUploader.onSuccessItem = function (fileItem, response, status, headers) {
+        $scope.isUploadSuccess = true;
+        $scope.nowUploader.clearQueue();
+    };
+    // Queries Sections
     $scope.albums = [];
     $scope.viewTracksAlbum = null;
     $scope.refreshAlbums = () => {
@@ -256,9 +322,8 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
 }]);
 
 angular.module('mm-app').controller('UserManageController', ['$http', '$scope', ($http, $scope) => {
-
-    $scope.users = [];
     //Refresh User sections
+    $scope.users = [];
     $scope.refreshUser = () => {
         $http({
             url: "/api/user/",
@@ -347,8 +412,30 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
     };
 }]);
 
-angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scope', ($http, $scope) => {
-
+angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scope', 'FileUploader', '$cookies', ($http, $scope, FileUploader, $cookies) => {
+    //File Upload Sections
+    $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
+    $scope.nowUploader.filters.push({
+        name: 'imageFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    $scope.nowUploadingId = null;
+    $scope.nowUploadingFilename = "";
+    $scope.isUploadSuccess = false;
+    $scope.setUploadId = (id) => {
+        $scope.nowUploader.clearQueue();
+        $scope.nowUploadingId = id;
+        $scope.nowUploader.url = "/api/playlist/" + id + "/cover/";
+        $scope.nowUploader.headers = { 'X-CSRFToken': $cookies.get("csrftoken") };
+        $scope.isUploadSuccess = false;
+    };
+    $scope.nowUploader.onSuccessItem = function (fileItem, response, status, headers) {
+        $scope.isUploadSuccess = true;
+        $scope.nowUploader.clearQueue();
+    };
     //Query Playlist
     $scope.playlists = [];
     $scope.refreshPlaylists = () => {
@@ -459,7 +546,7 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             url: "/api/playlist/" + $scope.ownerAddUserId + "/owner/",
             method: "POST",
             data: d
-        }).then(response => { 
+        }).then(response => {
             $scope.ownerAddUserUserRaw = "";
             $scope.ownerAddUserId = null;
         });

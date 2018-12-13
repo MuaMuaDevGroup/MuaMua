@@ -20,10 +20,12 @@ class MusicDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Music
-        fields = ('id', 'style', 'duration', 'title', 'album', 'artist')
+        fields = ('id', 'style', 'duration',
+                  'title', 'album', 'artist', 'entity')
+
 
 class MusicUpdateSerializer(serializers.ModelSerializer):
-    
+
     album = serializers.PrimaryKeyRelatedField(
         allow_null=True, queryset=Album.objects.all())
     artist = serializers.PrimaryKeyRelatedField(
