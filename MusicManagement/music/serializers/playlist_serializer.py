@@ -60,8 +60,8 @@ class PlaylistOwnersAddSerializer(serializers.ModelSerializer):
         fields = ('collectors',)
 
     def update(self, instance, validated_data):
-        for owner in User.objects.filter(pk__in=validated_data.get("collectors")):
-            instance.owners.add(owner)
+        for collector in User.objects.filter(pk__in=validated_data.get("collectors")):
+            instance.collectors.add(collector)
         instance.save()
         return instance
 
@@ -85,7 +85,7 @@ class PlayListOwnersDeleteSerializer(serializers.ModelSerializer):
         fields = ('collectors',)
 
     def update(self, instance, validated_data):
-        for owner in User.objects.filter(pk__in=validated_data.get("collectors")):
-            instance.owners.remove(owner)
+        for collector in User.objects.filter(pk__in=validated_data.get("collectors")):
+            instance.collectors.remove(collector)
         instance.save()
         return instance

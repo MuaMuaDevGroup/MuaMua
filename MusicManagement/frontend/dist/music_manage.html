@@ -709,12 +709,12 @@
                 </div>
             </div>
             <!-- 添加收藏歌单的用户 -->
-            <div class="modal fade" id="playlistOwnerAddModal" tabindex="-1" role="dialog" aria-labelledby="playlistOwnerAddModalLabel"
+            <div class="modal fade" id="playlistCollectorAddModal" tabindex="-1" role="dialog" aria-labelledby="playlistCollectorAddModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="playlistOwnerAddModalTitle">添加收藏歌单用户</h5>
+                            <h5 class="modal-title" id="playlistCollectorAddModalTitle">添加收藏歌单用户</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -722,25 +722,25 @@
                         <div class="modal-body">
                             <form>
                                 <div class="form-group">
-                                    <label for="playlist-owner-add" class="col-form-label">用户ID：</label>
-                                    <input ng-model="ownerAddUserUserRaw" type="text" class="form-control" id="playlist-owner-add">
+                                    <label for="playlist-collector-add" class="col-form-label">用户ID：</label>
+                                    <input ng-model="collectorAddUserUserRaw" type="text" class="form-control" id="playlist-collector-add">
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-info" ng-click="addOwner();" data-dismiss="modal">添加</button>
+                            <button type="button" class="btn btn-info" ng-click="addCollector();" data-dismiss="modal">添加</button>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- 删除收藏歌单的用户 -->
-            <div class="modal fade" id="playlistOwnerRemoveModal" tabindex="-1" role="dialog" aria-labelledby="playlistOwnerRemoveModalLabel"
+            <div class="modal fade" id="playlistCollectorRemoveModal" tabindex="-1" role="dialog" aria-labelledby="playlistCollectorRemoveModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="playlistOwnerRemoveModalTitle">添加收藏歌单用户</h5>
+                            <h5 class="modal-title" id="playlistCollectorRemoveModalTitle">添加收藏歌单用户</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -748,14 +748,14 @@
                         <div class="modal-body">
                             <form>
                                 <div class="form-group">
-                                    <label for="playlist-owner-remove" class="col-form-label">用户ID：</label>
-                                    <input ng-model="ownerRemoveUserUserRaw" type="text" class="form-control" id="playlist-owner-remove">
+                                    <label for="playlist-collector-remove" class="col-form-label">用户ID：</label>
+                                    <input ng-model="collectorRemoveUserUserRaw" type="text" class="form-control" id="playlist-collector-remove">
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-danger" ng-click="removeOwner();" data-dismiss="modal">删除</button>
+                            <button type="button" class="btn btn-danger" ng-click="removeCollector();" data-dismiss="modal">删除</button>
                         </div>
                     </div>
                 </div>
@@ -869,15 +869,15 @@
                             <button type="button" ng-click="setUploadId(playlist.id);" data-toggle="modal" data-target="#playlistCoverUploadModal"
                                     class="btn btn-success">上传</button>
                             <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="playlistOwnerButtonGroup" data-toggle="dropdown"
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="playlistCollectorButtonGroup" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
                                     收藏用户
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="playlistOwnerButtonGroup">
-                                    <a class="dropdown-item" href="#" ng-click="setOwnerAdd(playlist.id);" data-toggle="modal" data-target="#playlistOwnerAddModal"
+                                <div class="dropdown-menu" aria-labelledby="playlistCollectorButtonGroup">
+                                    <a class="dropdown-item" href="#" ng-click="setCollectorAdd(playlist.id);" data-toggle="modal" data-target="#playlistCollectorAddModal"
                                     class="btn btn-primary">添加收藏用户</a>
-                                    <a class="dropdown-item" href="#" ng-click="setOwnerRemove(playlist.id);" data-toggle="modal"
-                                    data-target="#playlistOwnerRemoveModal" class="btn btn-secondary">删除收藏用户</a>
+                                    <a class="dropdown-item" href="#" ng-click="setCollectorRemove(playlist.id);" data-toggle="modal"
+                                    data-target="#playlistCollectorRemoveModal" class="btn btn-secondary">删除收藏用户</a>
                                 </div>
                             </div>
                             
