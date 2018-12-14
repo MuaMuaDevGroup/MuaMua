@@ -49,14 +49,8 @@ class AccountDetailView(APIView):
         serializer = AccountDetailSerializer(request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-<<<<<<< Updated upstream
     def put(self, request, format=None):
         serializer = AccountDetailUpdateSerializer(request.user, data=request.data)
-=======
-    def put(self, request,  format=None):
-        user = request.user
-        serializer = AccountDetailUpdateSerializer(user, data=request.data)
->>>>>>> Stashed changes
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
