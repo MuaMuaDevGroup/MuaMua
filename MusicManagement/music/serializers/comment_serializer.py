@@ -11,7 +11,7 @@ class CommentListSerializer(serializers.ModelSerializer):
 class CommentCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('id', 'user', 'level', 'text')
+        fields = ('user', 'level', 'text')
 
 
 class CommentUpdateSerializer(serializers.ModelSerializer):
@@ -20,4 +20,4 @@ class CommentUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ('id', 'user', 'level', 'text', 'add_time')
+        fields = ('level', 'text')

@@ -18,7 +18,7 @@ class CommentListView(ListAPIView):
     search_fields = ('text',)
     permission_classes = (IsAuthenticated, IsAdminUser,)
 
-    def put(self, request, format=None):
+    def post(self, request, format=None):
         serializer = CommentCreateSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -30,13 +30,13 @@ class CommentListView(ListAPIView):
 
 class CommentDetailView(APIView):
     permission_classes = (IsAuthenticated, IsAdminUser,)
-    def post(self, request, pk ,format=None):
+    def put(self, request, pk ,format=None):
         '''
         修改评论 ，只允许修改level和text 不允许修改用户和id
         '''
         comments = Comment.objects.filter(pk=pk)
         if len(comments) == 0:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_404_NOT_FOUND)
         comment = comments.get(pk=pk)
         serializer = CommentUpdateSerializer(comment, data=request.data)
         if serializer.is_valid():
@@ -48,7 +48,7 @@ class CommentDetailView(APIView):
     def delete(self, request, pk, format=None):
         comment = Comment.objects.filter(pk=pk)
         if len(comment) == 0:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_404_NOT_FOUND)
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
