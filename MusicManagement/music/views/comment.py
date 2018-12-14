@@ -18,7 +18,7 @@ class CommentListView(ListAPIView):
     search_fields = ('text',)
     permission_classes = (IsAuthenticated, IsAdminUser,)
 
-    def post(self, request, format=None):
+    def put(self, request, format=None):
         serializer = CommentCreateSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -30,7 +30,7 @@ class CommentListView(ListAPIView):
 
 class CommentDetailView(APIView):
     permission_classes = (IsAuthenticated, IsAdminUser,)
-    def put(self, request, pk ,format=None):
+    def post(self, request, pk ,format=None):
         '''
         修改评论 ，只允许修改level和text 不允许修改用户和id
         '''

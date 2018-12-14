@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils import timezone
 
 
 class Comment(models.Model):
@@ -9,3 +10,4 @@ class Comment(models.Model):
     level = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)])
     text = models.TextField(null=True)
+    add_time = models.DateTimeField(auto_now=True)
