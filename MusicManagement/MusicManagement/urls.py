@@ -28,7 +28,6 @@ urlpatterns = [
     path('api/account/logout/', AccountLogoutView.as_view()),
     path('api/account/password/', AccountChangePasswordView.as_view()),
     path('api/account/', AccountDetailView.as_view()),
-    path('api/account/edit/<int:pk>/', AccountDetailView.as_view()),
     path('api/music/', MusicView.as_view()),
     path('api/music/<int:pk>/', MusicDetailView.as_view()),
     path('api/music/<int:pk>/file/', MusicDetailUploadView.as_view()),

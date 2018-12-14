@@ -63,7 +63,7 @@ angular.module('mm-app').controller('NavbarController', ["$http", "$scope", func
         });
     };
     $scope.editUserDetail = () => {
-        let u = "/api/account/edit/" + $scope.editUserId + "/";
+        let u = "/api/account/";
         console.log($scope.editUserId);
         let d = {
             id: $scope.editUserId,
@@ -76,12 +76,11 @@ angular.module('mm-app').controller('NavbarController', ["$http", "$scope", func
             method: "PUT",
             data: d
         }).then((response) => {
-        $scope.editUserId = null;
-        $scope.editUsername = "";
-        $scope.editEmail = "";
-        $scope.editFirstName = "";
-        $scope.editLastName = "";
-        $scope.refreshAccount();
+            $scope.editUserId = null;
+            $scope.editUsername = "";
+            $scope.editEmail = "";
+            $scope.editFirstName = "";
+            $scope.editLastName = "";
         });
     };
 }]);
