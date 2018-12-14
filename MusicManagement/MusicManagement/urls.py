@@ -46,6 +46,8 @@ urlpatterns = [
     path('api/playlist/<int:pk>/collector/', PlaylistDetailOwnershipView.as_view()),
     path('web/', TemplateView.as_view(template_name="index.html")),
     path('web/manage/', TemplateView.as_view(template_name="music_manage.html")),
+    path('api/comment/', CommentListView.as_view()),
+
 ]
 
 if os.environ.get("DJANGO_CONFIGURATION") == "Development":
