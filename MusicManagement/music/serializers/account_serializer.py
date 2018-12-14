@@ -20,9 +20,13 @@ class AccountDetailSerializer(serializers.Serializer):
     last_login = serializers.DateTimeField()
     date_joined = serializers.DateTimeField()
 
+<<<<<<< Updated upstream
 
 class AccountDetailUpdateSerializer(serializers.ModelSerializer):
 
+=======
+class AccountDetailUpdateSerializer(serializers.ModelSerializer):
+>>>>>>> Stashed changes
     class Meta:
         model = User
         fields = ('email', 'first_name', 'last_name')

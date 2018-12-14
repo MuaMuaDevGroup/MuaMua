@@ -42,7 +42,20 @@ angular.module('mm-app').controller('NavbarController', ["$http", "$scope", func
         $http({ method: "POST", url: "/api/account/logout/" }).then(function () { $scope.checkLogin(); });
     };
 
+<<<<<<< Updated upstream
     // Account Detail Edit
+=======
+
+    // $scope.account = [];
+    // $scope.refreshAccount = () => {
+    //     $http({
+    //         method: "GET",
+    //         url: "/api/account"
+    //     }).then((response) =>{
+    //         $scope.account = response.data;
+    //     });
+    // }
+>>>>>>> Stashed changes
     $scope.editUserId = null;
     $scope.editUsername = "";
     $scope.editEmail = "";
@@ -50,7 +63,11 @@ angular.module('mm-app').controller('NavbarController', ["$http", "$scope", func
     $scope.editLastName = "";
 
     $scope.toEditUserDetail = () => {
+<<<<<<< Updated upstream
         $http({
+=======
+         $http({
+>>>>>>> Stashed changes
             method: "GET",
             url: "/api/account/"
         }).then((response) => {
@@ -67,6 +84,7 @@ angular.module('mm-app').controller('NavbarController', ["$http", "$scope", func
         console.log($scope.editUserId);
         let d = {
             id: $scope.editUserId,
+            username: $scope.editUsername,
             email: $scope.editEmail,
             first_name: $scope.editFirstName,
             last_name: $scope.editLastName,
@@ -76,11 +94,19 @@ angular.module('mm-app').controller('NavbarController', ["$http", "$scope", func
             method: "PUT",
             data: d
         }).then((response) => {
+<<<<<<< Updated upstream
             $scope.editUserId = null;
             $scope.editUsername = "";
             $scope.editEmail = "";
             $scope.editFirstName = "";
             $scope.editLastName = "";
+=======
+        $scope.editUserId = null;
+        $scope.editUsername = "";
+        $scope.editEmail = "";
+        $scope.editFirstName = "";
+        $scope.editLastName = "";
+>>>>>>> Stashed changes
         });
     };
 }]);
