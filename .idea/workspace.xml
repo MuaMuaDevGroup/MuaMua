@@ -11,24 +11,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="navbar.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MusicManagement/frontend/dist/navbar.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="61" column="108" selection-start-line="61" selection-start-column="94" selection-end-line="61" selection-end-column="108" />
-              <folding>
-                <element signature="n#div#0;n#nav#0;n#!!top" />
-                <element signature="e#4314#4321#1" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="account.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MusicManagement/music/views/account.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+            <state relative-caret-position="326">
+              <caret line="55" column="30" selection-start-line="55" selection-start-column="28" selection-end-line="55" selection-end-column="30" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -36,23 +23,37 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MusicManagement/frontend/src/index.js">
+      <file leaf-file-name="music.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MusicManagement/music/views/music.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-103">
+            <state relative-caret-position="180">
+              <caret line="61" column="29" lean-forward="true" selection-start-line="61" selection-start-column="29" selection-end-line="61" selection-end-column="29" />
               <folding>
-                <element signature="e#0#22#0" expanded="true" />
+                <element signature="e#0#40#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="base.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MusicManagement/frontend/src/base.js">
+      <file leaf-file-name="music_manage.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MusicManagement/frontend/src/music_manage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="295">
+              <caret line="181" column="45" selection-start-line="181" selection-start-column="28" selection-end-line="181" selection-end-column="45" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="music_manage.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MusicManagement/frontend/dist/music_manage.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="115">
+              <caret line="507" column="53" lean-forward="true" selection-start-line="507" selection-start-column="53" selection-end-line="507" selection-end-column="70" />
+              <folding>
+                <element signature="n#div#1;n#div#3;n#div#0;n#div#0;n#!!top" />
               </folding>
             </state>
           </provider>
@@ -61,8 +62,8 @@
       <file leaf-file-name="navbar.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MusicManagement/frontend/src/navbar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="455">
-              <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
+            <state relative-caret-position="167">
+              <caret line="53" column="29" lean-forward="true" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
               <folding>
                 <element signature="e#0#22#0" expanded="true" />
               </folding>
@@ -70,20 +71,47 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MusicManagement/frontend/dist/index.html">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MusicManagement/MusicManagement/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="21" selection-start-column="17" selection-end-column="21" />
+            <state relative-caret-position="180">
+              <caret line="29" column="10" selection-start-line="29" selection-start-column="10" selection-end-line="29" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MusicManagement/frontend/dist/base.html">
+      <file leaf-file-name="music_serializer.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MusicManagement/music/serializers/music_serializer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="6" column="22" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="22" />
+            <state relative-caret-position="522">
+              <caret line="35" column="66" lean-forward="true" selection-start-line="35" selection-start-column="66" selection-end-line="35" selection-end-column="66" />
+              <folding>
+                <element signature="e#0#38#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="account_serializer.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MusicManagement/music/serializers/account_serializer.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="11" column="34" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+              <folding>
+                <element signature="e#0#38#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="navbar.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MusicManagement/frontend/dist/navbar.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-279">
+              <caret line="61" column="100" selection-start-line="61" selection-start-column="100" selection-end-line="61" selection-end-column="100" />
+              <folding>
+                <element signature="n#div#0;n#nav#0;n#!!top" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -92,7 +120,18 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
+      <find>editMusicTitle</find>
+      <find>music-style-edit</find>
+      <find>toEditMusic</find>
+      <find>refreshMusic</find>
+      <find>music-duration-edit</find>
+      <find>toEditArtist</find>
+      <find>toEditUserDetail</find>
+      <find>first(m</find>
+      <find>editArtist</find>
+      <find>editArtistCountry</find>
       <find>loginModal</find>
+      <find>editUserDetail</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -102,6 +141,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/MusicManagement/frontend/dist/music_manage.html" />
+        <option value="$PROJECT_DIR$/MusicManagement/music/views/account.py" />
+        <option value="$PROJECT_DIR$/MusicManagement/MusicManagement/urls.py" />
+        <option value="$PROJECT_DIR$/MusicManagement/music/serializers/account_serializer.py" />
         <option value="$PROJECT_DIR$/MusicManagement/frontend/dist/navbar.html" />
         <option value="$PROJECT_DIR$/MusicManagement/frontend/src/navbar.js" />
       </list>
@@ -937,7 +979,7 @@
       <path value="$PROJECT_DIR$/MusicManagement/frontend/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="100" />
     <option name="y" value="93" />
     <option name="width" value="1773" />
@@ -1069,7 +1111,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="80" y="75" width="1418" height="779" extended-state="0" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -1079,7 +1121,7 @@
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Python Console" />
       <window_info anchor="bottom" id="Terminal" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.05367647" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1038874" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="right" id="Database" />
       <window_info anchor="right" id="SciView" />
@@ -1121,18 +1163,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MusicManagement/MusicManagement/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-216" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MusicManagement/music/serializers/account_serializer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="49" selection-start-line="6" selection-start-column="38" selection-end-line="6" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MusicManagement/music/serializers/album_serializer.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
@@ -1157,27 +1187,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MusicManagement/frontend/dist/music_manage.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="645" column="12" lean-forward="true" selection-start-line="645" selection-start-column="12" selection-end-line="687" selection-end-column="18" />
-          <folding>
-            <element signature="n#div#1;n#div#3;n#div#0;n#div#0;n#!!top" />
-            <element signature="e#40197#40204#1" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MusicManagement/music/views/account.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MusicManagement/frontend/src/base.js">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -1196,21 +1205,90 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/MusicManagement/music/models/music.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MusicManagement/music/serializers/music_serializer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="522">
+          <caret line="35" column="66" lean-forward="true" selection-start-line="35" selection-start-column="66" selection-end-line="35" selection-end-column="66" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MusicManagement/music/serializers/account_serializer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="34" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MusicManagement/music/views/music.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="61" column="29" lean-forward="true" selection-start-line="61" selection-start-column="29" selection-end-line="61" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MusicManagement/frontend/dist/music_manage.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="507" column="53" lean-forward="true" selection-start-line="507" selection-start-column="53" selection-end-line="507" selection-end-column="70" />
+          <folding>
+            <element signature="n#div#1;n#div#3;n#div#0;n#div#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MusicManagement/frontend/src/music_manage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="181" column="45" selection-start-line="181" selection-start-column="28" selection-end-line="181" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MusicManagement/MusicManagement/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="29" column="10" selection-start-line="29" selection-start-column="10" selection-end-line="29" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/MusicManagement/frontend/dist/navbar.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="61" column="108" selection-start-line="61" selection-start-column="94" selection-end-line="61" selection-end-column="108" />
+        <state relative-caret-position="-279">
+          <caret line="61" column="100" selection-start-line="61" selection-start-column="100" selection-end-line="61" selection-end-column="100" />
           <folding>
             <element signature="n#div#0;n#nav#0;n#!!top" />
-            <element signature="e#4314#4321#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MusicManagement/music/views/account.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="55" column="30" selection-start-line="55" selection-start-column="28" selection-end-line="55" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MusicManagement/frontend/src/navbar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
+        <state relative-caret-position="167">
+          <caret line="53" column="29" lean-forward="true" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
           </folding>

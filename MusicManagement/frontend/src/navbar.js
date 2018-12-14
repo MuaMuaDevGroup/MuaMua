@@ -40,4 +40,52 @@ angular.module('mm-app').controller('NavbarController', ["$http", "$scope", func
     $scope.logout = function () {
         $http({ method: "POST", url: "/api/account/logout/" }).then(function () { $scope.checkLogin(); });
     };
+
+
+    $scope.account = [];
+    $scope.refreshAccount = () => {
+        $http({
+            method: "GET",
+            url: "/api/account"
+        }).then((response) =>{
+            $scope.account = response.data;
+        });
+    }
+    $scope.editUserId = null;
+    $scope.editUsername = "";
+    $scope.editEmail = "";
+    $scope.editFirstName = "";
+    $scope.editLastName = "";
+
+    $scope.toEditUserDetail = () => {
+        let m = $scope.account.first();
+        console.log(m);
+        $scope.editUserId = m.id;
+        $scope.editUsername = m.username;
+        $scope.editEmail = m.email;
+        $scope.editFirstName = m.first_name;
+        $scope.editLastName = m.last_name;
+    };
+    $scope.editUserDetail = () => {
+        let u = "/api/account/edit/" + $scope.editUserId + "/";
+        console.log($scope.editUserId);
+        let d = {
+            id: $scope.editUserId,
+            email: $scope.editEmail,
+            first_name: $scope.editFirstName,
+            last_name: $scope.editLastName,
+        }
+        $http({
+            url: u,
+            method: "PUT",
+            data: d
+        }).then((response) => {
+        $scope.editUserId = null;
+        $scope.editUsername = "";
+        $scope.editEmail = "";
+        $scope.editFirstName = "";
+        $scope.editLastName = "";
+        $scope.refreshAccount();
+        });
+    };
 }]);
