@@ -42,24 +42,7 @@ angular.module('mm-app').controller('NavbarController', ["$http", "$scope", func
         $http({ method: "POST", url: "/api/account/logout/" }).then(function () { $scope.checkLogin(); });
     };
 
-<<<<<<< Updated upstream
     // Account Detail Edit
-=======
-<<<<<<<
-    // Account Detail Edit
-=======
-
-    // $scope.account = [];
-    // $scope.refreshAccount = () => {
-    //     $http({
-    //         method: "GET",
-    //         url: "/api/account"
-    //     }).then((response) =>{
-    //         $scope.account = response.data;
-    //     });
-    // }
->>>>>>>
->>>>>>> Stashed changes
     $scope.editUserId = null;
     $scope.editUsername = "";
     $scope.editEmail = "";
@@ -67,10 +50,6 @@ angular.module('mm-app').controller('NavbarController', ["$http", "$scope", func
     $scope.editLastName = "";
 
     $scope.toEditUserDetail = () => {
-<<<<<<< Updated upstream
-        $http({
-=======
-<<<<<<<
         $http({
             method: "GET",
             url: "/api/account/"
@@ -82,9 +61,7 @@ angular.module('mm-app').controller('NavbarController', ["$http", "$scope", func
             $scope.editFirstName = m.first_name;
             $scope.editLastName = m.last_name;
         });
-=======
-         $http({
->>>>>>> Stashed changes
+        $http({
             method: "GET",
             url: "/api/account/"
         }).then((response) => {
@@ -95,7 +72,6 @@ angular.module('mm-app').controller('NavbarController', ["$http", "$scope", func
             $scope.editFirstName = m.first_name;
             $scope.editLastName = m.last_name;
         });
->>>>>>>
     };
     $scope.editUserDetail = () => {
         let u = "/api/account/";
@@ -112,25 +88,11 @@ angular.module('mm-app').controller('NavbarController', ["$http", "$scope", func
             method: "PUT",
             data: d
         }).then((response) => {
-<<<<<<< Updated upstream
-=======
-<<<<<<<
->>>>>>> Stashed changes
             $scope.editUserId = null;
             $scope.editUsername = "";
             $scope.editEmail = "";
             $scope.editFirstName = "";
             $scope.editLastName = "";
-<<<<<<< Updated upstream
-=======
-=======
-        $scope.editUserId = null;
-        $scope.editUsername = "";
-        $scope.editEmail = "";
-        $scope.editFirstName = "";
-        $scope.editLastName = "";
->>>>>>>
->>>>>>> Stashed changes
         });
     };
 }]);
