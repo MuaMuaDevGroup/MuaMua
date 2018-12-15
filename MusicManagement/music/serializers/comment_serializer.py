@@ -1,17 +1,19 @@
 from rest_framework import serializers
-from music.models import Comment
+from music.models import Comment, Music
 from django.db import models
 
 class CommentListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('id', 'user', 'level', 'text', 'add_time')
+        fields = ('id', 'user', 'level', 'text', 'add_time', 'music')
 
 
 class CommentCreateSerializer(serializers.ModelSerializer):
+    music = serializers.PrimaryKeyRelatedField(
+        allow_null=True, queryset=Music.objects.all())
     class Meta:
         model = Comment
-        fields = ('user', 'level', 'text')
+        fields = ('user', 'level', 'text', 'music')
 
 
 class CommentUpdateSerializer(serializers.ModelSerializer):

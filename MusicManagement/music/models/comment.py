@@ -11,3 +11,4 @@ class Comment(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(5)])
     text = models.TextField(null=True)
     add_time = models.DateTimeField(auto_now=True)
+    music = models.ForeignKey('Music', related_name="music_commment", on_delete=models.CASCADE, null=True)
