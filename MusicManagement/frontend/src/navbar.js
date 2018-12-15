@@ -61,6 +61,17 @@ angular.module('mm-app').controller('NavbarController', ["$http", "$scope", func
             $scope.editFirstName = m.first_name;
             $scope.editLastName = m.last_name;
         });
+        $http({
+            method: "GET",
+            url: "/api/account/"
+        }).then((response) => {
+            let m = response.data;
+            $scope.editUserId = m.id;
+            $scope.editUsername = m.username;
+            $scope.editEmail = m.email;
+            $scope.editFirstName = m.first_name;
+            $scope.editLastName = m.last_name;
+        });
     };
     $scope.editUserDetail = () => {
         let u = "/api/account/";
