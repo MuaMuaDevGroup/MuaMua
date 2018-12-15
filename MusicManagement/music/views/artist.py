@@ -34,11 +34,18 @@ class ArtistDetailView(APIView):
     permission_classes = (IsAuthenticated, IsAdminUser,)
 
     def get(self, request, pk, format=None):
-        serializer = ArtistDetailSerializer(Artist.objects.get(pk=pk))
+        artists = Artist.objects.filter(pk=pk)
+        if len(artists) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        artist = artists.get(pk=pk)
+        serializer = ArtistDetailSerializer(artist)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk, format=None):
-        artist = Artist.objects.get(pk=pk)
+        artists = Artist.objects.filter(pk=pk)
+        if len(artists) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        artist = artists.get(pk=pk)
         serializer = ArtistUpdateSerializer(artist, data=request.data)
         if serializer.is_valid():
             serializer.save()

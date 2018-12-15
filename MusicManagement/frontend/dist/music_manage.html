@@ -18,15 +18,20 @@
         <li class="nav-item">
             <a class="nav-link" href="#v-pills-playlist" data-toggle="pill" href="#">歌单管理</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#v-pills-user" data-toggle="pill" href="#">用户管理</a>
+        </li>
     </ul>
     <hr />
 
     <div class="tab-content" id="v-pills-tabContent">
         <!--歌曲管理-->
-        <div class="tab-pane fade show active" id="v-pills-music" role="tabpanel" aria-labelledby="v-pills-music-tab">
+        <div class="tab-pane fade show active" id="v-pills-music" role="tabpanel" aria-labelledby="v-pills-music-tab"
+            ng-controller="MusicManageController">
             <!--对话框开始-->
             <!-- 添加新歌曲 -->
-            <div class="modal fade" id="musicAddModal" tabindex="-1" role="dialog" aria-labelledby="musicAddModalLabel" aria-hidden="true">
+            <div class="modal fade" id="musicAddModal" tabindex="-1" role="dialog" aria-labelledby="musicAddModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -38,20 +43,24 @@
                         <div class="modal-body">
                             <form>
                                 <div class="form-group">
-                                    <label for="music-id-add" class="col-form-label">歌曲Id:</label>
-                                    <input ng-model="addMusicId" type="text" class="form-control" id="music-id-add">
+                                    <label for="music-style-add" class="col-form-label">风格:</label>
+                                    <input ng-model="addStyle" type="text" class="form-control" id="music-style-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="music-duration-add" class="col-form-label">时长:</label>
+                                    <input ng-model="addDuration" type="text" class="form-control" id="music-duration-add">
                                 </div>
                                 <div class="form-group">
                                     <label for="music-title-add" class="col-form-label">歌曲标题:</label>
                                     <input ng-model="addMusicTitle" type="text" class="form-control" id="music-title-add">
                                 </div>
                                 <div class="form-group">
-                                    <label for="music-artist-add" class="col-form-label">歌手姓名:</label>
-                                    <input ng-model="addMusicArtist" type="text" class="form-control" id="music-artist-add">
+                                    <label for="music-artist-add" class="col-form-label">歌手ID:</label>
+                                    <input ng-model="addRawArtists" type="text" class="form-control" id="music-artist-add">
                                 </div>
                                 <div class="form-group">
-                                    <label for="music-album-add" class="col-form-label">专辑标题:</label>
-                                    <input ng-model="addMusiAlbum" type="text" class="form-control" id="music-album-add">
+                                    <label for="music-album-add" class="col-form-label">专辑ID:</label>
+                                    <input ng-model="addMusicAlbum" type="text" class="form-control" id="music-album-add">
                                 </div>
                             </form>
                         </div>
@@ -73,6 +82,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
+
                         <div class="modal-body">
                             <form>
                                 <div class="form-group">
@@ -80,20 +90,29 @@
                                     <input ng-model="editMusicId" type="text" class="form-control" id="music-id-edit"
                                         disabled>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="music-style-edit" class="col-form-label">风格:</label>
+                                    <input ng-model="editMusicStyle" type="text" class="form-control" id="music-style-edit">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="music-duration-edit" class="col-form-label">歌曲时长:</label>
+                                    <input ng-model="editMusicDuration" type="text" class="form-control" id="music-duration-edit">
+                                </div>
+
                                 <div class="form-group">
                                     <label for="music-title-edit" class="col-form-label">歌曲标题:</label>
-                                    <input ng-model="editMusicTitle" type="text" class="form-control" id="music-title-edit"
-                                        disabled>
+                                    <input ng-model="editMusicTitle" type="text" class="form-control" id="music-title-edit">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="music-artist-edit" class="col-form-label">歌手ID:</label>
+                                    <input ng-model="editMusicRawArtists" type="text" class="form-control" id="music-artist-edit">
                                 </div>
                                 <div class="form-group">
-                                    <label for="music-artist-edit" class="col-form-label">歌手姓名:</label>
-                                    <input ng-model="editMusicArtist" type="text" class="form-control" id="music-artist-edit"
-                                        disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label for="music-album-edit" class="col-form-label">专辑标题:</label>
-                                    <input ng-model="editMusicAlbum" type="text" class="form-control" id="music-album-edit"
-                                        disabled>
+                                    <label for="music-album-edit" class="col-form-label">专辑ID:</label>
+                                    <input ng-model="editMusicAlbum" type="text" class="form-control" id="music-album-edit">
                                 </div>
                             </form>
                         </div>
@@ -116,6 +135,8 @@
                     <tr>
                         <th scope="col">歌曲Id</th>
                         <th scope="col">歌曲标题</th>
+                        <th scope="col">歌曲风格</th>
+                        <th scope="col">时长</th>
                         <th scope="col">歌手姓名</th>
                         <th scope="col">专辑标题</th>
                         <th scope="col">操作</th>
@@ -125,9 +146,11 @@
                     <tr ng-repeat="music in musics">
                         <th scope="row">{{music.id}}</th>
                         <td>{{music.title}}</td>
-                        <td>{{music.artist}}</td>
-                        <td>{{music.album}}</td>
-                        <td><button type="button" class="btn btn-secondary" ng-click="toEditMusic(music.id,music.title,music.artist,music.album)"
+                        <td>{{music.style}}</td>
+                        <td>{{music.duration}}</td>
+                        <td>{{music.artistNames.join(",")}}</td>
+                        <td>{{music.AlbumName}}</td>
+                        <td><button type="button" class="btn btn-secondary" ng-click="toEditMusic(music.id)"
                                 data-toggle="modal" data-target="#musicModalEdit">编辑</button></td>
                     </tr>
                 </tbody>
@@ -414,8 +437,388 @@
                 </tbody>
             </table>
         </div>
-        <div class="tab-pane fade" id="v-pills-playlist" role="tabpanel" aria-labelledby="v-pills-playlist-tab">d</div>
 
+        <!--歌单页面-->
+        <div class="tab-pane fade" id="v-pills-playlist" role="tabpanel" aria-labelledby="v-pills-playlist-tab" ng-controller="PlaylistManageController">
+            <!--对话框开始-->
+            <!-- 添加新歌单 -->
+            <div class="modal fade" id="playlistAddModal" tabindex="-1" role="dialog" aria-labelledby="playlistAddModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="playlistAddModalLabel">添加歌单</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="playlist-title-add" class="col-form-label">歌单标题：</label>
+                                    <input ng-model="addPlaylistTitle" type="text" class="form-control" id="playlist-title-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-description-add" class="col-form-label">歌单简介:</label>
+                                    <textarea ng-model="addPlaylistDescription" type="text" class="form-control" id="playlist-description-add"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-track-add" class="col-form-label">歌曲Id:</label>
+                                    <input ng-model="addPlaylistTracks" type="text" class="form-control" id="playlist-track-add">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addPlaylist();">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 编辑歌单 -->
+            <div class="modal fade" id="playlistEditModal" tabindex="-1" role="dialog" aria-labelledby="playlistEditModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="playlistEditModalLabel">编辑歌单</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="playlist-id-edit" class="col-form-label">歌单Id：</label>
+                                    <input ng-model="editingPlaylist.id" type="text" class="form-control" id="playlist-id-edit"
+                                        disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-title-edit" class="col-form-label">歌单标题：</label>
+                                    <input ng-model="editingPlaylist.name" type="text" class="form-control" id="playlist-title-edit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-date-adeditd" class="col-form-label">播放数:</label>
+                                    <input ng-model="editingPlaylist.play_count" type="text" class="form-control" id="playlist-date-edit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-description-edit" class="col-form-label">歌单简介:</label>
+                                    <textarea ng-model="editingPlaylist.description" type="text" class="form-control" id="playlist-description-edit"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="playlist-track-edit" class="col-form-label">歌曲Id:</label>
+                                    <input ng-model="editingPlaylist.rawSongs" type="text" class="form-control" id="playlist-track-edit">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="editPlaylist();">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 删除歌单确认 -->
+            <div class="modal fade" id="playlistDeleteModal" tabindex="-1" role="dialog" aria-labelledby="playlistDeleteModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="playlistDeleteModalTitle">删除歌单</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            您确定要删除歌单{{deletingPlaylist.name}}？
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-danger" ng-click="deletePlaylist(deletingPlaylist.id);"
+                                data-dismiss="modal">删除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 添加收藏歌单的用户 -->
+            <div class="modal fade" id="playlistOwnerAddModal" tabindex="-1" role="dialog" aria-labelledby="playlistOwnerAddModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="playlistOwnerAddModalTitle">添加收藏歌单用户</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="playlist-owner-add" class="col-form-label">用户ID：</label>
+                                    <input ng-model="ownerAddUserUserRaw" type="text" class="form-control" id="playlist-owner-add">
+                                </div>              
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-info" ng-click="addOwner();"
+                                data-dismiss="modal">添加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 删除收藏歌单的用户 -->
+            <div class="modal fade" id="playlistOwnerRemoveModal" tabindex="-1" role="dialog" aria-labelledby="playlistOwnerRemoveModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="playlistOwnerRemoveModalTitle">添加收藏歌单用户</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="playlist-owner-remove" class="col-form-label">用户ID：</label>
+                                    <input ng-model="ownerRemoveUserUserRaw" type="text" class="form-control" id="playlist-owner-remove">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-danger" ng-click="removeOwner();" data-dismiss="modal">删除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--对话框结束-->
+            <div class="btn-group" role="group" aria-label="Playlist Management Toolbar">
+                <button type="button" ng-click="refreshPlaylists();" class="btn btn-secondary">刷新</button>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#playlistAddModal">添加</button>
+            </div>
+            <hr />
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">歌单标题</th>
+                        <th scope="col">播放数</th>
+                        <th scope="col">简介</th>
+                        <th scope="col">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="playlist in playlists">
+                        <th>{{playlist.id}}</th>
+                        <td>
+                            <div class="dropdown">
+                                <a href="#" ng-click="loadPlaylistTrack(playlist.id);" data-toggle="dropdown">{{playlist.name}}</a>
+                                <div class="dropdown-menu">
+                                    <h6 class="dropdown-header">{{playlist.title}}歌曲列表</h6>
+                                    <a class="dropdown-item disabled" ng-hide="viewSongPlaylist.length!=0"
+                                        href="#">该歌单暂无歌曲</a>
+                                    <table class="table" ng-show="viewSongPlaylist.length!=0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">标题</th>
+                                                <th scope="col">时长</th>
+                                                <th scope="col">风格</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="song in viewSongPlaylist">
+                                                <td>{{song.title}}</td>
+                                                <td>{{song.duration}}</td>
+                                                <td>{{song.style}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{playlist.play_count}}</td>
+                        <td><a href="#" ng-show="playlist.description == undefined" ng-click="loadPlaylistDescription(playlist.id);">显示简介</a>{{playlist.description}}</td>
+                        <td>
+                            <button type="button" ng-click="setDeletePlaylistId(playlist.id);" data-toggle="modal"
+                                data-target="#playlistDeleteModal" class="btn btn-danger">删除</button>
+                            <button type="button" ng-click="toEditPlaylist(playlist.id);" data-toggle="modal" data-target="#playlistEditModal"
+                                class="btn btn-info">编辑</button>
+                            <button type="button" ng-click="setOwnerAdd(playlist.id);" data-toggle="modal" data-target="#playlistOwnerAddModal" class="btn btn-primary">添加收藏用户</button>
+                            <button type="button" ng-click="setOwnerRemove(playlist.id);" data-toggle="modal" data-target="#playlistOwnerRemoveModal"
+                                class="btn btn-secondary">删除收藏用户</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--用户页面-->
+        <div class="tab-pane fade" id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab" ng-controller="UserManageController">
+            <!--对话框开始-->
+            <!-- 添加用户 -->
+            <div class="modal fade" id="userAddModal" tabindex="-1" role="dialog" aria-labelledby="userAddModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="userAddModalLabel">添加用户</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="user-name-add" class="col-form-label">用户名：</label>
+                                    <input ng-model="addUserName" type="text" class="form-control" id="user-name-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-password-add" class="col-form-label">密码:</label>
+                                    <input ng-model="addUserPass" type="password" class="form-control" id="user-password-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-email-add" class="col-form-label">电子邮箱:</label>
+                                    <input ng-model="addUserEmail" type="text" class="form-control" id="user-email-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-lastname-add" class="col-form-label">姓:</label>
+                                    <input ng-model="addUserLastname" type="text" class="form-control" id="user-lastname-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-firstname-add" class="col-form-label">名:</label>
+                                    <input ng-model="addUserFirstname" type="text" class="form-control" id="user-firstname-add">
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-isadmin-add" class="col-form-label">管理员:</label>
+                                    <select class="form-control" id="user-isadmin-add" ng-model="addUserIsAdminRaw">
+                                        <option value="true">是</option>
+                                        <option value="false">否</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addUser();">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 编辑用户 -->
+            <div class="modal fade" id="userEditModal" tabindex="-1" role="dialog" aria-labelledby="userEditModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="userEditModalLabel">编辑用户</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="user-id-edit" class="col-form-label">用户ID：</label>
+                                    <input ng-model="editUser.id" type="text" class="form-control" id="user-id-edit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-name-edit" class="col-form-label">用户名:</label>
+                                    <input ng-model="editUser.username" type="text" class="form-control" id="user-name-edit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-email-edit" class="col-form-label">电子邮箱:</label>
+                                    <input ng-model="editUser.email" type="text" class="form-control" id="user-email-edit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-lastname-edit" class="col-form-label">姓:</label>
+                                    <textarea ng-model="editUser.last_name" type="text" class="form-control" id="user-lastname-edit"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-firstname-edit" class="col-form-label">名:</label>
+                                    <input ng-model="editUser.first_name" type="text" class="form-control" id="user-firstname-edit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-isadmin-edit" class="col-form-label">管理员:</label>
+                                    <select class="form-control" id="user-isadmin-edit" ng-model="editUser.isAdminRaw">
+                                        <option value="true">是</option>
+                                        <option value="false">否</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="editUserDo();">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 修改密码 -->
+            <div class="modal fade" id="userChangePassModal" tabindex="-1" role="dialog" aria-labelledby="userChangePassModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="userChangePassModalLabel">修改密码</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="user-id-pass-edit" class="col-form-label">用户ID：</label>
+                                    <input ng-model="editPassId" type="text" class="form-control" id="user-id-pass-edit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-name-pass-edit" class="col-form-label">用户名:</label>
+                                    <input ng-model="editPassName" type="text" class="form-control" id="user-name-pass-edit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-email-pass-edit" class="col-form-label">新密码:</label>
+                                    <input ng-model="editPassNew" type="password" class="form-control" id="user-email-pass-edit">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="editPass();">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--对话框结束-->
+            <div class="btn-group" role="group" aria-label="User Management Toolbar">
+                <button type="button" ng-click="refreshUser();" class="btn btn-secondary">刷新</button>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#userAddModal">添加</button>
+            </div>
+            <hr />
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">用户名</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="user in users">
+                        <th>{{user.id}}</th>
+                        <td>{{user.username}}</td>
+                        <td>{{user.email}}</td>
+                        <td>
+                            <button type="button" ng-click="toEditUser(user.id);" data-toggle="modal" data-target="#userEditModal"
+                                class="btn btn-info">编辑</button>
+                            <button type="button" ng-click="toEditPass(user.id,user.username)" data-toggle="modal"
+                                data-target="#userChangePassModal" class="btn btn-info">修改密码</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 {% endverbatim %}
