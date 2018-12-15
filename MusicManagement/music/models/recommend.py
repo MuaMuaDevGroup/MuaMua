@@ -7,6 +7,6 @@ class Recommend(models.Model):
         "Playlist",  related_name="recommend_playlist", on_delete=models.CASCADE)
     playlist_title = models.CharField(max_length=50, null=True)
     description = models.TextField(null=True)
-    date = models.DateField(null=True)
+    date = models.DateField(auto_now=True)
     cover = models.ImageField(upload_to="recommend_playlist_cover", null=True)
 

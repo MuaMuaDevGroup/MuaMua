@@ -16,10 +16,11 @@ class RecommendCreateSerializer(serializers.ModelSerializer):
         allow_null=True, queryset=Playlist.objects.all())
     class Meta:
         model = Recommend
-        fields = ('playlist', 'playlist_title', 'description', 'date', 'cover')
+        fields = ('playlist', 'playlist_title', 'description', 'cover')
 
 
 class RecommendUpdateSerializer(serializers.ModelSerializer):
+    date = models.DateField(auto_now=True)
     class Meta:
         model = Recommend
         fields = ('description', 'cover')
