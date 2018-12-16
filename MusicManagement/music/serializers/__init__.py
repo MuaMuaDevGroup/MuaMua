@@ -5,3 +5,4 @@ from .album_serializer import AlbumCreationSerializer, AlbumDetailSerializer, Al
 from .user_serializer import UserCreationSerializer, UserDetailSerializer, UserPasswordChangeSerializer, UserUpdateSerializer, UserSerializer
 from .playlist_serializer import PlaylistCreationSerializer, PlaylistDetailSerializer, PlaylistOwnersAddSerializer, PlayListOwnersDeleteSerializer, PlayListOwnersDetailSerializer, PlaylistSerializer, PlaylistUpdateSerializer
 from .comment_serializer import CommentListSerializer,CommentCreateSerializer, CommentUpdateSerializer
+from .recommend_serializer import RecommendListSerializer, RecommendCreateSerializer, RecommendUpdateSerializer
