@@ -973,6 +973,13 @@
                                     <input ng-model="editUser.username" type="text" class="form-control" id="user-name-edit" disabled>
                                 </div>
                                 <div class="form-group">
+                                    <label for="user-isactive-edit" class="col-form-label">启用:</label>
+                                    <select class="form-control" id="user-isactive-edit" ng-model="editUser.isActiveRaw">
+                                        <option value="true">是</option>
+                                        <option value="false">否</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label for="user-email-edit" class="col-form-label">电子邮箱:</label>
                                     <input ng-model="editUser.email" type="text" class="form-control" id="user-email-edit">
                                 </div>
