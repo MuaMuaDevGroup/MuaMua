@@ -52,6 +52,8 @@ urlpatterns = [
     path('api/recommend/<int:pk>/', RecommendUpdateView.as_view()),
     path('api/recommend/today/', RecommendUserView.as_view()),
     path('api/recommend/music/', RecommendMusicView.as_view()),
+    path('api/recommend/album/', RecommendAlbumView.as_view()),
+    path('api/recommend/playlist/', RecommendPlaylistView.as_view()),
 
 
 ]
