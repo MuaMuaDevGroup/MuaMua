@@ -50,15 +50,9 @@ class RecommendUpdateView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class RecommendUserView(ListAPIView):
-    queryset = Recommend.objects.all().order_by('date')[:1]
-    serializer_class = RecommendListSerializer
-
-
-    # def get(self, request, format=None):
-    #     recommends = Recommend.objects.all()
-    #     if len(recommends) == 0:
-    #         return Response(status=status.HTTP_404_NOT_FOUND)
-    #     pk = random.randint(1, len(recommends))
-    #     recommend = recommends.get(pk=pk)
+class RecommendUserView(APIView):
+    def get(self, request, format=None):
+        recommend = Recommend.objects.all().order_by('date')[:1].get()
+        serializer = RecommendListSerializer(recommend)
+        return  Response(serializer.data, status=status.HTTP_200_OK)
 
