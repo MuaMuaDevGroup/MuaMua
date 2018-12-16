@@ -6,9 +6,10 @@ from rest_framework.filters import SearchFilter
 from rest_framework.parsers import MultiPartParser, FormParser
 from django_filters.rest_framework.backends import DjangoFilterBackend
 from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
 from music.serializers import MusicCreationSerializer, MusicDetailSerializer, MusicUpdateSerializer
 from music.models import Music, Album, Artist
+from music.permissions import IsAdminOrReadOnly
 import hashlib
 import os
 
@@ -20,7 +21,7 @@ class MusicView(ListAPIView):
     filter_fields = ('style', 'artist', 'album')
     pagination_class = LimitOffsetPagination
     search_fields = ('title',)
-    permission_classes = (IsAuthenticated, IsAdminUser,)
+    permission_classes = (IsAdminOrReadOnly,)
 
     def post(self, request, format=None):
         serializer = MusicCreationSerializer(data=request.data)

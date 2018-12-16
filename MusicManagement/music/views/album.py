@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.parsers import MultiPartParser, FormParser
 from music.serializers import AlbumCreationSerializer, AlbumDetailSerializer, AlbumUpdateSerializer, AlbumSerializer
 from music.models import Album
+from music.permissions import IsAdminOrReadOnly
 import hashlib
 import os
 
@@ -21,9 +22,10 @@ class AlbumView(ListAPIView):
     filter_fields = ('publisher',)
     pagination_class = LimitOffsetPagination
     search_fields = ('title',)
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    permission_classes = (IsAdminOrReadOnly,)
 
     def post(self, request, format=None):
+
         serializer = AlbumCreationSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

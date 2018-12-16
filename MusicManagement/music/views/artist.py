@@ -9,6 +9,7 @@ from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from music.serializers import ArtistCreationSerializer, ArtistDetailSerializer, ArtistUpdateSerializer
 from music.models import Music, Album, Artist
+from music.permissions import IsAdminOrReadOnly
 import os
 import hashlib
 
@@ -21,7 +22,7 @@ class ArtistView(ListAPIView):
     filter_fields = ('country',)
     pagination_class = LimitOffsetPagination
     search_fields = ('name',)
-    permission_classes = (IsAuthenticated, IsAdminUser,)
+    permission_classes = (IsAdminOrReadOnly,)
 
     def post(self, request, format=None):
         serializer = ArtistCreationSerializer(data=request.data)
