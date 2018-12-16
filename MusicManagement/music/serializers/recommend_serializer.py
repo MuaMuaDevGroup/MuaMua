@@ -24,3 +24,4 @@ class RecommendUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recommend
         fields = ('description', 'cover')
+

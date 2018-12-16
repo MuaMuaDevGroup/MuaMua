@@ -50,6 +50,8 @@ urlpatterns = [
     path('api/comment/<int:pk>/',CommentDetailView.as_view()),
     path('api/recommend/', RecommendView.as_view()),
     path('api/recommend/<int:pk>/', RecommendUpdateView.as_view()),
+    path('api/recommend/user/', RecommendUserView.as_view()),
+
 
 ]
 

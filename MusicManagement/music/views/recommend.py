@@ -7,7 +7,7 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from music.serializers import RecommendListSerializer, RecommendCreateSerializer, RecommendUpdateSerializer
 from music.models import Recommend
-
+import random
 
 
 class RecommendView(ListAPIView):
@@ -50,4 +50,15 @@ class RecommendUpdateView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class RecommendUserView(ListAPIView):
+    queryset = Recommend.objects.all().order_by('date')[:1]
+    serializer_class = RecommendListSerializer
+
+
+    # def get(self, request, format=None):
+    #     recommends = Recommend.objects.all()
+    #     if len(recommends) == 0:
+    #         return Response(status=status.HTTP_404_NOT_FOUND)
+    #     pk = random.randint(1, len(recommends))
+    #     recommend = recommends.get(pk=pk)
 
