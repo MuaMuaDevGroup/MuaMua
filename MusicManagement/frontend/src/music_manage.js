@@ -369,6 +369,7 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
         $http({ url: "/api/user/" + id + "/", method: "GET" }).then(response => {
             $scope.editUser = response.data;
             $scope.editUser.isAdminRaw = $scope.editUser.is_staff == true ? "true" : "false";
+            $scope.editUser.isActiveRaw = $scope.editUser.is_active == true ? "true" : "false";
         });
     };
     $scope.editUserDo = () => {
@@ -376,7 +377,8 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
             email: $scope.editUser.email,
             first_name: $scope.editUser.first_name,
             last_name: $scope.editUser.last_name,
-            is_admin: $scope.editUser.isAdminRaw = $scope.editUser.isAdminRaw == "true" ? true : false
+            is_admin: $scope.editUser.isAdminRaw = $scope.editUser.isAdminRaw == "true" ? true : false,
+            is_active: $scope.editUser.isActiveRaw = $scope.editUser.isActiveRaw == "true" ? true : false
         };
         $http({
             url: "/api/user/" + $scope.editUser.id + "/",
