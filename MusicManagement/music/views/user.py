@@ -45,6 +45,7 @@ class UserDetailView(APIView):
             user = users.get(pk=pk)
             user.email = serializer.validated_data["email"]
             user.is_staff = serializer.validated_data["is_admin"]
+            user.is_active = serializer.validated_data["is_active"]
             if serializer.validated_data["first_name"] != None:
                 user.first_name = serializer.validated_data["first_name"]
             if serializer.validated_data["last_name"] != None:
