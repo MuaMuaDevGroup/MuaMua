@@ -6,3 +6,4 @@ from .user import UserDetailChangePasswordView, UserDetailView, UserView
 from .playlist import PlaylistDetailView, PlaylistView, PlaylistDetailOwnershipView, PlaylistPhotoUploadView
 from .comment import CommentListView, CommentDetailView
 from .recommend import RecommendView, RecommendUpdateView, RecommendUserView, RecommendMusicView, RecommendAlbumView, RecommendPlaylistView
+

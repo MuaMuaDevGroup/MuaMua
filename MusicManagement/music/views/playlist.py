@@ -9,6 +9,7 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from music.serializers import PlaylistCreationSerializer, PlaylistDetailSerializer, PlaylistOwnersAddSerializer, PlayListOwnersDeleteSerializer, PlayListOwnersDetailSerializer, PlaylistSerializer, PlaylistUpdateSerializer
 from music.models import Music, Album, Artist, Playlist
+from music.permissions import IsAdminOrReadOnly
 import os,hashlib
 
 class PlaylistView(ListAPIView):
@@ -18,7 +19,7 @@ class PlaylistView(ListAPIView):
     filter_backends = (SearchFilter,)
     pagination_class = LimitOffsetPagination
     search_fields = ('name',)
-    permission_classes = (IsAuthenticated, IsAdminUser,)
+    permission_classes = (IsAdminOrReadOnly,)
 
     def post(self, request, format=None):
         serializer = PlaylistCreationSerializer(data=request.data)
