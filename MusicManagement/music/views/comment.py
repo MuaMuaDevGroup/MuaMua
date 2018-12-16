@@ -2,16 +2,15 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
-from music.serializers import CommentListSerializer,CommentCreateSerializer, CommentUpdateSerializer
-from music.models import Comment
+from music.serializers import CommentListSerializer, CommentCreateSerializer, CommentUpdateSerializer, CommentUserCreateSerializer
+from music.models import Comment, Music
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 
-
 class CommentListView(ListAPIView):
-    queryset  = Comment.objects.all()
+    queryset = Comment.objects.all()
     serializer_class = CommentListSerializer
     filter_backends = (SearchFilter,)
     pagination_class = LimitOffsetPagination
@@ -22,15 +21,15 @@ class CommentListView(ListAPIView):
         serializer = CommentCreateSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return  Response(status=status.HTTP_201_CREATED)
+            return Response(status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class CommentDetailView(APIView):
     permission_classes = (IsAuthenticated, IsAdminUser,)
-    def put(self, request, pk ,format=None):
+
+    def put(self, request, pk, format=None):
         '''
         修改评论 ，只允许修改level和text 不允许修改用户和id
         '''
@@ -53,7 +52,29 @@ class CommentDetailView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class CommentUserView(ListAPIView):
+    serializer_class = CommentListSerializer
+    filter_backends = (SearchFilter,)
+    pagination_class = LimitOffsetPagination
+    search_fields = ('text',)
+    permission_classes = (IsAuthenticated, )
 
+    def get_queryset(self):
+        user = self.request.user
+        return Comment.objects.filter(user=user)
 
-
-
+    def post(self, request, format=None):
+        serializer = CommentUserCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            music_id = serializer.validated_data["music"]
+            if len(Music.objects.filter(pk=music_id)) == 0:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            comment = Comment()
+            comment.user = request.user
+            comment.level = serializer.validated_data["level"]
+            comment.text = serializer.validated_data["text"]
+            comment.music = Music.objects.get(pk=music_id)
+            comment.save()
+            return Response(status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)

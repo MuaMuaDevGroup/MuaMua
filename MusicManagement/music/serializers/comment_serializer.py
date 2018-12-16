@@ -23,3 +23,10 @@ class CommentUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('level', 'text')
+
+class CommentUserCreateSerializer(serializers.Serializer):
+
+    level = serializers.IntegerField(max_value=5, min_value=1)
+    text = serializers.CharField()
+    music = serializers.IntegerField()
+

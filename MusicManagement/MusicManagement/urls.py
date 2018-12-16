@@ -47,15 +47,14 @@ urlpatterns = [
     path('web/', TemplateView.as_view(template_name="index.html")),
     path('web/manage/', TemplateView.as_view(template_name="music_manage.html")),
     path('api/comment/', CommentListView.as_view()),
-    path('api/comment/<int:pk>/',CommentDetailView.as_view()),
+    path('api/comment/<int:pk>/', CommentDetailView.as_view()),
+    path('api/comment/my/', CommentUserView.as_view()),
     path('api/recommend/', RecommendView.as_view()),
     path('api/recommend/<int:pk>/', RecommendUpdateView.as_view()),
     path('api/recommend/today/', RecommendUserView.as_view()),
     path('api/recommend/music/', RecommendMusicView.as_view()),
     path('api/recommend/album/', RecommendAlbumView.as_view()),
-    path('api/recommend/playlist/', RecommendPlaylistView.as_view()),
-
-
+    path('api/recommend/playlist/', RecommendPlaylistView.as_view())
 ]
 
 if os.environ.get("DJANGO_CONFIGURATION") == "Development":
