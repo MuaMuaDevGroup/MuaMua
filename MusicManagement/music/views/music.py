@@ -33,7 +33,7 @@ class MusicView(ListAPIView):
 
 
 class MusicDetailView(APIView):
-    permission_classes = (IsAuthenticated, IsAdminUser,)
+    permission_classes = (IsAdminOrReadOnly,)
 
     def get(self, request, pk, format=None):
         musics = Music.objects.filter(pk=pk)

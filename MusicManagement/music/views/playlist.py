@@ -32,6 +32,8 @@ class PlaylistView(ListAPIView):
 
 class PlaylistDetailView(APIView):
 
+    permission_classes = (IsAdminOrReadOnly,)
+
     def get(self, request, pk, format=None):
         playlists = Playlist.objects.filter(pk=pk)
         if len(playlists) == 0:
@@ -61,6 +63,8 @@ class PlaylistDetailView(APIView):
 
 
 class PlaylistDetailOwnershipView(APIView):
+
+    permission_classes = (IsAdminOrReadOnly,)
 
     def get(self, request, pk, format=None):
         playlists = Playlist.objects.filter(pk=pk)

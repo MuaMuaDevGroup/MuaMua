@@ -35,7 +35,7 @@ class ArtistView(ListAPIView):
 
 class ArtistDetailView(APIView):
 
-    permission_classes = (IsAuthenticated, IsAdminUser,)
+    permission_classes = (IsAdminOrReadOnly,)
 
     def get(self, request, pk, format=None):
         artists = Artist.objects.filter(pk=pk)

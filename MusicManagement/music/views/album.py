@@ -35,7 +35,7 @@ class AlbumView(ListAPIView):
 
 
 class AlbumDetailView(APIView):
-    permission_classes = (IsAuthenticated, IsAdminUser,)
+    permission_classes = (IsAdminOrReadOnly,)
 
     def put(self, request, pk, format=None):
         albums = Album.objects.filter(pk=pk)
