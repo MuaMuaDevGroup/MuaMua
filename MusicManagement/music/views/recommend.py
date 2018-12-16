@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from music.serializers import RecommendListSerializer, RecommendCreateSerializer, RecommendUpdateSerializer
-from music.models import Recommend
+from music.serializers import RecommendListSerializer, RecommendCreateSerializer, RecommendUpdateSerializer, MusicDetailSerializer, AlbumSerializer, PlaylistSerializer
+from music.models import Recommend, Music
 import random
 
 
@@ -51,8 +51,24 @@ class RecommendUpdateView(APIView):
 
 
 class RecommendUserView(APIView):
+
     def get(self, request, format=None):
         recommend = Recommend.objects.all().order_by('date')[:1].get()
         serializer = RecommendListSerializer(recommend)
-        return  Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+class RecommendMusicView(APIView):
+
+    def get(self, request, format=None):
+        count = 10
+        if request.query_params.__contains__("count"):
+            count = int(request.query_params.__getitem__("count"))
+        musics_id = Music.objects.values_list('id', flat=True)
+        if len(musics_id) < count:
+            recommends_id = list(musics_id)
+        else:
+            recommends_id = random.sample(list(musics_id), count)
+        recommends = Music.objects.filter(pk__in=recommends_id)
+        serailizer = MusicDetailSerializer(recommends, many=True)
+        return Response(serailizer.data, status=status.HTTP_200_OK)
