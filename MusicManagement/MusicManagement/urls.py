@@ -47,6 +47,7 @@ urlpatterns = [
          PlaylistDetailOwnershipView.as_view()),
     path('web/', TemplateView.as_view(template_name="index.html")),
     path('web/manage/', TemplateView.as_view(template_name="music_manage.html")),
+    path('web/music/', TemplateView.as_view(template_name="music.html")),
     path('api/comment/', CommentListView.as_view()),
     path('api/comment/<int:pk>/', CommentDetailView.as_view()),
     path('api/comment/my/', CommentUserView.as_view()),

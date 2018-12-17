@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="mm-app">
+
+<head>
+    <title>MuaMua - 在线音乐播放</title>
+</head>
+
+<body ng-controller="MusicController">
+    <button type="button" ng-click="nowDisplay = 'recommend';">Recommend</button>
+    <button type="button" ng-click="nowDisplay = 'search';">Search</button>
+    <button type="button" ng-click="nowDisplay = 'player';">Player</button>
+    {% include "sidebar.html" %}
+    <div ng-if="nowDisplay == 'player'">
+        {% include "player.html" %}
+    </div>
+    <div ng-if="nowDisplay == 'recommend'">
+        {% include "recommend.html" %}
+    </div>
+    <div ng-if="nowDisplay == 'search'">
+        {% include "search.html" %}
+    </div>
+    {% include "player_mini.html" %}
+    {% load static %}
+    <script src="{% static './app.js' %}"></script>
+    <script src="{% static './style.js' %}"></script>
+    <script src="{% static './vendors~app.js' %}"></script>
+</body>
+
+</html>
