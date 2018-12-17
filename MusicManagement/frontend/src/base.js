@@ -9,16 +9,19 @@ app.config(["$httpProvider", function ($httpProvider) {
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 }]);
 // Register global music interaction
-app.factory('mmMusic', () => { 
-    return () => {
+app.factory('mmMusic', () => {
+    let nowMusic = null;
+    let onMusicChanged = [];
+    return {
         // Set Now Playing music
-        this.setMusicPlaying = (music) => {
-            this._onMusicChanged.forEach(e => {
-                e();
+        setMusicPlaying: (music) => {
+            onMusicChanged.forEach(e => {
+                e(music);
             });
-        };
+        },
+        // Get Now Playing music
+        getMusicPlaying : () => nowMusic,
         // Register On Music Change
-        this.registerOnMusicChanged = (func) => this._onMusicChanged.push(func);
-        this._onMusicChanged = [];
+        registerOnMusicChanged : (func) => onMusicChanged.push(func)
     };
 });
