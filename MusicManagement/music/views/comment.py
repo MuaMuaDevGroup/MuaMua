@@ -6,7 +6,7 @@ from music.serializers import CommentListSerializer, CommentCreateSerializer, Co
 from music.models import Comment, Music
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
 
 
 class CommentListView(ListAPIView):
@@ -15,7 +15,7 @@ class CommentListView(ListAPIView):
     filter_backends = (SearchFilter,)
     pagination_class = LimitOffsetPagination
     search_fields = ('text',)
-    permission_classes = (IsAuthenticated, IsAdminUser,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def post(self, request, format=None):
         serializer = CommentCreateSerializer(data=request.data)
@@ -27,7 +27,14 @@ class CommentListView(ListAPIView):
 
 
 class CommentDetailView(APIView):
-    permission_classes = (IsAuthenticated, IsAdminUser,)
+    permission_classes = (IsAuthenticatedOrReadOnly, )
+    def get(self, request, pk, format=None):
+        comments = Comment.objects.filter(pk=pk)
+        if len(comments) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        comment = comments.get(pk=pk)
+        serializer = CommentListSerializer(comment)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk, format=None):
         '''
@@ -37,6 +44,8 @@ class CommentDetailView(APIView):
         if len(comments) == 0:
             return Response(status=status.HTTP_404_NOT_FOUND)
         comment = comments.get(pk=pk)
+        if comment.user != request.user:
+            return Response(status=status.HTTP_403_FORBIDDEN)
         serializer = CommentUpdateSerializer(comment, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -45,9 +54,12 @@ class CommentDetailView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
-        comment = Comment.objects.filter(pk=pk)
-        if len(comment) == 0:
+        comments = Comment.objects.filter(pk=pk)
+        if len(comments) == 0:
             return Response(status=status.HTTP_404_NOT_FOUND)
+        comment = comments.get(pk=pk)
+        if comment.user != request.user:
+            return Response(status=status.HTTP_403_FORBIDDEN)
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
