@@ -1,7 +1,7 @@
 const path = require('path');
 module.exports = {
     entry: {
-        app: ['./src/base.js', './src/index.js', './src/navbar.js', './src/music_manage.js', './src/player_mini.js', './src/music.js'],
+        app: ['./src/base.js', './src/index.js', './src/navbar.js', './src/music_manage.js', './src/music.js', './src/player_mini.js'],
         style: ['./styles/global.css']
     },
     output: {

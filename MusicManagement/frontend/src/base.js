@@ -11,17 +11,19 @@ app.config(["$httpProvider", function ($httpProvider) {
 // Register global music interaction
 app.factory('mmMusic', () => {
     let nowMusic = null;
-    let onMusicChanged = [];
+    let onMusicChanged = null;
     return {
         // Set Now Playing music
         setMusicPlaying: (music) => {
-            onMusicChanged.forEach(e => {
-                e(music);
-            });
+            nowMusic = music;
+            if (onMusicChanged != null)
+                onMusicChanged(music);
         },
         // Get Now Playing music
-        getMusicPlaying : () => nowMusic,
+        getMusicPlaying: () => {
+            return nowMusic;
+        },
         // Register On Music Change
-        registerOnMusicChanged : (func) => onMusicChanged.push(func)
+        registerOnMusicChanged: (func) => onMusicChanged = func
     };
 });

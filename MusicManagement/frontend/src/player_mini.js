@@ -4,17 +4,18 @@ import 'angular-audio'
 angular.module('mm-app').controller('MiniPlayerController', ["$http", "ngAudio", "mmMusic", "$scope", ($http, ngAudio, mmMusic, $scope) => {
 
     $scope.music = mmMusic.getMusicPlaying();
-    $scope.playing = null;
+    $scope.audio = {};
     if ($scope.music != null) {
-        $scope.playing = ngAudio.load($scope.music.entity);
+        $scope.audio = ngAudio.load($scope.music.entity);
         $scope.music.cover = this.loadMusicAlbum($scope.music);
     }
 
-
-    mmMusic.registerOnMusicChanged(music => {
-        $scope.playing = ngAudio.load(music.entity);
-        $scope.music.cover = $scope.loadMusicAlbum($scope.music);
-    });
+    $scope.togglePlay = () => {
+        if ($scope.audio != null && $scope.audio.paused)
+            $scope.audio.play();
+        else
+            $scope.audio.pause();
+    };
 
     // Load Music Cover from its Album
     $scope.loadMusicAlbum = (music) => {
@@ -33,5 +34,13 @@ angular.module('mm-app').controller('MiniPlayerController', ["$http", "ngAudio",
             }
         });
     };
+
+    $scope.onMusicChanged = (music) => {
+        $scope.music = music;
+        $scope.music.cover = $scope.loadMusicAlbum($scope.music);
+        $scope.audio = ngAudio.load($scope.music.entity);
+    };
+
+    mmMusic.registerOnMusicChanged($scope.onMusicChanged);
 
 }]);
