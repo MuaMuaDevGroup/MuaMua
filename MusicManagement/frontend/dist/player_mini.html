@@ -3,7 +3,7 @@
     <div class="row align-items-center">
         <div class="col-xl-2 col-3 container-fluid">
             <div class="row align-items-center">
-                <img src="http://127.0.0.1:8000/media/album_cover/c4ca4238a0b923820dcc509a6f75849b.jpg" style="margin:5px;margin-right: 20px;"
+                <img ng-src="{{music.cover}}" style="margin:5px;margin-right: 20px;"
                     width="50" height="50" alt="">
                 <button type="button" class="btn btn-danger btn-circle" style="margin-right:5px;">a</button>
                 <button type="button" ng-click='togglePlay();' class="btn btn-danger btn-circle" style="margin-right:5px;">P</button>
@@ -15,9 +15,9 @@
         <div class="col-xl-9 col-7 container-fluid">
             <div class="row justify-content-between">
                 <div class="col-2">
-                    <span>Startear</span>
+                    <span>{{music.title}}</span>
                     <span>/</span>
-                    <span>LiSA</span>
+                    <span>{{music.artistsName.join(",")}}</span>
                 </div>
                 <div class="col-2">
                     <span>{{audio.currentTime | trackTime}}</span>
@@ -27,7 +27,7 @@
                 
             </div>
             <div class="row">
-                <!--<input ng-model='audio.progress' style="width:100%" type="range" min="0" max="1" step="0.01">-->
+                <input ng-model='percentage' style="width:100%" type="number" min="0" max="1" step="0.01">
             </div>
         </div>
         <div class="col-xl-1 col-2">
