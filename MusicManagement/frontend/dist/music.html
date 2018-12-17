@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html ng-app="mm-app">
+
+<head>
+    <title>MuaMua - 在线音乐播放</title>
+</head>
+
+<body>
+    {% include "player_mini.html" %}
+    {% load static %}
+    <script src="{% static './app.js' %}"></script>
+    <script src="{% static './style.js' %}"></script>
+    <script src="{% static './vendors~app.js' %}"></script>
+</body>
+
+</html>

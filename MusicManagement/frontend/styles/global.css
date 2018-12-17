@@ -18,3 +18,10 @@ div.dropdown{
 div.dropdown-menu img{
     width: 200px;
 }
+
+/* Bootstrap Circle Button */
+.btn-circle {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%!important;
+}
