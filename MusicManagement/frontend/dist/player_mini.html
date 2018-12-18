@@ -3,8 +3,7 @@
     <div class="row align-items-center">
         <div class="col-xl-2 col-3 container-fluid">
             <div class="row align-items-center">
-                <img ng-src="{{music.cover}}" style="margin:5px;margin-right: 20px;"
-                    width="50" height="50" alt="">
+                <img ng-src="{{music.cover}}" style="margin:5px;margin-right: 20px;" width="50" height="50" alt="">
                 <button type="button" class="btn btn-danger btn-circle" style="margin-right:5px;">a</button>
                 <button type="button" ng-click='togglePlay();' class="btn btn-danger btn-circle" style="margin-right:5px;">P</button>
                 <button type="button" class="btn btn-danger btn-circle" style="margin-right:5px;">b</button>
@@ -22,12 +21,12 @@
                 <div class="col-2">
                     <span>{{audio.currentTime | trackTime}}</span>
                     <span>/</span>
-                    <span>03:12</span>
+                    <span>{{audio.duration | trackTime}}</span>
                 </div>
-                
+
             </div>
             <div class="row">
-                <input ng-model='percentage' style="width:100%" type="number" min="0" max="1" step="0.01">
+                <input ng-model='currentTime' style="width:100%" type="range" min="0" max="{{audio.duration}}">
             </div>
         </div>
         <div class="col-xl-1 col-2">
