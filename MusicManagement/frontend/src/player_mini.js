@@ -10,13 +10,18 @@ angular.module('mm-app').controller('MiniPlayerController', ["$http", "ngAudio",
         $scope.loadMusicDetail($scope.music);
     }
 
-    $scope.currentTime = 0;
+    $scope.canChange = false;
 
-    $scope.$watch("currentTime", () => {
-        $scope.audio.currentTime = $scope.currentTime;
+    Object.defineProperty($scope, "currentTime", {
+        get: function () {
+            if ($scope.audio != null) 
+                return $scope.audio.currentTime;
+        },
+        set: function (value) {
+            if ($scope.audio != null && $scope.canChange == true)
+                $scope.audio.currentTime = value;
+        }
     });
-
-   
 
     $scope.togglePlay = () => {
         if ($scope.audio != null && $scope.audio.paused) {
