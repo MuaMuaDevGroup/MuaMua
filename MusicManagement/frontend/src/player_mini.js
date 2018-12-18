@@ -10,6 +10,19 @@ angular.module('mm-app').controller('MiniPlayerController', ["$http", "ngAudio",
         $scope.loadMusicDetail($scope.music);
     }
 
+    $scope.canChange = false;
+
+    Object.defineProperty($scope, "currentTime", {
+        get: function () {
+            if ($scope.audio != null) 
+                return $scope.audio.currentTime;
+        },
+        set: function (value) {
+            if ($scope.audio != null && $scope.canChange == true)
+                $scope.audio.currentTime = value;
+        }
+    });
+
     $scope.togglePlay = () => {
         if ($scope.audio != null && $scope.audio.paused) {
             console.log($scope.audio.progress);
@@ -18,20 +31,7 @@ angular.module('mm-app').controller('MiniPlayerController', ["$http", "ngAudio",
         else
             $scope.audio.pause();
     };
-    Object.defineProperty($scope, "percentage", {
-        get: function () {
-            if ($scope.audio != null && $scope.audio.progress != null)
-            {
-                return parseFloat($scope.audio.progress.toPrecision());
-            }
-            else
-                return 0.5;
-        },
-        set: function (value) {
-            if ($scope.audio != null && $scope.audio.progress != null)
-                $scope.audio.progress = value;
-        }
-    });
+
 
     // Load Music Cover from its Album
     $scope.loadMusicDetail = (music) => {
