@@ -26,7 +26,7 @@
 
             </div>
             <div class="row">
-                <input class="player-bar" ng-mousedown="canChange = true;" ng-mouseup="canChange = false;" ng-model='currentTime' style="width:100%" type="range" min="0" max="{{audio.duration}}">
+                <input class="player-bar" ng-mousedown="canChange = true;" ng-mouseup="canChange = false;" ng-model='currentTime' step="0.05" type="range" min="0" max="{{audio.duration}}">
             </div>
         </div>
         <div class="col-xl-1 col-2">

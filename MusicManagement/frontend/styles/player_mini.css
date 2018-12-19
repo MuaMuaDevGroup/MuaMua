@@ -18,6 +18,10 @@
 .player-info div.player-info-left{ 
     text-align: left;
 }
+.player-info .player-bar{
+    width: 100%;
+}
+
 /* Playerbar Style*/
 .player-bar {
 	width: 388px;
