@@ -13,15 +13,15 @@
 
         <div class="col-xl-9 col-7 container-fluid player-info">
             <div class="row justify-content-between">
-                <div class="col-2 player-info-left">
-                    <span>{{music.title}}</span>
+                <div class="col-auto player-info-left">
+                    <span>{{music.title || "MuaMua Music"}}</span>
                     <span>/</span>
-                    <span>{{music.artistsName.join(",")}}</span>
+                    <span>{{music.artistsName.join(",") || "MuaMua Artist" }}</span>
                 </div>
-                <div class="col-2 player-info-right">
-                    <span>{{audio.currentTime | trackTime}}</span>
+                <div class="col-auto player-info-right">
+                    <span>{{(audio.currentTime | musicTime) || "00:00" }}</span>
                     <span>/</span>
-                    <span>{{audio.duration | trackTime}}</span>
+                    <span>{{(audio.duration | musicTime) || "00:00" }}</span>
                 </div>
 
             </div>
