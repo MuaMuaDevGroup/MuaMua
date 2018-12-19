@@ -6,21 +6,24 @@
 </head>
 
 <body ng-controller="MusicController">
-    {% include "sidebar.html" %}
-    <div>
-        <button type="button" ng-click="nowDisplay = 'recommend';">Recommend</button>
-        <button type="button" ng-click="nowDisplay = 'search';">Search</button>
-        <button type="button" ng-click="nowDisplay = 'player';">Player</button>
-    </div>
-
-    <div ng-if="nowDisplay == 'player'">
-        {% include "player.html" %}
-    </div>
-    <div ng-if="nowDisplay == 'recommend'">
-        {% include "recommend.html" %}
-    </div>
-    <div ng-if="nowDisplay == 'search'">
-        {% include "search.html" %}
+    <div id="wrapper" class="toggled">
+        {% include "sidebar.html" %}
+        <div id="page-content-wrapper">
+            <div>
+                <button type="button" ng-click="nowDisplay = 'recommend';">Recommend</button>
+                <button type="button" ng-click="nowDisplay = 'search';">Search</button>
+                <button type="button" ng-click="nowDisplay = 'player';">Player</button>
+            </div>
+            <div ng-if="nowDisplay == 'player'">
+                {% include "player.html" %}
+            </div>
+            <div ng-if="nowDisplay == 'recommend'">
+                {% include "recommend.html" %}
+            </div>
+            <div ng-if="nowDisplay == 'search'">
+                {% include "search.html" %}
+            </div>
+        </div>
     </div>
     {% include "player_mini.html" %}
     {% load static %}
