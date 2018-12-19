@@ -1,37 +1,51 @@
 {% verbatim %}
-<div class="fixed-bottom container-fluid" style="background-color:beige;" ng-controller="MiniPlayerController">
+<div class="fixed-bottom container-fluid mini-player" ng-controller="MiniPlayerController">
     <div class="row align-items-center">
         <div class="col-xl-2 col-3 container-fluid">
             <div class="row align-items-center">
-                <img ng-src="{{music.cover}}" style="margin:5px;margin-right: 20px;" width="50" height="50" alt="">
-                <button type="button" class="btn btn-danger btn-circle" style="margin-right:5px;">a</button>
-                <button type="button" ng-click='togglePlay();' class="btn btn-danger btn-circle" style="margin-right:5px;">P</button>
-                <button type="button" class="btn btn-danger btn-circle" style="margin-right:5px;">b</button>
+                <button href="#" type="button" class="btn btn-link player-controller-img" ng-click="nowDisplay = 'player';">
+                    <img ng-src="{{music.cover}}" width="50" height="50" alt="">
+                </button>
+                <button type="button" class="btn btn-danger btn-circle player-controller-button">a</button>
+                <button type="button" class="btn btn-danger btn-circle player-controller-button" ng-click="togglePlay();">P</button>
+                <button type="button" class="btn btn-danger btn-circle player-controller-button">b</button>
             </div>
 
         </div>
 
-        <div class="col-xl-9 col-7 container-fluid">
+        <div class="col-xl-9 col-7 container-fluid player-info">
             <div class="row justify-content-between">
-                <div class="col-2">
-                    <span>{{music.title}}</span>
+                <div class="col-auto player-info-left">
+                    <span>{{music.title || "MuaMua Music"}}</span>
                     <span>/</span>
-                    <span>{{music.artistsName.join(",")}}</span>
+                    <span>{{music.artistsName.join(",") || "MuaMua Artist" }}</span>
                 </div>
-                <div class="col-2">
-                    <span>{{audio.currentTime | trackTime}}</span>
+                <div class="col-auto player-info-right">
+                    <span>{{(audio.currentTime | musicTime) || "00:00" }}</span>
                     <span>/</span>
-                    <span>{{audio.duration | trackTime}}</span>
+                    <span>{{(audio.duration | musicTime) || "00:00" }}</span>
                 </div>
 
             </div>
             <div class="row">
-                <input class="player-bar" ng-mousedown="canChange = true;" ng-mouseup="canChange = false;" ng-model='currentTime' style="width:100%" type="range" min="0" max="{{audio.duration}}">
+                <input class="player-bar" ng-mousedown="canChange = true;" ng-mouseup="canChange = false;" ng-model='currentTime'
+                    type="range" min="0" max="{{audio.duration}}">
             </div>
         </div>
         <div class="col-xl-1 col-2">
             <button type="button" class="btn btn-danger btn-circle">L</button>
-            <button type="button" class="btn btn-danger btn-circle">V</button>
+            <div class="dropdown">
+                <button class="btn btn-danger btn-circle dropdown-toggle dropdown-toggle-none-arrow" type="button" id="dropdownMenu2" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    V
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <form>
+                        <input class="volume-bar" ng-model='volume' type="range" min="0" step="1" max="100">
+                    </form>
+
+                </div>
+            </div>
         </div>
     </div>
 

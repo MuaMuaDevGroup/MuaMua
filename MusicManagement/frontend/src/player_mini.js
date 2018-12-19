@@ -1,5 +1,28 @@
 import 'angular'
 import 'angular-audio'
+angular.module('mm-app').filter("musicTime", () => {
+    return (input) => {
+        if ((typeof input) != "number")
+            return "00:00";
+        let padding = (data) => {
+            let t = data.toString();
+            if (t.length != 2)
+                t = "0" + t;
+            return t;
+        };
+        let hour = input / 3600;
+        hour = parseInt(hour);
+        let minute = (input - hour * 60) / 60;
+        minute = parseInt(minute);
+        let second = (input - minute * 60 - hour * 3600);
+        second = parseInt(second);
+        let format = "";
+        if (hour != 0)
+            format += padding(hour) + ":";
+        format += padding(minute) + ":" + padding(second);
+        return format;
+    };
+});
 
 angular.module('mm-app').controller('MiniPlayerController', ["$http", "ngAudio", "mmMusic", "$scope", ($http, ngAudio, mmMusic, $scope) => {
 
@@ -14,12 +37,23 @@ angular.module('mm-app').controller('MiniPlayerController', ["$http", "ngAudio",
 
     Object.defineProperty($scope, "currentTime", {
         get: function () {
-            if ($scope.audio != null) 
+            if ($scope.audio != null)
                 return $scope.audio.currentTime;
         },
         set: function (value) {
             if ($scope.audio != null && $scope.canChange == true)
                 $scope.audio.currentTime = value;
+        }
+    });
+
+    Object.defineProperty($scope, "volume", {
+        get: function () {
+            if ($scope.audio != null)
+                return $scope.audio.volume * 100;
+        },
+        set: function (value) {
+            if ($scope.audio != null)
+                $scope.audio.volume = value / 100;
         }
     });
 
@@ -63,9 +97,16 @@ angular.module('mm-app').controller('MiniPlayerController', ["$http", "ngAudio",
     };
 
     $scope.onMusicChanged = (music) => {
+        if ($scope.music != null) {
+            $scope.audio.stop();
+            $scope.audio = null;
+        }
+
         $scope.music = music;
         $scope.loadMusicDetail($scope.music);
+        // Release previous audio
         $scope.audio = ngAudio.load($scope.music.entity);
+        $scope.audio.volume = 1;
     };
 
     mmMusic.registerOnMusicChanged($scope.onMusicChanged);
