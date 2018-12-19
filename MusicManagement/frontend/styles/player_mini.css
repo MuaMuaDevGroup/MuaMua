@@ -65,3 +65,48 @@ input[type="range"].player-bar::-webkit-slider-thumb {
 input[type="range"].player-bar:focus{
     outline:none;
 }
+
+/* Volume Bar Style */
+.dropdown-toggle-none-arrow::after{
+	content: none!important
+}
+
+
+.volume-bar {
+	height: 5px;
+	background: rgb(131, 114, 114);
+	position: relative;
+	width: 100%;
+	padding-right: 5px;
+	padding-left: 5px;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1d2e38', endColorstr='#2b4254',GradientType=1 );	
+	
+	-webkit-border-radius: 40px;
+	-moz-border-radius: 40px;
+	border-radius: 40px;
+}
+
+
+input[type="range"].volume-bar {
+	-webkit-appearance: none;
+	height: 5px;
+}
+
+input[type="range"].volume-bar::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	position: relative;
+	top: 0px;
+	z-index: 1;
+	width: 11px;
+	height: 11px;
+	cursor: pointer;
+	-webkit-border-radius: 40px;
+	-moz-border-radius: 40px;
+	border-radius: 40px;
+	background-color:red;
+}
+
+
+input[type="range"].volume-bar:focus{
+    outline:none;
+}

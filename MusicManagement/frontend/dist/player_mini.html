@@ -34,7 +34,18 @@
         </div>
         <div class="col-xl-1 col-2">
             <button type="button" class="btn btn-danger btn-circle">L</button>
-            <button type="button" class="btn btn-danger btn-circle">V</button>
+            <div class="dropdown">
+                <button class="btn btn-danger btn-circle dropdown-toggle dropdown-toggle-none-arrow" type="button" id="dropdownMenu2" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    V
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <form>
+                        <input class="volume-bar" ng-model='audio.volume' step="0.01" type="range" min="0" max="1">
+                    </form>
+
+                </div>
+            </div>
         </div>
     </div>
 
