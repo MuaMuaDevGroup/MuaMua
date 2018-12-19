@@ -1,24 +1,24 @@
 {% verbatim %}
-<div class="fixed-bottom container-fluid" style="background-color:beige;" ng-controller="MiniPlayerController">
+<div class="fixed-bottom container-fluid mini-player" ng-controller="MiniPlayerController">
     <div class="row align-items-center">
         <div class="col-xl-2 col-3 container-fluid">
             <div class="row align-items-center">
-                <img ng-src="{{music.cover}}" style="margin:5px;margin-right: 20px;" width="50" height="50" alt="">
-                <button type="button" class="btn btn-danger btn-circle" style="margin-right:5px;">a</button>
-                <button type="button" ng-click='togglePlay();' class="btn btn-danger btn-circle" style="margin-right:5px;">P</button>
-                <button type="button" class="btn btn-danger btn-circle" style="margin-right:5px;">b</button>
+                <img ng-src="{{music.cover}}" class="player-controller-img" width="50" height="50" alt="">
+                <button type="button" class="btn btn-danger btn-circle player-controller-button">a</button>
+                <button type="button" class="btn btn-danger btn-circle player-controller-button" ng-click="togglePlay();" >P</button>
+                <button type="button" class="btn btn-danger btn-circle player-controller-button">b</button>
             </div>
 
         </div>
 
-        <div class="col-xl-9 col-7 container-fluid">
+        <div class="col-xl-9 col-7 container-fluid player-info">
             <div class="row justify-content-between">
-                <div class="col-2">
+                <div class="col-2 player-info-left">
                     <span>{{music.title}}</span>
                     <span>/</span>
                     <span>{{music.artistsName.join(",")}}</span>
                 </div>
-                <div class="col-2">
+                <div class="col-2 player-info-right">
                     <span>{{audio.currentTime | trackTime}}</span>
                     <span>/</span>
                     <span>{{audio.duration | trackTime}}</span>
