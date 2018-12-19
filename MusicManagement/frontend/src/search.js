@@ -45,4 +45,15 @@ angular.module('mm-app').controller("SearchController", ["$http", "$scope", "mmM
         });
     };
     $scope.albums = [];
+
+    // Search Playlist Sections
+    $scope.searchPlaylist = text => {
+        $http({
+            url: "/api/playlist/?search=" + text,
+            method: "GET"
+        }).then(response => {
+            $scope.playlists = response.data;
+        });
+    };
+    $scope.playlists = [];
 }]);
