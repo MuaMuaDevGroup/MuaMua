@@ -3,10 +3,6 @@ import 'angular'
 angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "mainPageComm", ($scope, $http, comm) => {
 
     $scope.setDisplay = (displayName) => comm.musicCtrlSetDisplay(displayName);
-
-    //$scope.username = "asdadg";
-    //$scope.email = "";
-    //$scope.loginStatus = "unlogin";
     // Common User Info Sections
     $scope.checkLogin = function () {
         $http({
@@ -45,5 +41,59 @@ angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "ma
     };
     $scope.logout = () => {
         $http({ method: "POST", url: "/api/account/logout/" }).then(function () { $scope.checkLogin(); });
+    };
+    
+    // Info Edit Sections
+    $scope.editUserId = null;
+    $scope.editUsername = "";
+    $scope.editEmail = "";
+    $scope.editFirstName = "";
+    $scope.editLastName = "";
+
+    $scope.toEditUserDetail = () => {
+        $http({
+            method: "GET",
+            url: "/api/account/"
+        }).then((response) => {
+            let m = response.data;
+            $scope.editUserId = m.id;
+            $scope.editUsername = m.username;
+            $scope.editEmail = m.email;
+            $scope.editFirstName = m.first_name;
+            $scope.editLastName = m.last_name;
+        });
+        $http({
+            method: "GET",
+            url: "/api/account/"
+        }).then((response) => {
+            let m = response.data;
+            $scope.editUserId = m.id;
+            $scope.editUsername = m.username;
+            $scope.editEmail = m.email;
+            $scope.editFirstName = m.first_name;
+            $scope.editLastName = m.last_name;
+        });
+    };
+    $scope.editUserDetail = () => {
+        let u = "/api/account/";
+        console.log($scope.editUserId);
+        let d = {
+            id: $scope.editUserId,
+            username: $scope.editUsername,
+            email: $scope.editEmail,
+            first_name: $scope.editFirstName,
+            last_name: $scope.editLastName,
+        };
+        $http({
+            url: u,
+            method: "PUT",
+            data: d
+        }).then((response) => {
+            $scope.editUserId = null;
+            $scope.editUsername = "";
+            $scope.editEmail = "";
+            $scope.editFirstName = "";
+            $scope.editLastName = "";
+        });
     };
 }]);
