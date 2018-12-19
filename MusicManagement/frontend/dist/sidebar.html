@@ -1,4 +1,4 @@
-<div class="sidebar-wrapper">
+<div class="sidebar-wrapper" ng-controller="SidebarController">
     <ul class="sidebar-nav">
         <li class="sidebar-brand">
             <a href="#">
@@ -12,13 +12,13 @@
             <a></a>
         </li>
         <li>
-            <a href="#">发现音乐</a>
+            <a href="#" ng-click="setDisplay('recommend')">发现音乐</a>
         </li>
         <li>
-            <a href="#">搜索</a>
+            <a href="#" ng-click="setDisplay('search')">搜索</a>
         </li>
         <li>
-            <a href="#">我的收藏</a>
+            <a href="#" ng-click="setDisplay('collection')">我的收藏</a>
         </li>
         <li class="sidebar-divider">
             <a></a>
