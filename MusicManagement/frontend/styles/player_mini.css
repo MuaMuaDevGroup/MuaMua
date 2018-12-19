@@ -8,7 +8,10 @@
 }
 .player-controller-img{
     margin:5px;
-    margin-right: 20px;
+	margin-right: 20px;
+	padding: 0px!important;
+	width: 50px;
+	height:50px;
 }
 
 /* Playerinfo Style*/
