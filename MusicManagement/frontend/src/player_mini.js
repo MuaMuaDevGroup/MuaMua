@@ -46,6 +46,17 @@ angular.module('mm-app').controller('MiniPlayerController', ["$http", "ngAudio",
         }
     });
 
+    Object.defineProperty($scope, "volume", {
+        get: function () {
+            if ($scope.audio != null)
+                return $scope.audio.volume * 100;
+        },
+        set: function (value) {
+            if ($scope.audio != null)
+                $scope.audio.volume = value / 100;
+        }
+    });
+
     $scope.togglePlay = () => {
         if ($scope.audio != null && $scope.audio.paused) {
             console.log($scope.audio.progress);
@@ -86,9 +97,16 @@ angular.module('mm-app').controller('MiniPlayerController', ["$http", "ngAudio",
     };
 
     $scope.onMusicChanged = (music) => {
+        if ($scope.music != null) {
+            $scope.audio.stop();
+            $scope.audio = null;
+        }
+
         $scope.music = music;
         $scope.loadMusicDetail($scope.music);
+        // Release previous audio
         $scope.audio = ngAudio.load($scope.music.entity);
+        $scope.audio.volume = 1;
     };
 
     mmMusic.registerOnMusicChanged($scope.onMusicChanged);
