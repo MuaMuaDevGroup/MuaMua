@@ -7,7 +7,7 @@ angular.module('mm-app').controller("SearchController", ["$http", "$scope", "mmM
     };
 
     $scope.searchText = "";
-
+    // Search Music Sections
     $scope.searchMusic = text => {
         $scope.musics = [];
         $http({
@@ -35,4 +35,14 @@ angular.module('mm-app').controller("SearchController", ["$http", "$scope", "mmM
     };
     $scope.musics = [];
 
+    // Search Album Sections
+    $scope.searchAlbum = text => {
+        $http({
+            url: "/api/album/?search=" + text,
+            method: "GET"
+        }).then(response => { 
+            $scope.albums = response.data;
+        });
+    };
+    $scope.albums = [];
 }]);
