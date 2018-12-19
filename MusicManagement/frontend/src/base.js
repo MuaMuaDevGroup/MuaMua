@@ -41,3 +41,28 @@ angular.module('mm-app').factory("mainPageComm", () => {
         }
     };
 });
+
+//Register musicTime filter
+angular.module('mm-app').filter("musicTime", () => {
+    return (input) => {
+        if ((typeof input) != "number")
+            return "00:00";
+        let padding = (data) => {
+            let t = data.toString();
+            if (t.length != 2)
+                t = "0" + t;
+            return t;
+        };
+        let hour = input / 3600;
+        hour = parseInt(hour);
+        let minute = (input - hour * 60) / 60;
+        minute = parseInt(minute);
+        let second = (input - minute * 60 - hour * 3600);
+        second = parseInt(second);
+        let format = "";
+        if (hour != 0)
+            format += padding(hour) + ":";
+        format += padding(minute) + ":" + padding(second);
+        return format;
+    };
+});
