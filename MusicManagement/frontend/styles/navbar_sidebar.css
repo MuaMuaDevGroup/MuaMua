@@ -120,8 +120,18 @@ body {
   }
 }
 
-.sidebar-divider{
-  border-top:1px solid;
-  margin-left:5px;
-  margin-right:5px;
+.sidebar-divider a {
+  border-top: 1px solid;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.sidebar-title a:hover {
+  background: none!important;
+}
+
+.sidebar-title a {
+  color: dimgray!important;
+  margin-top: 10px;
+  line-height: 20px;
 }
