@@ -24,7 +24,9 @@ angular.module('mm-app').filter("musicTime", () => {
     };
 });
 
-angular.module('mm-app').controller('MiniPlayerController', ["$http", "ngAudio", "mmMusic", "$scope", ($http, ngAudio, mmMusic, $scope) => {
+angular.module('mm-app').controller('MiniPlayerController', ["$http", "ngAudio", "mmMusic", "$scope", "mainPageComm", ($http, ngAudio, mmMusic, $scope, comm) => {
+
+    $scope.setDisplay = (displayName) => comm.musicCtrlSetDisplay(displayName);
 
     $scope.music = mmMusic.getMusicPlaying();
     $scope.audio = {};

@@ -27,3 +27,17 @@ app.factory('mmMusic', () => {
         registerOnMusicChanged: (func) => onMusicChanged = func
     };
 });
+
+// Register Main Page Communication Service
+angular.module('mm-app').factory("mainPageComm", () => {
+    let musicCtrlSetDisplayHandler = null;
+    return {
+        musicCtrlSetDisplay: (displayName) => {
+            if (typeof musicCtrlSetDisplayHandler == "function")
+                musicCtrlSetDisplayHandler(displayName);
+        },
+        setMusicCtrlSetDisplayHandler: (func) => {
+            musicCtrlSetDisplayHandler = func;
+        }
+    };
+});
