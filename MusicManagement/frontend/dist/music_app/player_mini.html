@@ -6,9 +6,16 @@
                 <button href="#" type="button" class="btn btn-link player-controller-img" ng-click="setDisplay('player');">
                     <img ng-src="{{music.cover}}" width="50" height="50" alt="">
                 </button>
-                <button type="button" class="btn btn-danger btn-circle player-controller-button">a</button>
-                <button type="button" class="btn btn-danger btn-circle player-controller-button" ng-click="togglePlay();">P</button>
-                <button type="button" class="btn btn-danger btn-circle player-controller-button">b</button>
+                <button type="button" class="btn btn-danger btn-circle player-controller-button"><i class="fas fa-fast-backward"></i></button>
+                <button type="button" class="btn btn-danger btn-circle player-controller-button" ng-show="audio.paused"
+                    ng-click="togglePlay();">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-circle player-controller-button" ng-hide="audio.paused"
+                    ng-click="togglePlay();">
+                    <i class="fas fa-pause"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-circle player-controller-button"><i class="fas fa-fast-forward"></i></button>
             </div>
 
         </div>
@@ -33,11 +40,11 @@
             </div>
         </div>
         <div class="col-xl-1 col-2">
-            <button type="button" class="btn btn-danger btn-circle">L</button>
+            <button type="button" class="btn btn-outline-danger"><i class="fas fa-heart"></i></button>
             <div class="dropdown">
-                <button class="btn btn-danger btn-circle dropdown-toggle dropdown-toggle-none-arrow" type="button" id="dropdownMenu2" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    V
+                <button class="btn btn-outline-danger dropdown-toggle dropdown-toggle-none-arrow" type="button" id="dropdownMenu2"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-volume-up"></i>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                     <form>
