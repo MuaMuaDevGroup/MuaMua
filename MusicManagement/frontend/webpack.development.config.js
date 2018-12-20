@@ -14,11 +14,11 @@ module.exports = {
             './styles/music_app/sidebar.css'
         ],
         adminApp: [
-            './src/admin_app/base.js',
             './src/admin_app/music_manage.js',
             './src/admin_app/navbar.js',
         ],
         public: [
+            './src/base.js',
             './src/vendor.js',
             './styles/global.css'
         ]
@@ -26,5 +26,13 @@ module.exports = {
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, './dist/scripts')
+    },
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                loader: 'style-loader!css-loader'
+            }
+        ]
     }
 }

@@ -7,27 +7,26 @@
 
 <body ng-controller="MusicController">
     <div class="wrapper toggled">
-        {% include "sidebar.html" %}
+        {% include "music_app/sidebar.html" %}
         <div class="page-content-wrapper">
             <div ng-show="nowDisplay == 'player'">
-                {% include "player.html" %}
+                {% include "music_app/player.html" %}
             </div>
             <div ng-show="nowDisplay == 'recommend'">
-                {% include "recommend.html" %}
+                {% include "music_app/recommend.html" %}
             </div>
             <div ng-show="nowDisplay == 'search'">
-                {% include "search.html" %}
+                {% include "music_app/search.html" %}
             </div>
             <div ng-show="nowDisplay == 'playlist_view'">
-                {% include "playlist_view.html" %}
+                {% include "music_app/playlist_view.html" %}
             </div>
         </div>
     </div>
-    {% include "player_mini.html" %}
+    {% include "music_app/player_mini.html" %}
     {% load static %}
-    <script src="{% static './app.js' %}"></script>
-    <script src="{% static './style.js' %}"></script>
-    <script src="{% static './vendors~app.js' %}"></script>
+    <script src="{% static './scripts/public.bundle.js' %}"></script>
+    <script src="{% static './scripts/app.bundle.js' %}"></script>
 </body>
 
 </html>
