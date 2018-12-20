@@ -1,0 +1,30 @@
+const path = require('path');
+module.exports = {
+    mode: 'development',
+    entry: {
+        app: [
+            './src/music_app/music.js',
+            './src/music_app/player_mini.js',
+            './src/music_app/player.js',
+            './src/music_app/playlist_view.js',
+            './src/music_app/recommend.js',
+            './src/music_app/search.js',
+            './src/music_app/sidebar.js',
+            './styles/music_app/player_mini.css',
+            './styles/music_app/sidebar.css'
+        ],
+        adminApp: [
+            './src/admin_app/base.js',
+            './src/admin_app/music_manage.js',
+            './src/admin_app/navbar.js',
+        ],
+        public: [
+            './src/vendor.js',
+            './styles/global.css'
+        ]
+    },
+    output: {
+        filename: '[name].bundle.js',
+        path: path.resolve(__dirname, './dist/scripts')
+    }
+}
