@@ -24,8 +24,8 @@ module.exports = {
         ]
     },
     output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname, './dist/scripts')
+        filename: './scripts/[name].bundle.js',
+        path: path.resolve(__dirname, './dist/static')
     },
     module: {
         rules: [
@@ -39,7 +39,7 @@ module.exports = {
                 options: {
                     name: '[name].[ext]',
                     outputPath:'./assets/',
-                    publicPath:'/dist/scripts/assets/'
+                    publicPath:'/dist/static/assets/'
                 }
             }
         ]

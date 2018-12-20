@@ -79,8 +79,7 @@ typings/
 .dynamodb/ 
 
 #Custom Files
-dist/*.js
-dist/scripts/*
+dist/static/*
 package-lock.json
 
 # Development Temp media files
