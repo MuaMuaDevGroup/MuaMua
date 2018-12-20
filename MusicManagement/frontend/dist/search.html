@@ -1,3 +1,69 @@
 {% verbatim %}
-
+<div ng-controller="SearchController">
+    <div class="input-group mb-3">
+        <input type="text" ng-model="searchText" class="form-control" placeholder="搜索歌曲、专辑、歌单" aria-label="Search"
+            aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <button ng-click="searchMusic(searchText);searchAlbum(searchText);searchPlaylist(searchText);" class="btn btn-outline-danger" type="button">搜索</button>
+        </div>
+    </div>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-music-tab" data-toggle="tab" href="#nav-music" role="tab"
+                aria-controls="nav-music" aria-selected="true">歌曲</a>
+            <a class="nav-item nav-link" id="nav-album-tab" data-toggle="tab" href="#nav-album" role="tab"
+                aria-controls="nav-album" aria-selected="false">专辑</a>
+            <a class="nav-item nav-link" id="nav-playlist-tab" data-toggle="tab" href="#nav-playlist" role="tab"
+                aria-controls="nav-playlist" aria-selected="false">歌单</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <!--音乐搜索页面-->
+        <div class="tab-pane fade show active" id="nav-music" role="tabpanel" aria-labelledby="nav-music-tab">
+            <table class="table" style="margin-top:30px;">
+                <tbody>
+                    <tr ng-repeat="music in musics">
+                        <td class="clearfix">
+                            <span class="float-left">{{music.title}}</span>
+                            <button ng-click="sendToPlay(music);" type="button" class="btn btn-outline-danger btn-sm float-right">播放</button></td>
+                        <td>{{music.artists.join("/")}}</td>
+                        <td>{{music.albumTitle}}</td>
+                        <td>{{music.duration | musicTime}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--专辑搜索页面-->
+        <div class="tab-pane fade" id="nav-album" role="tabpanel" aria-labelledby="nav-album-tab">
+            <table class="table" style="margin-top:30px;">
+                <tbody>
+                    <tr ng-repeat="album in albums">
+                        <td class="align-self-center">
+                            <a href="#">
+                                <img ng-src="{{album.cover}}" class="rounded" width="50" height="50">
+                            </a>
+                            <span>{{album.title}}</span>
+                        <td>{{album.year}}</td>
+                        <td>{{album.publisher}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--歌单搜索页面-->
+        <div class="tab-pane fade" id="nav-playlist" role="tabpanel" aria-labelledby="nav-playlist-tab">
+            <table class="table" style="margin-top:30px;">
+                <tbody>
+                    <tr ng-repeat="playlist in playlists">
+                        <td class="align-self-center">
+                            <a href="#">
+                                <img ng-src="{{playlist.cover}}" class="rounded" width="50" height="50">
+                            </a>
+                            <span>{{playlist.name}}</span>
+                        <td>{{playlist.play_count}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endverbatim %}
