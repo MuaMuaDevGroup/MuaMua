@@ -1,6 +1,6 @@
 import 'angular'
 
-angular.module('mm-app').controller("SearchController", ["$http", "$scope", "mmMusic", ($http, $scope, mmMusic) => {
+angular.module('mm-app').controller("SearchController", ["$http", "$scope", "mmMusic", "mainPageComm", ($http, $scope, mmMusic, mmComm) => {
 
     $scope.sendToPlay = music => {
         mmMusic.setMusicPlaying(music);
@@ -40,11 +40,16 @@ angular.module('mm-app').controller("SearchController", ["$http", "$scope", "mmM
         $http({
             url: "/api/album/?search=" + text,
             method: "GET"
-        }).then(response => { 
+        }).then(response => {
             $scope.albums = response.data;
         });
     };
     $scope.albums = [];
+    $scope.viewAlbum = album => {
+        mmComm.playlistViewCtrlSetDisplay(album.id, "album");
+        mmComm.musicCtrlSetDisplay('playlist_view');
+    };
+
 
     // Search Playlist Sections
     $scope.searchPlaylist = text => {
@@ -54,6 +59,10 @@ angular.module('mm-app').controller("SearchController", ["$http", "$scope", "mmM
         }).then(response => {
             $scope.playlists = response.data;
         });
+    };
+    $scope.viewPlaylist = playlist => {
+        mmComm.playlistViewCtrlSetDisplay(playlist.id, "playlist");
+        mmComm.musicCtrlSetDisplay('playlist_view');
     };
     $scope.playlists = [];
 }]);

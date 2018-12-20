@@ -31,6 +31,7 @@ app.factory('mmMusic', () => {
 // Register Main Page Communication Service
 angular.module('mm-app').factory("mainPageComm", () => {
     let musicCtrlSetDisplayHandler = null;
+    let playlistViewCtrlSetDisplayHandler = null;
     return {
         musicCtrlSetDisplay: (displayName) => {
             if (typeof musicCtrlSetDisplayHandler == "function")
@@ -38,6 +39,13 @@ angular.module('mm-app').factory("mainPageComm", () => {
         },
         setMusicCtrlSetDisplayHandler: (func) => {
             musicCtrlSetDisplayHandler = func;
+        },
+        playlistViewCtrlSetDisplay: (albumOrPlaylistId, displayName) => {
+            if (typeof playlistViewCtrlSetDisplayHandler == "function")
+                playlistViewCtrlSetDisplayHandler(albumOrPlaylistId, displayName);
+        },
+        setPlaylistViewCtrlSetDisplayerHandler: (func) => {
+            playlistViewCtrlSetDisplayHandler = func;
         }
     };
 });
