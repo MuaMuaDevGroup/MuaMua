@@ -1,0 +1,40 @@
+{% verbatim %}
+<div ng-controller="PlayListViewController">
+    <div class="container-fluid" ng-if="nowView == 'playlist'">
+        <div class="row">
+            <img class="col-md-auto rounded " ng-src="{{playlist.cover}}" width="200" height="200">
+            <div class="col">
+                <h3><strong>{{playlist.name}}</strong></h3>
+                <p>
+                    <small class="text-secondary">
+                        <span>播放数量：</span>
+                        <span>{{playlist.play_count}}</span>
+                    </small>
+                </p>
+                <p>
+                    {{playlist.description}}
+                </p>
+            </div>
+        </div>
+        <div class="row" style="margin-top:30px;">
+            <table class="table">
+                <tbody>
+                    <tr ng-repeat="song in playlist.songEntities">
+                        <th scope="row">{{$index + 1}}</th>
+                        <td class="clearfix">
+                            <span class="float-left">{{song.title}}</span>
+                            <button ng-click="sendToPlay(song);" type="button" class="btn btn-outline-danger btn-sm float-right">播放</button></td>
+                        </td>
+                        <td><span ng-repeat="artist in song.artists">{{artist.name}}/</span></td>
+                        <td>{{song.albumTitle}}</td>
+                        <td>{{song.duration | musicTime}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div ng-if="nowView == 'album'">
+
+    </div>
+</div>
+{% endverbatim %}

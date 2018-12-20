@@ -9,14 +9,17 @@
     <div class="wrapper toggled">
         {% include "sidebar.html" %}
         <div class="page-content-wrapper">
-            <div ng-if="nowDisplay == 'player'">
+            <div ng-show="nowDisplay == 'player'">
                 {% include "player.html" %}
             </div>
-            <div ng-if="nowDisplay == 'recommend'">
+            <div ng-show="nowDisplay == 'recommend'">
                 {% include "recommend.html" %}
             </div>
-            <div ng-if="nowDisplay == 'search'">
+            <div ng-show="nowDisplay == 'search'">
                 {% include "search.html" %}
+            </div>
+            <div ng-show="nowDisplay == 'playlist_view'">
+                {% include "playlist_view.html" %}
             </div>
         </div>
     </div>

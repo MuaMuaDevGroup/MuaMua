@@ -4,7 +4,8 @@
         <input type="text" ng-model="searchText" class="form-control" placeholder="搜索歌曲、专辑、歌单" aria-label="Search"
             aria-describedby="basic-addon2">
         <div class="input-group-append">
-            <button ng-click="searchMusic(searchText);searchAlbum(searchText);searchPlaylist(searchText);" class="btn btn-outline-danger" type="button">搜索</button>
+            <button ng-click="searchMusic(searchText);searchAlbum(searchText);searchPlaylist(searchText);" class="btn btn-outline-danger"
+                type="button">搜索</button>
         </div>
     </div>
     <nav>
@@ -59,7 +60,10 @@
                                 <img ng-src="{{playlist.cover}}" class="rounded" width="50" height="50">
                             </a>
                             <span>{{playlist.name}}</span>
-                        <td>{{playlist.play_count}}</td>
+                        <td class="clearfix">
+                            <span class="float-left">{{playlist.play_count}}</span>
+                            <button ng-click="viewPlaylist(playlist);" type="button" class="btn btn-outline-danger btn-sm float-right">查看</button></td>
+                        </td>
                     </tr>
                 </tbody>
             </table>
