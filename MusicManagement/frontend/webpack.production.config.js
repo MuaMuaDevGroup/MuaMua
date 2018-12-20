@@ -1,17 +1,31 @@
 const path = require('path');
 module.exports = {
+    mode: 'production',
     entry: {
-        app: ['./src/base.js', './src/index.js', './src/navbar.js', './src/music_manage.js', './src/music.js', './src/recommend.js', './src/playlist_view.js', './src/search.js', './src/player.js', './src/player_mini.js', './src/sidebar.js'],
-        style: ['./styles/global.css', './styles/player_mini.css', './styles/navbar_sidebar.css']
+        app: [
+            './src/music_app/music.js',
+            './src/music_app/player_mini.js',
+            './src/music_app/player.js',
+            './src/music_app/playlist_view.js',
+            './src/music_app/recommend.js',
+            './src/music_app/search.js',
+            './src/music_app/sidebar.js',
+            './styles/music_app/player_mini.css',
+            './styles/music_app/sidebar.css'
+        ],
+        adminApp: [
+            './src/admin_app/music_manage.js',
+            './src/admin_app/navbar.js',
+        ],
+        public: [
+            './src/base.js',
+            './src/vendor.js',
+            './styles/global.css'
+        ]
     },
     output: {
-        filename: '[name].js',
-        path: path.resolve(__dirname, './dist')
-    },
-    optimization: {
-        splitChunks: {
-            chunks: 'all'
-        }
+        filename: '[name].bundle.js',
+        path: path.resolve(__dirname, './dist/scripts')
     },
     module: {
         rules: [{
@@ -22,15 +36,6 @@ module.exports = {
         {
             test: /\.css$/,
             loader: 'style-loader!css-loader'
-        },
-        {
-            test: /\.(png|jpg|jpeg|gif)$/,
-            loader: 'file-loader'
-        },
-        {
-            test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-            loader: 'file-loader'
-        }
-        ]
+        }]
     }
 };
