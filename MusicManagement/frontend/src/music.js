@@ -7,7 +7,7 @@ angular.module('mm-app').controller("MusicController", ["$http", "$scope", "main
         $scope.nowDisplay = displayName;
     });
 
-    $scope.nowDisplay = "playlist_view";
+    $scope.nowDisplay = "recommend";
 
 }]);
 
