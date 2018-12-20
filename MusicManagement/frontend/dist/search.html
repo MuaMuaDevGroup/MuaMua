@@ -45,7 +45,10 @@
                             </a>
                             <span>{{album.title}}</span>
                         <td>{{album.year}}</td>
-                        <td>{{album.publisher}}</td>
+                        <td class="clearfix">
+                            <span class="float-left">{{album.publisher}}</span>
+                            <button ng-click="viewAlbum(album);" type="button" class="btn btn-outline-danger btn-sm float-right">查看</button></td>
+                        </td>
                     </tr>
                 </tbody>
             </table>

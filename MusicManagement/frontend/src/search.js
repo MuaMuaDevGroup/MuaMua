@@ -45,6 +45,11 @@ angular.module('mm-app').controller("SearchController", ["$http", "$scope", "mmM
         });
     };
     $scope.albums = [];
+    $scope.viewAlbum = album => {
+        mmComm.playlistViewCtrlSetDisplay(album.id, "album");
+        mmComm.musicCtrlSetDisplay('playlist_view');
+    };
+
 
     // Search Playlist Sections
     $scope.searchPlaylist = text => {
