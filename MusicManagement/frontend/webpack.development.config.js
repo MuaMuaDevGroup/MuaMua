@@ -32,6 +32,15 @@ module.exports = {
             {
                 test: /\.css$/,
                 loader: 'style-loader!css-loader'
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf|svg)$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]',
+                    outputPath:'./assets/',
+                    publicPath:'/dist/scripts/assets/'
+                }
             }
         ]
     }
