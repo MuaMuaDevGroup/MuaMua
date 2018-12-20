@@ -24,8 +24,8 @@ module.exports = {
         ]
     },
     output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname, './dist/scripts')
+        filename: './scripts/[name].bundle.js',
+        path: path.resolve(__dirname, './dist/static')
     },
     module: {
         rules: [{
@@ -36,6 +36,15 @@ module.exports = {
         {
             test: /\.css$/,
             loader: 'style-loader!css-loader'
+        },
+        {
+            test: /\.(woff|woff2|eot|ttf|otf|svg)$/,
+            loader: 'file-loader',
+            options: {
+                name: '[name].[ext]',
+                outputPath: './assets/',
+                publicPath: '/dist/static/assets/'
+            }
         }]
     }
 };
