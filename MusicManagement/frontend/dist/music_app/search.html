@@ -5,7 +5,7 @@
             aria-describedby="basic-addon2">
         <div class="input-group-append">
             <button ng-click="searchMusic(searchText);searchAlbum(searchText);searchPlaylist(searchText);" class="btn btn-outline-danger"
-                type="button">搜索</button>
+                type="button">搜索 <i class="fas fa-search"></i></button>
         </div>
     </div>
     <nav>
@@ -26,7 +26,7 @@
                     <tr ng-repeat="music in musics">
                         <td class="clearfix">
                             <span class="float-left">{{music.title}}</span>
-                            <button ng-click="sendToPlay(music);" type="button" class="btn btn-outline-danger btn-sm float-right">播放</button></td>
+                            <button ng-click="sendToPlay(music);" type="button" class="btn btn-outline-danger btn-sm float-right"><i class="fas fa-play-circle"></i></button></td>
                         <td>{{music.artists.join("/")}}</td>
                         <td>{{music.albumTitle}}</td>
                         <td>{{music.duration | musicTime}}</td>
@@ -47,7 +47,7 @@
                         <td>{{album.year}}</td>
                         <td class="clearfix">
                             <span class="float-left">{{album.publisher}}</span>
-                            <button ng-click="viewAlbum(album);" type="button" class="btn btn-outline-danger btn-sm float-right">查看</button></td>
+                            <button ng-click="viewAlbum(album);" type="button" class="btn btn-outline-danger btn-sm float-right"><i class="fas fa-eye"></i></button></td>
                         </td>
                     </tr>
                 </tbody>
@@ -65,7 +65,7 @@
                             <span>{{playlist.name}}</span>
                         <td class="clearfix">
                             <span class="float-left">{{playlist.play_count}}</span>
-                            <button ng-click="viewPlaylist(playlist);" type="button" class="btn btn-outline-danger btn-sm float-right">查看</button></td>
+                            <button ng-click="viewPlaylist(playlist);" type="button" class="btn btn-outline-danger btn-sm float-right"><i class="fas fa-eye"></i></button></td>
                         </td>
                     </tr>
                 </tbody>
