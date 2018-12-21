@@ -189,7 +189,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="music in musics">
+                    <tr class="animate-repeat" ng-repeat="music in musics">
                         <th scope="row">{{music.id}}</th>
                         <td>{{music.title}}</td>
                         <td>{{music.style}}</td>
@@ -387,7 +387,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="album in albums">
+                    <tr class="animate-repeat" ng-repeat="album in albums">
                         <th>
                             <span ng-if="!album.cover">{{album.id}}</span>
                             <div ng-if="album.cover" class="dropdown">
@@ -584,7 +584,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="artist in artists">
+                    <tr class="animate-repeat" ng-repeat="artist in artists">
                         <th scope="row">{{artist.id}}</th>
                         <td>
                             <span ng-if="!artist.photo">{{artist.name}}</span>
@@ -834,7 +834,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="playlist in playlists">
+                    <tr class="animate-repeat" ng-repeat="playlist in playlists">
                         <th>
                             <span ng-if="!playlist.cover">{{playlist.id}}</span>
                             <div ng-if="playlist.cover" class="dropdown">
@@ -1057,7 +1057,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="user in users">
+                    <tr class="animate-repeat" ng-repeat="user in users">
                         <th>{{user.id}}</th>
                         <td>{{user.username}}</td>
                         <td>{{user.email}}</td>

@@ -11,8 +11,7 @@ module.exports = {
             './src/music_app/search.js',
             './src/music_app/sidebar.js',
             './styles/music_app/player_mini.css',
-            './styles/music_app/sidebar.css',
-            './styles/music_app/animate.css'
+            './styles/music_app/sidebar.css'
         ],
         adminApp: [
             './src/admin_app/music_manage.js',
@@ -21,7 +20,8 @@ module.exports = {
         public: [
             './src/base.js',
             './src/vendor.js',
-            './styles/global.css'
+            './styles/global.css',
+            './styles/animate.css'
         ]
     },
     output: {
