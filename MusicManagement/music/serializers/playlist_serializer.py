@@ -90,3 +90,17 @@ class PlayListOwnersDeleteSerializer(serializers.ModelSerializer):
             instance.collectors.remove(collector)
         instance.save()
         return instance
+
+class PlaylistUserCreationSerializer(serializers.ModelSerializer):
+    songs=serializers.PrimaryKeyRelatedField(many=True,queryset=Music.objects.all(),allow_null=True)
+    class Mate:
+        model=Playlist
+        fields = ('name', 'description', 'songs')
+
+class PlaylistUserCollectionAddSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Playlist
+        fields=('id')
+
+
+    

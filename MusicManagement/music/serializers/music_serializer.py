@@ -34,3 +34,9 @@ class MusicUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Music
         fields = ('style', 'duration', 'title', 'album', 'artist')
+
+class FavoriteMusicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Music
+        fields=('id')
+

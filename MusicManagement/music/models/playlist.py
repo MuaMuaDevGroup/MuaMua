@@ -12,3 +12,6 @@ class Playlist(models.Model):
     collectors = models.ManyToManyField(User,related_name="playlist_collectors")
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     cover = models.ImageField(upload_to="playlist_cover", null=True)
+
+    class Meta:
+        unique_together=('name','owner',)
