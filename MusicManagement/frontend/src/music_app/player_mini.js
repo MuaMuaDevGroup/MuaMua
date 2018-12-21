@@ -1,11 +1,11 @@
 import 'angular'
 import 'angular-audio'
-
+import 'linqjs'
 
 angular.module('mm-app').controller('MiniPlayerController', ["$http", "ngAudio", "mmMusic", "$scope", "mainPageComm", ($http, ngAudio, mmMusic, $scope, comm) => {
 
     $scope.setDisplay = (displayName) => comm.musicCtrlSetDisplay(displayName);
-
+    $scope.loadedAudio = [];
     $scope.music = mmMusic.getMusicPlaying();
     $scope.audio = {};
     if ($scope.music != null) {
@@ -39,7 +39,6 @@ angular.module('mm-app').controller('MiniPlayerController', ["$http", "ngAudio",
 
     $scope.togglePlay = () => {
         if ($scope.audio != null && $scope.audio.paused) {
-            console.log($scope.audio.progress);
             $scope.audio.play();
         }
         else
@@ -77,16 +76,25 @@ angular.module('mm-app').controller('MiniPlayerController', ["$http", "ngAudio",
     };
 
     $scope.onMusicChanged = (music) => {
+        // Release previous audio
         if ($scope.music != null) {
+            // Save loaded Audio
+            if ($scope.loadedAudio.first(a => a.id == $scope.music.id) == null)
+                $scope.loadedAudio.push({
+                    id: $scope.music.id,
+                    audio: $scope.audio
+                });
             $scope.audio.stop();
-            $scope.audio.destroy();
             $scope.audio = null;
         }
-
         $scope.music = music;
         $scope.loadMusicDetail($scope.music);
-        // Release previous audio
-        $scope.audio = ngAudio.load($scope.music.entity);
+        // Try to load from cache
+        let d = $scope.loadedAudio.first(a => a.id == music.id);
+        if (d == null)
+            $scope.audio = ngAudio.load($scope.music.entity);
+        else
+            $scope.audio = d.audio;
         $scope.audio.volume = 1;
     };
 
