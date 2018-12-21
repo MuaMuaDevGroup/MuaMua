@@ -35,8 +35,8 @@ class MusicUpdateSerializer(serializers.ModelSerializer):
         model = Music
         fields = ('style', 'duration', 'title', 'album', 'artist')
 
-class FavoriteMusicSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=Music
-        fields=('id')
 
+class FavoriteMusicSerializer(serializers.Serializer):
+
+    music = serializers.PrimaryKeyRelatedField(
+        queryset=Music.objects.all())
