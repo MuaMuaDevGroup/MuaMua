@@ -23,7 +23,7 @@
         <div class="tab-pane fade show active" id="nav-music" role="tabpanel" aria-labelledby="nav-music-tab">
             <table class="table" style="margin-top:30px;">
                 <tbody>
-                    <tr ng-repeat="music in musics">
+                    <tr class="animate-repeat" ng-repeat="music in musics">
                         <td class="clearfix">
                             <span class="float-left">{{music.title}}</span>
                             <button ng-click="sendToPlay(music);" type="button" class="btn btn-outline-danger btn-sm float-right"><i class="fas fa-play-circle"></i></button></td>
@@ -38,7 +38,7 @@
         <div class="tab-pane fade" id="nav-album" role="tabpanel" aria-labelledby="nav-album-tab">
             <table class="table" style="margin-top:30px;">
                 <tbody>
-                    <tr ng-repeat="album in albums">
+                    <tr class="animate-repeat" ng-repeat="album in albums">
                         <td class="align-self-center">
                             <a href="#">
                                 <img ng-src="{{album.cover}}" class="rounded" width="50" height="50">
@@ -57,7 +57,7 @@
         <div class="tab-pane fade" id="nav-playlist" role="tabpanel" aria-labelledby="nav-playlist-tab">
             <table class="table" style="margin-top:30px;">
                 <tbody>
-                    <tr ng-repeat="playlist in playlists">
+                    <tr class="animate-repeat" ng-repeat="playlist in playlists">
                         <td class="align-self-center">
                             <a href="#">
                                 <img ng-src="{{playlist.cover}}" class="rounded" width="50" height="50">

@@ -10,7 +10,6 @@ angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "ma
             url: "/api/account/",
         }).then((response) => {
             $scope.username = response.data.username;
-            console.log($scope.username);
             $scope.email = response.data.email;
             $scope.loginStatus = "login";
         }, (response) => {
@@ -18,7 +17,6 @@ angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "ma
         });
     };
     $scope.checkLogin();
-    console.log($scope.username);
     // Login Sections
     $scope.loginPassword = "";
     $scope.loginUsername = "";
@@ -76,7 +74,7 @@ angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "ma
     };
     $scope.editUserDetail = () => {
         let u = "/api/account/";
-        console.log($scope.editUserId);
+
         let d = {
             id: $scope.editUserId,
             username: $scope.editUsername,

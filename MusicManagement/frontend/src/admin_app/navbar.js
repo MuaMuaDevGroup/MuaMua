@@ -75,7 +75,6 @@ angular.module('mm-app').controller('NavbarController', ["$http", "$scope", func
     };
     $scope.editUserDetail = () => {
         let u = "/api/account/";
-        console.log($scope.editUserId);
         let d = {
             id: $scope.editUserId,
             username: $scope.editUsername,

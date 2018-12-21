@@ -38,7 +38,6 @@ angular.module('mm-app').controller("PlayListViewController", ["$http", "$scope"
         let m = $scope.loadMusic(playlist.songs);
         playlist.songEntities = m.tracks;
         playlist.artistNames = m.artists.select(a => a.name);
-        console.log(playlist);
     };
     // Common Sections
     $scope.loadArtist = (artistIds, nowArtistNames) => {

@@ -19,7 +19,7 @@
         <div class="row" style="margin-top:30px;">
             <table class="table">
                 <tbody>
-                    <tr ng-repeat="song in playlist.songEntities">
+                    <tr class="animate-repeat" ng-repeat="song in playlist.songEntities">
                         <th scope="row">{{$index + 1}}</th>
                         <td class="clearfix">
                             <span class="float-left">{{song.title}}</span>
@@ -62,7 +62,7 @@
         <div class="row" style="margin-top:30px;">
             <table class="table">
                 <tbody>
-                    <tr ng-repeat="track in album.trackEntities">
+                    <tr class="animate-repeat" ng-repeat="track in album.trackEntities">
                         <th scope="row">{{$index + 1}}</th>
                         <td class="clearfix">
                             <span class="float-left">{{track.title}}</span>

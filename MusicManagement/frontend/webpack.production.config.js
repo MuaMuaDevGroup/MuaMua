@@ -20,7 +20,8 @@ module.exports = {
         public: [
             './src/base.js',
             './src/vendor.js',
-            './styles/global.css'
+            './styles/global.css',
+            './styles/animate.css'
         ]
     },
     output: {

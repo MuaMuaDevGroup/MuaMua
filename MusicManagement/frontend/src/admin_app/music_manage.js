@@ -76,7 +76,6 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
 
     $scope.toEditMusic = (id) => {
         let m = $scope.musics.first(m => m.id == id);
-        console.log(m);
         $scope.editMusicId = m.id;
         $scope.editMusicStyle = m.style;
         $scope.editMusicDuration = m.duration;
@@ -86,7 +85,6 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
     };
     $scope.editMusic = () => {
         let u = "/api/music/" + $scope.editMusicId + "/";
-        console.log($scope.editMusicRawArtists);
         let d = {
             id: $scope.editMusicId,
             style: $scope.editMusicStyle,

@@ -2,8 +2,9 @@ import 'angular'
 import 'angular-audio'
 import 'angular-file-upload'
 import 'angular-cookies'
+import 'angular-animate'
 import 'linqjs'
-var app = angular.module('mm-app', ['ngAudio', 'angularFileUpload', 'ngCookies']);
+var app = angular.module('mm-app', ['ngAudio', 'angularFileUpload', 'ngCookies', 'ngAnimate']);
 app.config(["$httpProvider", function ($httpProvider) {
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
