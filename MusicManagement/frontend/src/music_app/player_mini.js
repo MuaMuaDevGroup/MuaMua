@@ -79,6 +79,7 @@ angular.module('mm-app').controller('MiniPlayerController', ["$http", "ngAudio",
     $scope.onMusicChanged = (music) => {
         if ($scope.music != null) {
             $scope.audio.stop();
+            $scope.audio.destroy();
             $scope.audio = null;
         }
 
