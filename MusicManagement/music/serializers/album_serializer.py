@@ -49,6 +49,7 @@ class AlbumUpdateSerializer(serializers.ModelSerializer):
         instance.title = validated_date.get("title")
         instance.year = validated_date.get("year")
         instance.publisher = validated_date.get("publisher")
+        instance.description = validated_date.get("description")
         instance.save()
         return instance
 
