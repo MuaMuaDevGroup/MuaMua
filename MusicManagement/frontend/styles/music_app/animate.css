@@ -1,0 +1,8 @@
+.animate-fade {
+    transition: 0.4s 0.3s opacity ease
+}
+
+.animate-fade.ng-hide {
+    opacity: 0;
+    transition: 0.3s opacity ease;
+}

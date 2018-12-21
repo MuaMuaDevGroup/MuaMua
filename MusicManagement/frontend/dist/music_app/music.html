@@ -9,16 +9,16 @@
     <div class="wrapper toggled">
         {% include "music_app/sidebar.html" %}
         <div class="page-content-wrapper">
-            <div ng-show="nowDisplay == 'player'">
+            <div class="animate-fade" ng-show="nowDisplay == 'player'">
                 {% include "music_app/player.html" %}
             </div>
-            <div ng-show="nowDisplay == 'recommend'">
+            <div class="animate-fade" ng-show="nowDisplay == 'recommend'">
                 {% include "music_app/recommend.html" %}
             </div>
-            <div ng-show="nowDisplay == 'search'">
+            <div class="animate-fade" ng-show="nowDisplay == 'search'">
                 {% include "music_app/search.html" %}
             </div>
-            <div ng-show="nowDisplay == 'playlist_view'">
+            <div class="animate-fade" ng-show="nowDisplay == 'playlist_view'">
                 {% include "music_app/playlist_view.html" %}
             </div>
         </div>
