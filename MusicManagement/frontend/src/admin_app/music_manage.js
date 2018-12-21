@@ -3,7 +3,7 @@ import 'linqjs'
 import 'angular-audio'
 import 'angular-file-upload'
 
-angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', 'ngAudio', 'FileUploader', '$cookies', ($http, $scope, ngAudio, FileUploader, $cookies) => {
+angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', 'ngAudio', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, ngAudio, FileUploader, $cookies, djangaPage) => {
     //File Upload
     var nowUploader = $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
     $scope.nowUploadingId = null;
@@ -19,14 +19,17 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
         $scope.isUploadSuccess = true;
         $scope.nowUploader.clearQueue();
     };
+    //Pagination Sections
+
     //Query Sections
     $scope.musics = [];
-    $scope.refreshMusic = () => {
+    $scope.pagination = new djangaPage("/api/music/");
+    $scope.refreshMusic = (url) => {
         $http({
             method: "GET",
-            url: "/api/music"
+            url: url
         }).then((response) => {
-            $scope.musics = response.data;
+            $scope.musics = $scope.pagination.filterResult(response);
             $scope.musics.forEach(m => {
                 //add audio
                 if (m.entity != null)
@@ -64,7 +67,7 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
             $scope.addMusicTitle = "";
             $scope.addRawArtists = "";
             $scope.addMusicAlbum = "";
-            $scope.refreshMusic();
+            $scope.refreshMusic($scope.pagination.resetPage());
         });
     };
     $scope.editMusicId = null;
@@ -104,7 +107,7 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
             $scope.editMusicTitle = "";
             $scope.editMusicRawArtists = "";
             $scope.editMusicAlbum = "";
-            $scope.refreshMusic();
+            $scope.refreshMusic($scope.pagination.refreshPage());
         });
     };
 }]);
