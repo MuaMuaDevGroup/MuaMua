@@ -32,8 +32,8 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
             $scope.musics = $scope.pagination.filterResult(response);
             $scope.musics.forEach(m => {
                 //add audio
-                if (m.entity != null)
-                    m.audio = ngAudio.load(m.entity);
+                //if (m.entity != null)
+                //    m.audio = ngAudio.load(m.entity);
                 m.artistNames = [];
                 m.artist.forEach(a => {
                     $http({ method: "GET", url: "/api/artist/" + a + "/" }).then((response) => { m.artistNames.push(response.data.name); });
@@ -43,6 +43,8 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
             });
         });
     };
+    $scope.loadEntityMusic = (url) => ngAudio.load(url);
+    //Add Sections
     $scope.addStyle = "";
     $scope.addDuration = "";
     $scope.addMusicTitle = "";
