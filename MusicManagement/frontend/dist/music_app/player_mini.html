@@ -46,11 +46,21 @@
             </div>
         </div>
         <div class="col-xl-1 col-2">
-            <button type="button" class="btn btn-outline-danger"><i class="fas fa-heart"></i></button>
+            <button ng-click="toggleFavorite();" type="button" class="btn btn-link">
+                <span ng-if="music!=null&&music.isFavorite" style="color: #dc3545;">
+                    <i class="fas fa-heart"></i>
+                </span>
+                <span ng-if="music==null||!music.isFavorite" style="color: #dc3545;">
+                    <i class="far fa-heart"></i>
+                </span>
+            </button>
             <div class="dropdown">
-                <button class="btn btn-outline-danger dropdown-toggle dropdown-toggle-none-arrow" type="button" id="dropdownMenu2"
+                <button class="btn btn-link dropdown-toggle dropdown-toggle-none-arrow" type="button" id="dropdownMenu2"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-volume-up"></i>
+                    <span style="color: #dc3545;">
+                        <i class="fas fa-volume-up"></i>
+                    </span>
+                    
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                     <form>
