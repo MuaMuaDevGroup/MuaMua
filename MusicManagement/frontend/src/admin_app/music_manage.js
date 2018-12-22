@@ -419,7 +419,7 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
     };
 }]);
 
-angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scope', 'FileUploader', '$cookies', ($http, $scope, FileUploader, $cookies) => {
+angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, FileUploader, $cookies, djangoPage) => {
     //File Upload Sections
     $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
     $scope.nowUploader.filters.push({
@@ -445,12 +445,13 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
     };
     //Query Playlist
     $scope.playlists = [];
-    $scope.refreshPlaylists = () => {
+    $scope.pagination = new djangoPage('/api/playlist/');
+    $scope.refreshPlaylists = (url) => {
         $http({
-            url: "/api/playlist/",
+            url: url,
             method: "GET"
         }).then(response => {
-            $scope.playlists = response.data;
+            $scope.playlists = $scope.pagination.filterResult(response);
         });
     };
     $scope.viewSongPlaylist = [];
