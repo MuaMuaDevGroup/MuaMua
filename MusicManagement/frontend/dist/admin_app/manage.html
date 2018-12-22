@@ -889,7 +889,7 @@
                 </div>
             </div>
             <!--对话框结束-->
-            <div class="btn-toolbar d-flex" role="toolbar" aria-label="Artist Management Toolbar">
+            <div class="btn-toolbar d-flex" role="toolbar" aria-label="Playlist Management Toolbar">
                 <div class="btn-group mr-auto" role="group" aria-label="Playlist Management Toolbar">
                     <button type="button" ng-click="refreshPlaylists(pagination.resetPage());" class="btn btn-secondary"><i class="fas fa-sync-alt"></i>
                         刷新</button>
@@ -1134,12 +1134,26 @@
                 </div>
             </div>
             <!--对话框结束-->
-            <div class="btn-group" role="group" aria-label="User Management Toolbar">
-                <button type="button" ng-click="refreshUser();" class="btn btn-secondary"><i class="fas fa-sync-alt"></i>
-                    刷新</button>
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#userAddModal"><i
-                        class="fas fa-plus"></i> 添加</button>
+            <div class="btn-toolbar d-flex" role="toolbar" aria-label="User Management Toolbar">
+                <div class="btn-group mr-auto" role="group" aria-label="User Management Toolbar">
+                    <button type="button" ng-click="refreshUser(pagination.resetPage());" class="btn btn-secondary"><i class="fas fa-sync-alt"></i>
+                        刷新</button>
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#userAddModal"><i class="fas fa-plus"></i>
+                        添加</button>
+                </div>
+                <div class="input-group mr-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text" id="btnGroupAddon">每页条目数</div>
+                    </div>
+                    <input ng-model="pagination.countEachPage" ng-change="refreshUser(pagination.refreshPage());" type="number"
+                        class="form-control" aria-label="Music Page Count" aria-describedby="btnGroupAddon">
+                </div>
+                <div class="btn-group" role="group" aria-label="Music Page Select">
+                    <button ng-click="refreshUser(pagination.previousPage());" type="button" class="btn btn-secondary">上一页</button>
+                    <button ng-click="refreshUser(pagination.nextPage());" type="button" class="btn btn-secondary">下一页</button>
+                </div>
             </div>
+
             <hr />
             <table class="table">
                 <thead class="thead-dark">

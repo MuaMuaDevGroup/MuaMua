@@ -1,6 +1,10 @@
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework.backends import DjangoFilterBackend
+from rest_framework.pagination import LimitOffsetPagination
 from django.http import JsonResponse
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.contrib.auth.models import User
@@ -8,8 +12,13 @@ from django.contrib.auth import authenticate, login, logout
 from music.serializers import UserCreationSerializer, UserDetailSerializer, UserPasswordChangeSerializer, UserUpdateSerializer, UserSerializer
 
 
-class UserView(APIView):
-
+class UserView(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter,)
+    filter_fields = ()
+    pagination_class = LimitOffsetPagination
+    search_fields = ('username', 'email')
     permission_classes = (IsAuthenticated, IsAdminUser,)
 
     def post(self, request, format=None):
@@ -27,9 +36,6 @@ class UserView(APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self, request, format=None):
-        serializer = UserSerializer(User.objects.all(), many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class UserDetailView(APIView):

@@ -326,15 +326,16 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
     };
 }]);
 
-angular.module('mm-app').controller('UserManageController', ['$http', '$scope', ($http, $scope) => {
+angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 'djangoPage', ($http, $scope, djangoPage) => {
     //Refresh User sections
     $scope.users = [];
-    $scope.refreshUser = () => {
+    $scope.pagination = new djangoPage("/api/user/")
+    $scope.refreshUser = (url) => {
         $http({
-            url: "/api/user/",
+            url: url,
             method: "GET"
         }).then(response => {
-            $scope.users = response.data;
+            $scope.users = $scope.pagination.filterResult(response);
         });
     };
     //Add user sections
