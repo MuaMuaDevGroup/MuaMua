@@ -73,6 +73,28 @@ angular.module('mm-app').controller('MiniPlayerController', ["$http", "ngAudio",
                 });
             }
         });
+        // Check if favorite
+        $http({
+            url: "/api/music/favorite/" + music.id + "/",
+            method: "GET"
+        }).then(response => music.isFavorite = true, response => music.isFavorite = false);
+    };
+
+    $scope.toggleFavorite = () => {
+        if ($scope.music == null) return;
+        if ($scope.music.isFavorite)
+            $http({
+                url: "/api/music/favorite/" + $scope.music.id + "/",
+                method: "DELETE"
+            }).then(response => $scope.music.isFavorite = false);
+        else
+            $http({
+                url: "/api/music/favorite/",
+                method: "POST",
+                data: {
+                    music: $scope.music.id
+                }
+            }).then(response => $scope.music.isFavorite = true);
     };
 
     $scope.onMusicChanged = (music) => {
