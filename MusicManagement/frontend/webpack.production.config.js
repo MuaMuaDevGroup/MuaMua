@@ -20,6 +20,7 @@ module.exports = {
         public: [
             './src/base.js',
             './src/vendor.js',
+            './src/public/django_pagination.js',
             './styles/global.css',
             './styles/animate.css'
         ]

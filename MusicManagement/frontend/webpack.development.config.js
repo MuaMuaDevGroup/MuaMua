@@ -20,6 +20,7 @@ module.exports = {
         public: [
             './src/base.js',
             './src/vendor.js',
+            './src/public/django_pagination.js',
             './styles/global.css',
             './styles/animate.css'
         ]
@@ -39,8 +40,8 @@ module.exports = {
                 loader: 'file-loader',
                 options: {
                     name: '[name].[ext]',
-                    outputPath:'./assets/',
-                    publicPath:'/dist/static/assets/'
+                    outputPath: './assets/',
+                    publicPath: '/dist/static/assets/'
                 }
             }
         ]

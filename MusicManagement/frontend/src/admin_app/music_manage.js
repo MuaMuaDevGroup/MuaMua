@@ -3,7 +3,7 @@ import 'linqjs'
 import 'angular-audio'
 import 'angular-file-upload'
 
-angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', 'ngAudio', 'FileUploader', '$cookies', ($http, $scope, ngAudio, FileUploader, $cookies) => {
+angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', 'ngAudio', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, ngAudio, FileUploader, $cookies, djangoPage) => {
     //File Upload
     var nowUploader = $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
     $scope.nowUploadingId = null;
@@ -19,18 +19,21 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
         $scope.isUploadSuccess = true;
         $scope.nowUploader.clearQueue();
     };
+    //Pagination Sections
+
     //Query Sections
     $scope.musics = [];
-    $scope.refreshMusic = () => {
+    $scope.pagination = new djangoPage("/api/music/");
+    $scope.refreshMusic = (url) => {
         $http({
             method: "GET",
-            url: "/api/music"
+            url: url
         }).then((response) => {
-            $scope.musics = response.data;
+            $scope.musics = $scope.pagination.filterResult(response);
             $scope.musics.forEach(m => {
                 //add audio
-                if (m.entity != null)
-                    m.audio = ngAudio.load(m.entity);
+                //if (m.entity != null)
+                //    m.audio = ngAudio.load(m.entity);
                 m.artistNames = [];
                 m.artist.forEach(a => {
                     $http({ method: "GET", url: "/api/artist/" + a + "/" }).then((response) => { m.artistNames.push(response.data.name); });
@@ -40,6 +43,8 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
             });
         });
     };
+    $scope.loadEntityMusic = (url) => ngAudio.load(url);
+    //Add Sections
     $scope.addStyle = "";
     $scope.addDuration = "";
     $scope.addMusicTitle = "";
@@ -64,7 +69,7 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
             $scope.addMusicTitle = "";
             $scope.addRawArtists = "";
             $scope.addMusicAlbum = "";
-            $scope.refreshMusic();
+            $scope.refreshMusic($scope.pagination.resetPage());
         });
     };
     $scope.editMusicId = null;
@@ -104,12 +109,12 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
             $scope.editMusicTitle = "";
             $scope.editMusicRawArtists = "";
             $scope.editMusicAlbum = "";
-            $scope.refreshMusic();
+            $scope.refreshMusic($scope.pagination.refreshPage());
         });
     };
 }]);
 
-angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope', 'FileUploader', '$cookies', ($http, $scope, FileUploader, $cookies) => {
+angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, FileUploader, $cookies, djangoPage) => {
     //File Upload Sections
     $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
     $scope.nowUploader.filters.push({
@@ -135,12 +140,13 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
     };
     //Queries Sections
     $scope.artists = [];
-    $scope.refreshArtist = () => {
+    $scope.pagination = new djangoPage('/api/artist/')
+    $scope.refreshArtist = (url) => {
         $http({
             method: "GET",
-            url: "/api/artist/"
+            url: url
         }).then((response) => {
-            $scope.artists = response.data;
+            $scope.artists = $scope.pagination.filterResult(response);
         });
     };
     $scope.addArtistName = "";
@@ -194,7 +200,7 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
     };
 }]);
 
-angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope', 'FileUploader', '$cookies', ($http, $scope, FileUploader, $cookies) => {
+angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, FileUploader, $cookies, djangoPage) => {
     //File Upload Sections
     $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
     $scope.nowUploader.filters.push({
@@ -221,12 +227,13 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
     // Queries Sections
     $scope.albums = [];
     $scope.viewTracksAlbum = null;
-    $scope.refreshAlbums = () => {
+    $scope.pagination = new djangoPage("/api/album/");
+    $scope.refreshAlbums = (url) => {
         $http({
-            url: "/api/album/",
+            url: url,
             method: "GET"
         }).then(response => {
-            $scope.albums = response.data;
+            $scope.albums = $scope.pagination.filterResult(response);
             $scope.albums.forEach(a => a.tracks = []);
         });
 
@@ -319,15 +326,16 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
     };
 }]);
 
-angular.module('mm-app').controller('UserManageController', ['$http', '$scope', ($http, $scope) => {
+angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 'djangoPage', ($http, $scope, djangoPage) => {
     //Refresh User sections
     $scope.users = [];
-    $scope.refreshUser = () => {
+    $scope.pagination = new djangoPage("/api/user/")
+    $scope.refreshUser = (url) => {
         $http({
-            url: "/api/user/",
+            url: url,
             method: "GET"
         }).then(response => {
-            $scope.users = response.data;
+            $scope.users = $scope.pagination.filterResult(response);
         });
     };
     //Add user sections
@@ -412,7 +420,7 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
     };
 }]);
 
-angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scope', 'FileUploader', '$cookies', ($http, $scope, FileUploader, $cookies) => {
+angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, FileUploader, $cookies, djangoPage) => {
     //File Upload Sections
     $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
     $scope.nowUploader.filters.push({
@@ -438,12 +446,13 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
     };
     //Query Playlist
     $scope.playlists = [];
-    $scope.refreshPlaylists = () => {
+    $scope.pagination = new djangoPage('/api/playlist/');
+    $scope.refreshPlaylists = (url) => {
         $http({
-            url: "/api/playlist/",
+            url: url,
             method: "GET"
         }).then(response => {
-            $scope.playlists = response.data;
+            $scope.playlists = $scope.pagination.filterResult(response);
         });
     };
     $scope.viewSongPlaylist = [];
