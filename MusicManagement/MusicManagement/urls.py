@@ -58,12 +58,15 @@ urlpatterns = [
     path('api/recommend/music/', RecommendMusicView.as_view()),
     path('api/recommend/album/', RecommendAlbumView.as_view()),
     path('api/recommend/playlist/', RecommendPlaylistView.as_view()),
-    path('api/playlist/my/',PlaylistUserView.as_view()),
-    path('api/playlist/my/<int:pk>/',PlaylistDetailUserView.as_view()),
-    path('api/playlist/my/collection/',PlaylistCollectionView.as_view()),
-    path('api/playlist/my/collection/<int:pk>/',PlaylistCollectionDeleteView.as_view()),
-    path('api/music/favorite/',FavoriteView.as_view()),
-    path('api/music/favorite/<int:pk>/',FavoriteDetailView.as_view()),
+    path('api/playlist/my/', PlaylistUserView.as_view()),
+    path('api/playlist/my/<int:pk>/', PlaylistDetailUserView.as_view()),
+    path('api/playlist/my/collection/', PlaylistCollectionView.as_view()),
+    path('api/playlist/my/collection/<int:pk>/',
+         PlaylistCollectionDeleteView.as_view()),
+    path('api/playlist/my/<int:pk>/cover/',
+         PlaylistUserPhotoUploadView.as_view()),
+    path('api/music/favorite/', FavoriteView.as_view()),
+    path('api/music/favorite/<int:pk>/', FavoriteDetailView.as_view()),
 ]
 
 if os.environ.get("DJANGO_CONFIGURATION") == "Development":
