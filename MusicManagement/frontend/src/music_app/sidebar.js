@@ -1,4 +1,5 @@
 import 'angular'
+import 'linqjs'
 
 angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "mainPageComm", ($scope, $http, comm) => {
 
@@ -94,4 +95,23 @@ angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "ma
             $scope.editLastName = "";
         });
     };
+    // Playlist Sections
+    $scope.playlists = [];
+    $scope.favoritePlaylist = null;
+    $scope.refreshPlaylist = () => { 
+        $http({
+            url: "/api/playlist/my/",
+            method: "GET"
+        }).then(response => { 
+            $scope.playlists = response.data;
+            let f = $scope.playlists.first(p => p.name == "我喜欢的歌曲");
+            $scope.favoritePlaylist = f;
+            $scope.playlists.pop(f);
+        });
+    };
+    $scope.viewPlaylist = playlist => {
+        comm.playlistViewCtrlSetDisplay(playlist.id, "playlist");
+        comm.musicCtrlSetDisplay('playlist_view');
+    };
+    $scope.refreshPlaylist();
 }]);
