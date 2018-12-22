@@ -193,6 +193,32 @@ class PlaylistDetailUserView(RetrieveAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class PlaylistUserPhotoUploadView(APIView):
+
+    parser_classes = (MultiPartParser,)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, pk, format=None):
+        playlists = Playlist.objects.filter(pk=pk)
+        if len(playlists) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        playlist = playlists.get(pk=pk)
+        if playlist.owner != request.user:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        file_object = request.FILES["file"]
+        # Hash filename
+        hasher = hashlib.md5()
+        file_name, file_ext = os.path.splitext(file_object.name)
+        hasher.update(str(pk).encode())
+        file_name = hasher.hexdigest()
+        file_object.name = "{0}{1}".format(file_name, file_ext)
+        if playlist.cover != None:
+            playlist.cover.delete()
+        playlist.cover = file_object
+        playlist.save()
+        return Response(status=status.HTTP_201_CREATED)
+
+
 class PlaylistCollectionView(ListAPIView):
     serializer_class = PlaylistSerializer
     filter_backends = (SearchFilter,)
