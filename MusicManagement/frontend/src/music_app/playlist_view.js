@@ -68,7 +68,8 @@ angular.module('mm-app').controller("PlayListViewController", ["$http", "$scope"
                 let m = $scope.loadArtist(response.data.artist, nowArtistNames);
                 response.data.artists = m;
                 // Load Album Title
-                $http({ url: "/api/album/" + response.data.album + "/", method: "GET" }).then(response2 => { response.data.albumTitle = response2.data.title; });
+                if (response.data.album != null)
+                    $http({ url: "/api/album/" + response.data.album + "/", method: "GET" }).then(response2 => { response.data.albumTitle = response2.data.title; });
                 trackEntities.push(response.data);
             });
         });

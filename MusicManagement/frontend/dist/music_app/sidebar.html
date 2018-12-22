@@ -111,9 +111,11 @@
             <li class="sidebar-title">
                 <a>我创建的歌单</a>
             </li>
-
             <li>
-                <a href="#"><i class="fab fa-gratipay"></i>  我最喜欢的歌曲</a>
+                <a href="#" ng-click="viewPlaylist(favoritePlaylist);" ><i class="fab fa-gratipay"></i>  我最喜欢的歌曲</a>
+            </li>
+            <li ng-repeat="playlist in playlists">
+                <a href="#" ng-click="viewPlaylist(playlist);"><i class="fas fa-list-alt"></i>  {{playlist.name}}</a>
             </li>
         </ul>
     </div>
