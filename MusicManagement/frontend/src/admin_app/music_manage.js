@@ -3,7 +3,7 @@ import 'linqjs'
 import 'angular-audio'
 import 'angular-file-upload'
 
-angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', 'ngAudio', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, ngAudio, FileUploader, $cookies, djangaPage) => {
+angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', 'ngAudio', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, ngAudio, FileUploader, $cookies, djangoPage) => {
     //File Upload
     var nowUploader = $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
     $scope.nowUploadingId = null;
@@ -23,7 +23,7 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
 
     //Query Sections
     $scope.musics = [];
-    $scope.pagination = new djangaPage("/api/music/");
+    $scope.pagination = new djangoPage("/api/music/");
     $scope.refreshMusic = (url) => {
         $http({
             method: "GET",
@@ -199,7 +199,7 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
     };
 }]);
 
-angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope', 'FileUploader', '$cookies', ($http, $scope, FileUploader, $cookies) => {
+angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, FileUploader, $cookies, djangoPage) => {
     //File Upload Sections
     $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
     $scope.nowUploader.filters.push({
@@ -226,12 +226,13 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
     // Queries Sections
     $scope.albums = [];
     $scope.viewTracksAlbum = null;
-    $scope.refreshAlbums = () => {
+    $scope.pagination = new djangoPage("/api/album/");
+    $scope.refreshAlbums = (url) => {
         $http({
-            url: "/api/album/",
+            url: url,
             method: "GET"
         }).then(response => {
-            $scope.albums = response.data;
+            $scope.albums = $scope.pagination.filterResult(response);
             $scope.albums.forEach(a => a.tracks = []);
         });
 
