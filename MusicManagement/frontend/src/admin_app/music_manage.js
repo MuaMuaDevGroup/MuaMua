@@ -114,7 +114,7 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
     };
 }]);
 
-angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope', 'FileUploader', '$cookies', ($http, $scope, FileUploader, $cookies) => {
+angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, FileUploader, $cookies, djangoPage) => {
     //File Upload Sections
     $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
     $scope.nowUploader.filters.push({
@@ -140,12 +140,13 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
     };
     //Queries Sections
     $scope.artists = [];
-    $scope.refreshArtist = () => {
+    $scope.pagination = new djangoPage('/api/artist/')
+    $scope.refreshArtist = (url) => {
         $http({
             method: "GET",
-            url: "/api/artist/"
+            url: url
         }).then((response) => {
-            $scope.artists = response.data;
+            $scope.artists = $scope.pagination.filterResult(response);
         });
     };
     $scope.addArtistName = "";

@@ -215,7 +215,8 @@
                         <td>{{music.AlbumName}}</td>
                         <td><button type="button" class="btn btn-secondary" ng-click="toEditMusic(music.id)"
                                 data-toggle="modal" data-target="#musicModalEdit"><i class="fas fa-edit"></i> 编辑</button>
-                            <button type="button" class="btn btn-success animate-none" ng-if="music.audio != undefined" ng-click="music.audio.paused ? music.audio.play() : music.audio.pause()">
+                            <button type="button" class="btn btn-success animate-none" ng-if="music.audio != undefined"
+                                ng-click="music.audio.paused ? music.audio.play() : music.audio.pause()">
                                 <span ng-if="music.audio.paused">
                                     <i class="fas fa-play"></i> 播放
                                 </span>
@@ -223,7 +224,8 @@
                                     <i class="fas fa-pause"></i> 暂停
                                 </span>
                             </button>
-                            <button type="button" class="btn btn-success animate-none" ng-if="(music.entity != null)&&(music.audio == undefined)" ng-click="music.audio = loadEntityMusic(music.entity);music.audio.play();">
+                            <button type="button" class="btn btn-success animate-none" ng-if="(music.entity != null)&&(music.audio == undefined)"
+                                ng-click="music.audio = loadEntityMusic(music.entity);music.audio.play();">
 
                                 <i class="fas fa-play"></i> 播放
 
@@ -402,25 +404,27 @@
             <!--对话框结束-->
             <div class="btn-toolbar d-flex" role="toolbar" aria-label="Music Management Toolbar">
                 <div class="btn-group mr-auto" role="group" aria-label="Album Management Toolbar">
-                    <button type="button" ng-click="refreshAlbums(pagination.resetPage());" class="btn btn-secondary"><i class="fas fa-sync-alt"></i>
+                    <button type="button" ng-click="refreshAlbums(pagination.resetPage());" class="btn btn-secondary"><i
+                            class="fas fa-sync-alt"></i>
                         刷新</button>
-                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#albumAddModal"><i class="fas fa-plus"></i>
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#albumAddModal"><i
+                            class="fas fa-plus"></i>
                         添加</button>
                 </div>
                 <div class="input-group mr-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text" id="btnGroupAddon">每页条目数</div>
                     </div>
-                    <input ng-model="pagination.countEachPage" ng-change="refreshAlbums(pagination.refreshPage());" type="number"
-                        class="form-control" aria-label="Music Page Count" aria-describedby="btnGroupAddon">
+                    <input ng-model="pagination.countEachPage" ng-change="refreshAlbums(pagination.refreshPage());"
+                        type="number" class="form-control" aria-label="Music Page Count" aria-describedby="btnGroupAddon">
                 </div>
                 <div class="btn-group" role="group" aria-label="Music Page Select">
                     <button ng-click="refreshAlbums(pagination.previousPage());" type="button" class="btn btn-secondary">上一页</button>
                     <button ng-click="refreshAlbums(pagination.nextPage());" type="button" class="btn btn-secondary">下一页</button>
                 </div>
-            
+
             </div>
-            
+
             <hr />
             <table class="table">
                 <thead class="thead-dark">
@@ -615,11 +619,27 @@
                 </div>
             </div>
             <!-- 对话框结束 -->
-            <div class="btn-group" role="group" aria-label="Artist Management Toolbar">
-                <button type="button" ng-click="refreshArtist();" class="btn btn-secondary"><i class="fas fa-sync-alt"></i>
-                    刷新</button>
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#artistModalAdd"><i
-                        class="fas fa-plus"></i> 添加</button>
+
+            <div class="btn-toolbar d-flex" role="toolbar" aria-label="Artist" Management Toolbar">
+                <div class="btn-group mr-auto" role="group" aria-label="Artist Management Toolbar">
+                    <button type="button" ng-click="refreshArtist(pagination.resetPage());" class="btn btn-secondary"><i class="fas fa-sync-alt"></i>
+                        刷新</button>
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#artistModalAdd"><i
+                            class="fas fa-plus"></i>
+                        添加</button>
+                </div>
+                <div class="input-group mr-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text" id="btnGroupAddon">每页条目数</div>
+                    </div>
+                    <input ng-model="pagination.countEachPage" ng-change="refreshArtist(pagination.refreshPage());" type="number"
+                        class="form-control" aria-label="Music Page Count" aria-describedby="btnGroupAddon">
+                </div>
+                <div class="btn-group" role="group" aria-label="Music Page Select">
+                    <button ng-click="refreshArtist(pagination.previousPage());" type="button" class="btn btn-secondary">上一页</button>
+                    <button ng-click="refreshArtist(pagination.nextPage());" type="button" class="btn btn-secondary">下一页</button>
+                </div>
+
             </div>
             <hr />
             <table class="table">
