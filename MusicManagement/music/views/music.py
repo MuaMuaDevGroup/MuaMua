@@ -55,6 +55,14 @@ class MusicDetailView(APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request, pk, format=None):
+        musics = Music.objects.filter(pk=pk)
+        if len(musics) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        music = musics.get(pk=pk)
+        music.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        
 
 class MusicDetailUploadView(APIView):
     parser_classes = (MultiPartParser,)

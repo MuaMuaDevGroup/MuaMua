@@ -57,6 +57,14 @@ class ArtistDetailView(APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request, pk, format=None):
+        artists = Artist.objects.filter(pk=pk)
+        if len(artists) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        artist = artists.get(pk=pk)
+        artist.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class ArtistPhotoUploadView(APIView):
 
