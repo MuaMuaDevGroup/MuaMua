@@ -112,6 +112,18 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
             $scope.refreshMusic($scope.pagination.refreshPage());
         });
     };
+    // Delete Sections
+    $scope.deletingMusic = null;
+    $scope.toDeleteMusic = (music) => $scope.deletingMusic = music;
+    $scope.deleteMusic = (id) => {
+        $http({
+            url: "/api/music/" + id + "/",
+            method: "DELETE"
+        }).then(response => {
+            $scope.deletingMusic = null;
+            $scope.refreshMusic();
+        });
+    };
 }]);
 
 angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, FileUploader, $cookies, djangoPage) => {
