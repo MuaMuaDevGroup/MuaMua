@@ -1,7 +1,13 @@
 import $ from 'jquery'
+import 'bootstrap'
 import 'angular'
+angular.module('mm-app').controller('NavbarController', ["$http", "$scope", "mmNotification", function ($http, $scope, mmNotify) {
+    //Bind Notification
+    mmNotify.setNotificationHandler((type, message) => {
 
-angular.module('mm-app').controller('NavbarController', ["$http", "$scope", function ($http, $scope) {
+    });
+
+    //Login Sections
     $scope.checkLogin = function () {
         $http({
             method: "GET",

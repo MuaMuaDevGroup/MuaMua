@@ -14,6 +14,7 @@ module.exports = {
             './styles/music_app/sidebar.css'
         ],
         adminApp: [
+            './src/admin_app/notification.js',
             './src/admin_app/music_manage.js',
             './src/admin_app/navbar.js',
         ],

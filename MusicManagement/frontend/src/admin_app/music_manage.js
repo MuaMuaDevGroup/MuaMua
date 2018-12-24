@@ -3,7 +3,7 @@ import 'linqjs'
 import 'angular-audio'
 import 'angular-file-upload'
 
-angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', 'ngAudio', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, ngAudio, FileUploader, $cookies, djangoPage) => {
+angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', 'ngAudio', 'FileUploader', '$cookies', 'djangoPage', 'mmNotification', ($http, $scope, ngAudio, FileUploader, $cookies, djangoPage, mmNotify) => {
     //File Upload
     var nowUploader = $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
     $scope.nowUploadingId = null;
@@ -70,6 +70,9 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
             $scope.addRawArtists = "";
             $scope.addMusicAlbum = "";
             $scope.refreshMusic($scope.pagination.resetPage());
+        },
+            response => {
+                mmNotify.notify("Error", response.data);
         });
     };
     $scope.editMusicId = null;
