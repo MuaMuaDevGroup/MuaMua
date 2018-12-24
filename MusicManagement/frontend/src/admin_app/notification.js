@@ -2,16 +2,16 @@ import 'angular'
 // Notification Interactions
 angular.module('mm-app').factory("mmNotification", () => {
     let notificationHandler = null;
-    let notifications = []
+    let notification = [];
     return {
         setNotificationHandler: (func) => {
             notificationHandler = func;
         },
-        notifications: notifications,
+        notifications: notification,
         notify: (type, message) => {
             if (typeof notificationHandler == "function")
                 notificationHandler(type, message);
-            notifications.push({
+            notification.push({
                 type: type,
                 message: message
             });

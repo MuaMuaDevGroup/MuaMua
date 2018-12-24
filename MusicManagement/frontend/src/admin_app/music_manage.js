@@ -72,8 +72,8 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
             $scope.refreshMusic($scope.pagination.resetPage());
         },
             response => {
-                mmNotify.notify("Error", response.data);
-        });
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     $scope.editMusicId = null;
     $scope.editMusicStyle = "";
