@@ -237,8 +237,8 @@
                         <td>{{music.AlbumName}}</td>
                         <td><button type="button" class="btn btn-secondary" ng-click="toEditMusic(music.id)"
                                 data-toggle="modal" data-target="#musicModalEdit"><i class="fas fa-edit"></i> 编辑</button>
-                            <button type="button" class="btn btn-secondary" ng-click="toDeleteMusic(music)"
-                                data-toggle="modal" data-target="#musicDeleteModal"><i class="fas fa-trash-alt"></i> 删除</button>
+                            <button type="button" class="btn btn-danger" ng-click="toDeleteMusic(music)" data-toggle="modal"
+                                data-target="#musicDeleteModal"><i class="fas fa-trash-alt"></i> 删除</button>
                             <button type="button" class="btn btn-success animate-none" ng-if="music.audio != undefined"
                                 ng-click="music.audio.paused ? music.audio.play() : music.audio.pause()">
                                 <span ng-if="music.audio.paused">
@@ -642,6 +642,28 @@
                     </div>
                 </div>
             </div>
+            <!-- 删除歌手确认 -->
+            <div class="modal fade" id="artistDeleteModal" tabindex="-1" role="dialog" aria-labelledby="artistDeleteModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="artistDeleteModalTitle">删除歌手</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            您确定要删除歌手{{deletingArtist.name}}？
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-danger" ng-click="deleteArtist(deletingArtist.id);"
+                                data-dismiss="modal">删除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- 对话框结束 -->
 
             <div class="btn-toolbar d-flex" role="toolbar" aria-label="Artist Management Toolbar">
@@ -694,7 +716,9 @@
                         <td>{{artist.birth}}</td>
                         <td><button type="button" class="btn btn-secondary" ng-click="toEditArtist(artist.id,artist.name,artist.country,artist.birth)"
                                 data-toggle="modal" data-target="#artistModalEdit"><i class="fas fa-edit"></i> 编辑</button>
-                            <button type="button" class="btn btn-secondary" ng-click="setUploadId(artist.id)"
+                            <button type="button" class="btn btn-danger" ng-click="toDeleteArtist(artist);"
+                                    data-toggle="modal" data-target="#artistDeleteModal"><i class="fas fa-trash-alt"></i> 删除</button>
+                            <button type="button" class="btn btn-info" ng-click="setUploadId(artist.id)"
                                 data-toggle="modal" data-target="#artistPhotoUploadModal"><i class="fas fa-upload"></i>
                                 上传</button></td>
                     </tr>
