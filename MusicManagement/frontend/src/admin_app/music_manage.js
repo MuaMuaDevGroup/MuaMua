@@ -112,6 +112,18 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
             $scope.refreshMusic($scope.pagination.refreshPage());
         });
     };
+    // Delete Sections
+    $scope.deletingMusic = null;
+    $scope.toDeleteMusic = (music) => $scope.deletingMusic = music;
+    $scope.deleteMusic = (id) => {
+        $http({
+            url: "/api/music/" + id + "/",
+            method: "DELETE"
+        }).then(response => {
+            $scope.deletingMusic = null;
+            $scope.refreshMusic($scope.pagination.refreshPage());
+        });
+    };
 }]);
 
 angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, FileUploader, $cookies, djangoPage) => {
@@ -198,6 +210,18 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
             $scope.refreshArtist();
         });
     };
+    // Delete Sections
+    $scope.deletingArtist = null;
+    $scope.deleteArtist = id => {
+        $http({
+            url: "/api/artist/" + id + "/",
+            method: "DELETE"
+        }).then(response => {
+            $scope.deletingArtist = null;
+            $scope.refreshArtist($scope.pagination.refreshPage());
+        });
+    };
+    $scope.toDeleteArtist = artist => $scope.deletingArtist = artist;
 }]);
 
 angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, FileUploader, $cookies, djangoPage) => {
