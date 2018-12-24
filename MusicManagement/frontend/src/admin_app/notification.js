@@ -7,14 +7,15 @@ angular.module('mm-app').factory("mmNotification", () => {
         setNotificationHandler: (func) => {
             notificationHandler = func;
         },
-        notifications: notification,
+        notifications: () => notification,
         notify: (type, message) => {
-            if (typeof notificationHandler == "function")
-                notificationHandler(type, message);
             notification.push({
                 type: type,
                 message: message
             });
+            if (typeof notificationHandler == "function")
+                notificationHandler(type, message);
+
         }
     }
 });

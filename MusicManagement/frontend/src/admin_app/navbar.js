@@ -14,7 +14,7 @@ angular.module('mm-app').controller('NavbarController', ["$http", "$scope", "mmN
     ]
     mmNotify.setNotificationHandler((type, message) => {
 
-        $scope.notifyCount = mmNotify.notifications.length;
+        $scope.notifyCount = mmNotify.notifications().length;
         $scope.notifications.unshift({
             message: $scope.typeStatus.first(p => p.status == type).text,
             isShow: true
