@@ -113,7 +113,10 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
             $scope.editMusicRawArtists = "";
             $scope.editMusicAlbum = "";
             $scope.refreshMusic($scope.pagination.refreshPage());
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     // Delete Sections
     $scope.deletingMusic = null;
@@ -125,7 +128,10 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
         }).then(response => {
             $scope.deletingMusic = null;
             $scope.refreshMusic($scope.pagination.refreshPage());
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
 }]);
 
@@ -162,7 +168,10 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
             url: url
         }).then((response) => {
             $scope.artists = $scope.pagination.filterResult(response);
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     $scope.addArtistName = "";
     $scope.addArtistCountry = "";
@@ -182,7 +191,10 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
             $scope.addArtistBirth = "";
             $scope.addArtistCountry = "";
             $scope.refreshArtist();
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     $scope.editArtistId = null;
     $scope.editArtistName = "";
@@ -211,7 +223,10 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
             $scope.editArtistCountry = "";
             $scope.editArtistBirth = "";
             $scope.refreshArtist();
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     // Delete Sections
     $scope.deletingArtist = null;
@@ -222,7 +237,10 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
         }).then(response => {
             $scope.deletingArtist = null;
             $scope.refreshArtist($scope.pagination.refreshPage());
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     $scope.toDeleteArtist = artist => $scope.deletingArtist = artist;
 }]);
@@ -262,7 +280,10 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
         }).then(response => {
             $scope.albums = $scope.pagination.filterResult(response);
             $scope.albums.forEach(a => a.tracks = []);
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
 
     };
     $scope.editingAlbum = null;
@@ -273,7 +294,10 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
             method: "GET"
         }).then(response => {
             $scope.editingAlbum.rawTracks = response.data.tracks.select(a => a.toString()).join(",");
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     $scope.editAlbum = () => {
         let d = {
@@ -289,7 +313,10 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
             data: d
         }).then(response => {
             $scope.refreshAlbums();
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
 
     $scope.deletingAlbum = null;
@@ -302,7 +329,10 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
             method: "DELETE"
         }).then(response => {
             $scope.refreshAlbums();
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     $scope.addAlbumTitle = "";
     $scope.addAlbumPublisher = "";
@@ -328,7 +358,10 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
             $scope.addAlbumTracks = "";
             $scope.addAlbumDescription = "";
             $scope.refreshAlbums();
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     $scope.loadAlbumTrack = (id) => {
         $http({
@@ -393,7 +426,10 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
             $scope.addUserLastname = "";
             $scope.addUserIsAdminRaw = "false";
             $scope.refreshUser();
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
 
     };
     //Edit user sections
@@ -403,7 +439,10 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
             $scope.editUser = response.data;
             $scope.editUser.isAdminRaw = $scope.editUser.is_staff == true ? "true" : "false";
             $scope.editUser.isActiveRaw = $scope.editUser.is_active == true ? "true" : "false";
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     $scope.editUserDo = () => {
         let d = {
@@ -420,7 +459,10 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
         }).then(response => {
             $scope.editUser = null;
             $scope.refreshUser();
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     //Edit password sections
     $scope.editPassId = "";
@@ -443,7 +485,10 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
             $scope.editPassName = "";
             $scope.editPassNew = "";
             $scope.refreshUser();
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
 }]);
 
@@ -480,7 +525,10 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             method: "GET"
         }).then(response => {
             $scope.playlists = $scope.pagination.filterResult(response);
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     $scope.viewSongPlaylist = [];
     $scope.loadPlaylistTrack = (id) => {
@@ -496,7 +544,10 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
                     method: "GET"
                 }).then(response => { $scope.viewSongPlaylist.push(response.data); });
             });
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     $scope.loadPlaylistDescription = (id) => {
         let playlist = $scope.playlists.first(p => p.id == id);
@@ -506,7 +557,10 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             method: "GET"
         }).then(response => {
             $scope.playlists[i] = response.data;
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     //Add Playlist sections
     $scope.addPlaylistTitle = "";
@@ -530,7 +584,10 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             $scope.addPlaylistTracks = "";
             $scope.addPlaylistOwner = "";
             $scope.refreshPlaylists();
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     //Edit playlist sections
     $scope.editingPlaylist = null;
@@ -541,7 +598,10 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
         }).then(response => {
             $scope.editingPlaylist = response.data;
             $scope.editingPlaylist.rawSongs = response.data.songs.join(",")
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     $scope.editPlaylist = () => {
         let d = {
@@ -558,7 +618,10 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
         }).then(response => {
             $scope.editingPlaylist = null;
             $scope.refreshPlaylists();
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     //Delete playlist sections
     $scope.deletingPlaylist = null;
@@ -572,7 +635,10 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
         }).then(response => {
             $scope.deletingPlaylist = null;
             $scope.refreshPlaylists();
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     //Edit collector sections
     $scope.collectorAddUserUserRaw = "";
@@ -589,7 +655,10 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
         }).then(response => {
             $scope.collectorAddUserUserRaw = "";
             $scope.collectorAddUserId = null;
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     $scope.setCollectorAdd = (id) => $scope.collectorAddUserId = id;
     $scope.collectorRemoveUserUserRaw = "";
@@ -606,7 +675,10 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
         }).then(response => {
             $scope.collectorRemoveUserUserRaw = "";
             $scope.collectorRemoveUserId = null;
-        });
+        },
+            response => {
+                mmNotify.notify(response.status, response.statusText);
+            });
     };
     $scope.setCollectorRemove = (id) => $scope.collectorRemoveUserId = id;
 }]);
