@@ -1,6 +1,8 @@
 {% verbatim %}
-<!-- Modal -->
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" ng-controller="NavbarController">
+    <!-- 对话框开始 -->
+    <!-- 登录对话框-->
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -33,6 +35,44 @@
             </div>
         </div>
     </div>
+    <!-- 用户信息修改 -->
+    <div class="modal fade" id="EditUserDetail" tabindex="-1" role="dialog" aria-labelledby="playlistEditModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="playlistEditModalLabel">编辑用户信息</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="col-form-label">用户名：</label>
+                            <input ng-model="editUsername" type="text" class="form-control" id="account-id-edit" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">邮箱：</label>
+                            <input ng-model="editEmail" type="text" class="form-control" id="account-email-edit">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">姓:</label>
+                            <input ng-model="editFirstName" type="text" class="form-control" id="account-firstname-edit">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">名:</label>
+                            <input ng-model="editLastName" type="text" class="form-control" id="account-lastname-edit">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="editUserDetail();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <a class="navbar-brand" href="#">MuaMua</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,14 +93,16 @@
         <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
             <li class="nav-item dropdown" ng-show="isLogin">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
+                    aria-expanded="false" ng-click="refreshAccount();" >
                     {{username}}
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">{{email}}</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#" ng-click="logout();">注销</a>
-                </div>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#" aria-expanded="false">{{email}}</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a class="dropdown-item" href="#"  data-toggle="modal" data-target="#EditUserDetail" ng-click="toEditUserDetail();">{{username}}</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a class="dropdown-item" href="#" ng-click="logout();">注销</a></li>
+                </ul>
             </li>
             <li class="nav-item" ng-hide="isLogin">
                 <button class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#loginModal">登录</button>

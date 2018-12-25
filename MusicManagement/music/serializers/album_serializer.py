@@ -49,6 +49,7 @@ class AlbumUpdateSerializer(serializers.ModelSerializer):
         instance.title = validated_date.get("title")
         instance.year = validated_date.get("year")
         instance.publisher = validated_date.get("publisher")
+        instance.description = validated_date.get("description")
         instance.save()
         return instance
 
@@ -57,18 +58,14 @@ class AlbumSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Album
-        fields = ('id', 'title', 'description', 'year', 'publisher')
+        fields = ('id', 'title', 'description', 'year', 'publisher', 'cover')
 
 
-class AlbumDetailSerializer(serializers.Serializer):
+class AlbumDetailSerializer(serializers.ModelSerializer):
 
-    id = serializers.IntegerField()
-    title = serializers.CharField()
-    year = serializers.DateField()
-    publisher = serializers.CharField()
-    description = serializers.CharField()
     tracks = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Album
-        fields = ('id', 'title', 'description', 'year', 'publisher', 'tracks')
+        fields = ('id', 'title', 'description', 'year',
+                  'publisher', 'tracks', 'cover')

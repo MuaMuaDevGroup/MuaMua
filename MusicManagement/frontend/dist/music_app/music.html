@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="mm-app">
+
+<head>
+    <title>MuaMua - 在线音乐播放</title>
+</head>
+
+<body ng-controller="MusicController">
+    <div class="wrapper toggled">
+        {% include "music_app/sidebar.html" %}
+        <div class="page-content-wrapper">
+            <div class="animate-show-hide" ng-show="nowDisplay == 'player'">
+                {% include "music_app/player.html" %}
+            </div>
+            <div class="animate-show-hide" ng-show="nowDisplay == 'recommend'">
+                {% include "music_app/recommend.html" %}
+            </div>
+            <div class="animate-show-hide" ng-show="nowDisplay == 'search'">
+                {% include "music_app/search.html" %}
+            </div>
+            <div class="animate-show-hide" ng-show="nowDisplay == 'playlist_view'">
+                {% include "music_app/playlist_view.html" %}
+            </div>
+        </div>
+    </div>
+    {% include "music_app/player_mini.html" %}
+    {% load static %}
+    <script src="{% static './static/scripts/public.bundle.js' %}"></script>
+    <script src="{% static './static/scripts/app.bundle.js' %}"></script>
+</body>
+
+</html>

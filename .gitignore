@@ -109,3 +109,5 @@ migrations
 
 # VSCode
 .vscode
+# IDEA
+.idea

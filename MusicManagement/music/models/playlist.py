@@ -9,4 +9,6 @@ class Playlist(models.Model):
     name = models.TextField()
     description = models.TextField(null=True)
     play_count = models.IntegerField(validators=[MinValueValidator(0)])
-    owners = models.ManyToManyField(User, null=True)
+    collectors = models.ManyToManyField(User,related_name="playlist_collectors")
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    cover = models.ImageField(upload_to="playlist_cover", null=True)

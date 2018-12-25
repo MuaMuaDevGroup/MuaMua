@@ -10,3 +10,19 @@
 a.nav-link{
     color: #343a40;
 }
+
+div.dropdown{
+    display: inline!important;
+}
+
+div.dropdown-menu img{
+    width: 200px;
+}
+
+/* Bootstrap Circle Button */
+.btn-circle {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%!important;
+}
+

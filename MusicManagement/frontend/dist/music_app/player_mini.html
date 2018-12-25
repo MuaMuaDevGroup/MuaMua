@@ -1,0 +1,76 @@
+{% verbatim %}
+<div class="fixed-bottom container-fluid mini-player" ng-controller="MiniPlayerController">
+    <div class="row align-items-center">
+        <div class="col-xl-2 col-3 container-fluid">
+            <div class="row align-items-center">
+                <button href="#" type="button" class="btn btn-link player-controller-img" ng-click="setDisplay('player');">
+                    <img ng-if="music!=null&&music.cover!=null" ng-src="{{music.cover}}" class="rounded" width="50"
+                        height="50" alt="">
+                    <div ng-if="music==null||music.cover==null" class="img-thumbnail items-center justify-center">
+                        <span style="color: #dc3545;">
+                            <i class="fas fa-music"></i>
+                        </span>
+                    </div>
+                </button>
+                <button type="button" class="btn btn-danger btn-circle player-controller-button"><i class="fas fa-fast-backward"></i></button>
+                <button type="button" class="btn btn-danger btn-circle player-controller-button animate-none" ng-if="audio.paused"
+                    ng-click="togglePlay();">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-circle player-controller-button animate-none" ng-if="!audio.paused"
+                    ng-click="togglePlay();">
+                    <i class="fas fa-pause"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-circle player-controller-button"><i class="fas fa-fast-forward"></i></button>
+            </div>
+
+        </div>
+
+        <div class="col-xl-9 col-7 container-fluid player-info">
+            <div class="row justify-content-between">
+                <div class="col-auto player-info-left">
+                    <span>{{music.title || "MuaMua Music"}}</span>
+                    <span>/</span>
+                    <span>{{music.artistsName.join(",") || "MuaMua Artist" }}</span>
+                </div>
+                <div class="col-auto player-info-right">
+                    <span>{{(audio.currentTime | musicTime) || "00:00" }}</span>
+                    <span>/</span>
+                    <span>{{(audio.duration | musicTime) || "00:00" }}</span>
+                </div>
+
+            </div>
+            <div class="row">
+                <input class="player-bar" ng-mousedown="canChange = true;" ng-mouseup="canChange = false;" ng-model='currentTime'
+                    type="range" min="0" max="{{audio.duration}}">
+            </div>
+        </div>
+        <div class="col-xl-1 col-2">
+            <button ng-click="toggleFavorite();" type="button" class="btn btn-link">
+                <span ng-if="music!=null&&music.isFavorite" style="color: #dc3545;">
+                    <i class="fas fa-heart"></i>
+                </span>
+                <span ng-if="music==null||!music.isFavorite" style="color: #dc3545;">
+                    <i class="far fa-heart"></i>
+                </span>
+            </button>
+            <div class="dropdown">
+                <button class="btn btn-link dropdown-toggle dropdown-toggle-none-arrow" type="button" id="dropdownMenu2"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span style="color: #dc3545;">
+                        <i class="fas fa-volume-up"></i>
+                    </span>
+                    
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <form>
+                        <input class="volume-bar" ng-model='volume' type="range" min="0" step="1" max="100">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endverbatim %}

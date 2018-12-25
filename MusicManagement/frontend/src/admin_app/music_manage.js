@@ -1,14 +1,39 @@
 import 'angular'
 import 'linqjs'
-angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', ($http, $scope) => {
+import 'angular-audio'
+import 'angular-file-upload'
+
+angular.module('mm-app').controller('MusicManageController', ['$http', '$scope', 'ngAudio', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, ngAudio, FileUploader, $cookies, djangoPage) => {
+    //File Upload
+    var nowUploader = $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
+    $scope.nowUploadingId = null;
+    $scope.nowUploadingFilename = "";
+    $scope.isUploadSuccess = false;
+    $scope.setUploadId = (id) => {
+        $scope.nowUploadingId = id;
+        $scope.nowUploader.url = "/api/music/" + id + "/file/";
+        $scope.nowUploader.headers = { 'X-CSRFToken': $cookies.get("csrftoken") };
+        $scope.isUploadSuccess = false;
+    };
+    $scope.nowUploader.onSuccessItem = function (fileItem, response, status, headers) {
+        $scope.isUploadSuccess = true;
+        $scope.nowUploader.clearQueue();
+    };
+    //Pagination Sections
+
+    //Query Sections
     $scope.musics = [];
-    $scope.refreshMusic = () => {
+    $scope.pagination = new djangoPage("/api/music/");
+    $scope.refreshMusic = (url) => {
         $http({
             method: "GET",
-            url: "/api/music"
+            url: url
         }).then((response) => {
-            $scope.musics = response.data;
+            $scope.musics = $scope.pagination.filterResult(response);
             $scope.musics.forEach(m => {
+                //add audio
+                //if (m.entity != null)
+                //    m.audio = ngAudio.load(m.entity);
                 m.artistNames = [];
                 m.artist.forEach(a => {
                     $http({ method: "GET", url: "/api/artist/" + a + "/" }).then((response) => { m.artistNames.push(response.data.name); });
@@ -16,9 +41,10 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
                 if (m.album != null)
                     $http({ method: "GET", url: "/api/album/" + m.album + "/" }).then(response => m.AlbumName = response.data.title);
             });
-            $scope.$apply();
         });
     };
+    $scope.loadEntityMusic = (url) => ngAudio.load(url);
+    //Add Sections
     $scope.addStyle = "";
     $scope.addDuration = "";
     $scope.addMusicTitle = "";
@@ -43,7 +69,7 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
             $scope.addMusicTitle = "";
             $scope.addRawArtists = "";
             $scope.addMusicAlbum = "";
-            $scope.refreshMusic();
+            $scope.refreshMusic($scope.pagination.resetPage());
         });
     };
     $scope.editMusicId = null;
@@ -55,7 +81,6 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
 
     $scope.toEditMusic = (id) => {
         let m = $scope.musics.first(m => m.id == id);
-        console.log(m);
         $scope.editMusicId = m.id;
         $scope.editMusicStyle = m.style;
         $scope.editMusicDuration = m.duration;
@@ -65,7 +90,6 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
     };
     $scope.editMusic = () => {
         let u = "/api/music/" + $scope.editMusicId + "/";
-        console.log($scope.editMusicRawArtists);
         let d = {
             id: $scope.editMusicId,
             style: $scope.editMusicStyle,
@@ -85,21 +109,56 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
             $scope.editMusicTitle = "";
             $scope.editMusicRawArtists = "";
             $scope.editMusicAlbum = "";
-            $scope.refreshMusic();
+            $scope.refreshMusic($scope.pagination.refreshPage());
+        });
+    };
+    // Delete Sections
+    $scope.deletingMusic = null;
+    $scope.toDeleteMusic = (music) => $scope.deletingMusic = music;
+    $scope.deleteMusic = (id) => {
+        $http({
+            url: "/api/music/" + id + "/",
+            method: "DELETE"
+        }).then(response => {
+            $scope.deletingMusic = null;
+            $scope.refreshMusic($scope.pagination.refreshPage());
         });
     };
 }]);
 
-angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope', ($http, $scope) => {
+angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, FileUploader, $cookies, djangoPage) => {
+    //File Upload Sections
+    $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
+    $scope.nowUploader.filters.push({
+        name: 'imageFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    $scope.nowUploadingId = null;
+    $scope.nowUploadingFilename = "";
+    $scope.isUploadSuccess = false;
+    $scope.setUploadId = (id) => {
+        $scope.nowUploader.clearQueue();
+        $scope.nowUploadingId = id;
+        $scope.nowUploader.url = "/api/artist/" + id + "/photo/";
+        $scope.nowUploader.headers = { 'X-CSRFToken': $cookies.get("csrftoken") };
+        $scope.isUploadSuccess = false;
+    };
+    $scope.nowUploader.onSuccessItem = function (fileItem, response, status, headers) {
+        $scope.isUploadSuccess = true;
+        $scope.nowUploader.clearQueue();
+    };
+    //Queries Sections
     $scope.artists = [];
-    $scope.refreshArtist = () => {
+    $scope.pagination = new djangoPage('/api/artist/')
+    $scope.refreshArtist = (url) => {
         $http({
             method: "GET",
-            url: "/api/artist/"
+            url: url
         }).then((response) => {
-            $scope.artists = response.data;
-            console.log($scope.artists);
-            $scope.$apply();
+            $scope.artists = $scope.pagination.filterResult(response);
         });
     };
     $scope.addArtistName = "";
@@ -151,18 +210,54 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
             $scope.refreshArtist();
         });
     };
+    // Delete Sections
+    $scope.deletingArtist = null;
+    $scope.deleteArtist = id => {
+        $http({
+            url: "/api/artist/" + id + "/",
+            method: "DELETE"
+        }).then(response => {
+            $scope.deletingArtist = null;
+            $scope.refreshArtist($scope.pagination.refreshPage());
+        });
+    };
+    $scope.toDeleteArtist = artist => $scope.deletingArtist = artist;
 }]);
 
-angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope', ($http, $scope) => {
-
+angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, FileUploader, $cookies, djangoPage) => {
+    //File Upload Sections
+    $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
+    $scope.nowUploader.filters.push({
+        name: 'imageFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    $scope.nowUploadingId = null;
+    $scope.nowUploadingFilename = "";
+    $scope.isUploadSuccess = false;
+    $scope.setUploadId = (id) => {
+        $scope.nowUploader.clearQueue();
+        $scope.nowUploadingId = id;
+        $scope.nowUploader.url = "/api/album/" + id + "/cover/";
+        $scope.nowUploader.headers = { 'X-CSRFToken': $cookies.get("csrftoken") };
+        $scope.isUploadSuccess = false;
+    };
+    $scope.nowUploader.onSuccessItem = function (fileItem, response, status, headers) {
+        $scope.isUploadSuccess = true;
+        $scope.nowUploader.clearQueue();
+    };
+    // Queries Sections
     $scope.albums = [];
     $scope.viewTracksAlbum = null;
-    $scope.refreshAlbums = () => {
+    $scope.pagination = new djangoPage("/api/album/");
+    $scope.refreshAlbums = (url) => {
         $http({
-            url: "/api/album/",
+            url: url,
             method: "GET"
         }).then(response => {
-            $scope.albums = response.data;
+            $scope.albums = $scope.pagination.filterResult(response);
             $scope.albums.forEach(a => a.tracks = []);
         });
 
@@ -255,16 +350,16 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
     };
 }]);
 
-angular.module('mm-app').controller('UserManageController', ['$http', '$scope', ($http, $scope) => {
-
-    $scope.users = [];
+angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 'djangoPage', ($http, $scope, djangoPage) => {
     //Refresh User sections
-    $scope.refreshUser = () => {
+    $scope.users = [];
+    $scope.pagination = new djangoPage("/api/user/")
+    $scope.refreshUser = (url) => {
         $http({
-            url: "/api/user/",
+            url: url,
             method: "GET"
         }).then(response => {
-            $scope.users = response.data;
+            $scope.users = $scope.pagination.filterResult(response);
         });
     };
     //Add user sections
@@ -304,6 +399,7 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
         $http({ url: "/api/user/" + id + "/", method: "GET" }).then(response => {
             $scope.editUser = response.data;
             $scope.editUser.isAdminRaw = $scope.editUser.is_staff == true ? "true" : "false";
+            $scope.editUser.isActiveRaw = $scope.editUser.is_active == true ? "true" : "false";
         });
     };
     $scope.editUserDo = () => {
@@ -311,7 +407,8 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
             email: $scope.editUser.email,
             first_name: $scope.editUser.first_name,
             last_name: $scope.editUser.last_name,
-            is_admin: $scope.editUser.isAdminRaw = $scope.editUser.isAdminRaw == "true" ? true : false
+            is_admin: $scope.editUser.isAdminRaw = $scope.editUser.isAdminRaw == "true" ? true : false,
+            is_active: $scope.editUser.isActiveRaw = $scope.editUser.isActiveRaw == "true" ? true : false
         };
         $http({
             url: "/api/user/" + $scope.editUser.id + "/",
@@ -347,16 +444,39 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
     };
 }]);
 
-angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scope', ($http, $scope) => {
-
+angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, FileUploader, $cookies, djangoPage) => {
+    //File Upload Sections
+    $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
+    $scope.nowUploader.filters.push({
+        name: 'imageFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    $scope.nowUploadingId = null;
+    $scope.nowUploadingFilename = "";
+    $scope.isUploadSuccess = false;
+    $scope.setUploadId = (id) => {
+        $scope.nowUploader.clearQueue();
+        $scope.nowUploadingId = id;
+        $scope.nowUploader.url = "/api/playlist/" + id + "/cover/";
+        $scope.nowUploader.headers = { 'X-CSRFToken': $cookies.get("csrftoken") };
+        $scope.isUploadSuccess = false;
+    };
+    $scope.nowUploader.onSuccessItem = function (fileItem, response, status, headers) {
+        $scope.isUploadSuccess = true;
+        $scope.nowUploader.clearQueue();
+    };
     //Query Playlist
     $scope.playlists = [];
-    $scope.refreshPlaylists = () => {
+    $scope.pagination = new djangoPage('/api/playlist/');
+    $scope.refreshPlaylists = (url) => {
         $http({
-            url: "/api/playlist/",
+            url: url,
             method: "GET"
         }).then(response => {
-            $scope.playlists = response.data;
+            $scope.playlists = $scope.pagination.filterResult(response);
         });
     };
     $scope.viewSongPlaylist = [];
@@ -389,10 +509,12 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
     $scope.addPlaylistTitle = "";
     $scope.addPlaylistDescription = "";
     $scope.addPlaylistTracks = "";
+    $scope.addPlaylistOwner = "";
     $scope.addPlaylist = () => {
         let d = {
             name: $scope.addPlaylistTitle,
             description: $scope.addPlaylistDescription,
+            owner: $scope.addPlaylistOwner,
             songs: $scope.addPlaylistTracks == "" ? [] : $scope.addPlaylistTracks.split(",").select(t => parseInt(t))
         };
         $http({
@@ -403,6 +525,7 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             $scope.addPlaylistTitle = "";
             $scope.addPlaylistDescription = "";
             $scope.addPlaylistTracks = "";
+            $scope.addPlaylistOwner = "";
             $scope.refreshPlaylists();
         });
     };
@@ -422,6 +545,7 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             name: $scope.editingPlaylist.name,
             description: $scope.editingPlaylist.description,
             play_count: $scope.editingPlaylist.play_count,
+            owner: $scope.editingPlaylist.owner,
             songs: $scope.editingPlaylist.songs == "" ? [] : $scope.editingPlaylist.rawSongs.split(",").select(t => parseInt(t))
         };
         $http({
@@ -447,39 +571,39 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             $scope.refreshPlaylists();
         });
     };
-    //Edit owner sections
-    $scope.ownerAddUserUserRaw = "";
-    $scope.ownerAddUserId = null;
-    $scope.addOwner = () => {
-        if ($scope.ownerAddUserUserRaw == "") return;
+    //Edit collector sections
+    $scope.collectorAddUserUserRaw = "";
+    $scope.collectorAddUserId = null;
+    $scope.addCollector = () => {
+        if ($scope.collectorAddUserUserRaw == "") return;
         let d = {
-            owners: $scope.ownerAddUserUserRaw.split(",").select(t => parseInt(t))
+            collectors: $scope.collectorAddUserUserRaw.split(",").select(t => parseInt(t))
         };
         $http({
-            url: "/api/playlist/" + $scope.ownerAddUserId + "/owner/",
+            url: "/api/playlist/" + $scope.collectorAddUserId + "/collector/",
             method: "POST",
             data: d
-        }).then(response => { 
-            $scope.ownerAddUserUserRaw = "";
-            $scope.ownerAddUserId = null;
+        }).then(response => {
+            $scope.collectorAddUserUserRaw = "";
+            $scope.collectorAddUserId = null;
         });
     };
-    $scope.setOwnerAdd = (id) => $scope.ownerAddUserId = id;
-    $scope.ownerRemoveUserUserRaw = "";
-    $scope.ownerRemoveUserId = null;
-    $scope.removeOwner = () => {
-        if ($scope.ownerRemoveUserUserRaw == "") return;
+    $scope.setCollectorAdd = (id) => $scope.collectorAddUserId = id;
+    $scope.collectorRemoveUserUserRaw = "";
+    $scope.collectorRemoveUserId = null;
+    $scope.removeCollector = () => {
+        if ($scope.collectorRemoveUserUserRaw == "") return;
         let d = {
-            owners: $scope.ownerRemoveUserUserRaw.split(",").select(t => parseInt(t))
+            collectors: $scope.collectorRemoveUserUserRaw.split(",").select(t => parseInt(t))
         };
         $http({
-            url: "/api/playlist/" + $scope.ownerRemoveUserId + "/owner/",
+            url: "/api/playlist/" + $scope.collectorRemoveUserId + "/collector/",
             method: "PUT",
             data: d
         }).then(response => {
-            $scope.ownerRemoveUserUserRaw = "";
-            $scope.ownerRemoveUserId = null;
+            $scope.collectorRemoveUserUserRaw = "";
+            $scope.collectorRemoveUserId = null;
         });
     };
-    $scope.setOwnerRemove = (id) => $scope.ownerRemoveUserId = id;
+    $scope.setCollectorRemove = (id) => $scope.collectorRemoveUserId = id;
 }]);
