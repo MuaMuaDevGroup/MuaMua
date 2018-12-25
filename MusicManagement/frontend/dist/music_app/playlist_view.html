@@ -1,5 +1,31 @@
 {% verbatim %}
 <div ng-controller="PlayListViewController">
+    <div class="modal fade" tabindex="-1" role="dialog" id="addtoPlaylistModal">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">加入歌单</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="add-to-playlist">歌单</label>
+                            <select class="form-control" id="add-to-playlist" ng-model="selectedPlaylistId">
+                                <option ng-repeat="playlist in availablePlaylists" value="{{playlist.id}}">{{playlist.name}}</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button ng-click="addToPlaylist(selectedMusic,selectedPlaylistId);" type="button" class="btn btn-danger" data-dismiss="modal">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid" ng-if="nowView == 'playlist'">
         <div class="row">
             <img class="col-md-auto rounded " ng-src="{{playlist.cover}}" width="200" height="200">
@@ -23,7 +49,14 @@
                         <th scope="row">{{$index + 1}}</th>
                         <td class="clearfix">
                             <span class="float-left">{{song.title}}</span>
-                            <button ng-click="sendToPlay(song);" type="button" class="btn btn-outline-danger btn-sm float-right"><i class="fas fa-play-circle"></i></button></td>
+                            <div class="float-right">
+                                <button ng-click="sendToPlay(song);" type="button" class="btn btn-outline-danger btn-sm"><i
+                                        class="fas fa-play-circle"></i></button>
+                                <button ng-click="getPlaylists();toSetSelectedMusic(song);" type="button" class="btn btn-outline-danger btn-sm"
+                                    data-toggle="modal" data-target="#addtoPlaylistModal"><i class="fas fa-folder-plus"></i></button>
+
+                            </div>
+                        </td>
                         </td>
                         <td><span ng-repeat="artist in song.artists">{{artist.name}}/</span></td>
                         <td>{{song.albumTitle}}</td>
@@ -66,7 +99,8 @@
                         <th scope="row">{{$index + 1}}</th>
                         <td class="clearfix">
                             <span class="float-left">{{track.title}}</span>
-                            <button ng-click="sendToPlay(track);" type="button" class="btn btn-outline-danger btn-sm float-right"><i class="fas fa-play-circle"></i></button></td>
+                            <button ng-click="sendToPlay(track);" type="button" class="btn btn-outline-danger btn-sm float-right"><i
+                                    class="fas fa-play-circle"></i></button></td>
                         </td>
                         <td><span ng-repeat="artist in track.artists">{{artist.name}} </span></td>
                         <td>{{track.duration | musicTime}}</td>

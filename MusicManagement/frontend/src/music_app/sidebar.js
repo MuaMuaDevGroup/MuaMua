@@ -136,10 +136,13 @@ angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "ma
             url: "/api/playlist/my/",
             method: "GET"
         }).then(response => {
-            $scope.playlists = response.data;
-            let f = $scope.playlists.first(p => p.name == "我喜欢的歌曲");
-            $scope.favoritePlaylist = f;
-            $scope.playlists.pop(f);
+            $scope.playlists = [];
+            response.data.forEach(e => {
+                if (e.name != "我喜欢的歌曲")
+                    $scope.playlists.push(e);
+                else
+                    $scope.favoritePlaylist = e;
+            });
         });
     };
     $scope.viewPlaylist = playlist => {

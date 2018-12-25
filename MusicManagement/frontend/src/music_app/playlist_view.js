@@ -22,6 +22,40 @@ angular.module('mm-app').controller("PlayListViewController", ["$http", "$scope"
                 $scope.loadAlbumDetail($scope.album);
             });
     });
+    // Add to Playlist Sections
+    $scope.sendToPlay = music => {
+        mmMusic.setMusicPlaying(music);
+    };
+    $scope.selectedMusic = null;
+    $scope.toSetSelectedMusic = (music) => $scope.selectedMusic = music;
+    $scope.selectedPlaylistId = null;
+    $scope.availablePlaylists = [];
+    $scope.getPlaylists = () => {
+        $http({
+            url: "/api/playlist/my/",
+            method: "GET"
+        }).then(response => {
+            $scope.availablePlaylists = response.data;
+        })
+    };
+    $scope.addToPlaylist = (music, playlistid) => {
+        $http({
+            url: "/api/playlist/my/" + playlistid + "/",
+            method: "GET"
+        }).then(response => {
+            let data = {
+                name: response.data.name,
+                description: response.data.description,
+                songs: response.data.songs
+            }
+            data.songs.push(music.id);
+            $http({
+                url: "/api/playlist/my/" + playlistid + "/",
+                method: "PUT",
+                data: data
+            })
+        });
+    }
 
     // Album Sections
     $scope.album = null;
@@ -77,9 +111,5 @@ angular.module('mm-app').controller("PlayListViewController", ["$http", "$scope"
             tracks: trackEntities,
             artists: nowArtistNames
         };
-    };
-
-    $scope.sendToPlay = music => {
-        mmMusic.setMusicPlaying(music);
     };
 }]);
