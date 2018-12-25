@@ -51,6 +51,8 @@ angular.module('mm-app').factory("mainPageComm", () => {
     };
 });
 
+
+
 //Register musicTime filter
 angular.module('mm-app').filter("musicTime", () => {
     return (input) => {
