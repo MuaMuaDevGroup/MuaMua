@@ -4,24 +4,49 @@ import 'angular'
 import 'linqjs'
 angular.module('mm-app').controller('NavbarController', ["$http", "$scope", "mmNotification", function ($http, $scope, mmNotify) {
     //Bind Notification
+    //Initialize 
+    //
     $scope.notifyCount = 0;
-    $scope.notifications = [];
-    $scope.typeStatus = [
+    let typeStatus = [
         { status: 400, text: "请求参数有误，可能是填写的内容不完整" },
         { status: 404, text: "找不到指定对象" },
         { status: 403, text: "访问被禁止，您可能尚未登录或未拥有此操作的权限" },
         { status: 401, text: "您尚未登录，若您正在登录，可能是用户名和密码错误" }
     ]
-    mmNotify.setNotificationHandler((type, message) => {
+    let convertToTitle = (statusCode) => {
+        switch (parseInt(statusCode / 100)) {
+            case 2:
+                return "成功";
+            case 4:
+                return "操作错误";
+            case 5:
+                return "服务器错误";
+            default:
+                return "未知状态";
+        }
+    };
+    $scope.currentNotifications = [];
+    mmNotify.setNotificationHandler((type, message, time) => {
 
-        $scope.notifyCount = mmNotify.notifications().length;
-        $scope.notifications.unshift({
-            message: $scope.typeStatus.first(p => p.status == type).text,
-            isShow: true
+        $scope.notifyCount++;
+        //Pop
+        $("#notification-link").popover("dispose");
+        $("#notification-link").popover({
+            title: convertToTitle(type),
+            content: typeStatus.first(p => p.status == type).text,
+            placement: "bottom",
+            trigger: "hover"
         });
-        if ($scope.notifications.length > 3)
-            $scope.notifications.pop();
+        $("#notification-link").popover("show");
     });
+    $scope.notifyClick = () => {
+        $scope.currentNotifications = [];
+        mmNotify.notifications().forEach(e => {
+            e.statusText = typeStatus.first(p => p.status == e.type).text;
+            $scope.currentNotifications.push(e);
+        });
+        $scope.notifyCount = 0;
+    };
 
     //Login Sections
     $scope.checkLogin = function () {
