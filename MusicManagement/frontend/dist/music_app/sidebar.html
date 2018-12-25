@@ -94,21 +94,6 @@
                             <label for="playlist-description-add" class="col-form-label">歌单简介:</label>
                             <textarea ng-model="playlistAddDescription" type="text" class="form-control" id="playlist-description-add"></textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="playlist-uploader-add" class="col-form-label">歌单封面:</label>
-                            <div class="input-group">
-                                <div class="custom-file" ng-if="nowUploader">
-                                    <input type="file" class="custom-file-input" id="playlist-cover-upload"
-                                        nv-file-select uploader="nowUploader">
-                                    <label class="custom-file-label" for="playlist-cover-upload">{{nowUploader.queue
-                                        == 0?"选择文件":nowUploader.queue[0].file.name}}</label>
-                                </div>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-danger" type="button" ng-disabled="!nowUploader.queue.length"
-                                        ng-click="nowUploader.clearQueue()">删除</button>
-                                </div>
-                            </div>
-                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">

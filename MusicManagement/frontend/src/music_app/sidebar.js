@@ -8,17 +8,6 @@ angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "ma
         $scope.refreshPlaylist();
     });
     // Playlist Add Sections
-    $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
-    $scope.nowUploader.filters.push({
-        name: 'imageFilter',
-        fn: function (item /*{File|FileLikeObject}*/, options) {
-            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-        }
-    });
-    $scope.nowUploader.onSuccessItem = function (fileItem, response, status, headers) {
-        $scope.nowUploader.clearQueue();
-    };
     $scope.playlistAddDescription = "";
     $scope.playlistAddName = "";
     $scope.addPlaylist = () => {
@@ -32,9 +21,6 @@ angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "ma
             method: "POST",
             data: d
         }).then(response => {
-            $scope.nowUploader.url = "/api/playlist/my/" + response.data.id + "/cover/";
-            $scope.nowUploader.headers = { 'X-CSRFToken': $cookies.get("csrftoken") };
-            $scope.nowUploader.uploadAll();
             $scope.refreshPlaylist();
         });
 
