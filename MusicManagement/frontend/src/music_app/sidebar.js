@@ -4,6 +4,9 @@ import 'linqjs'
 angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "mainPageComm", "FileUploader", "$cookies", ($scope, $http, comm, FileUploader, $cookies) => {
 
     $scope.setDisplay = (displayName) => comm.musicCtrlSetDisplay(displayName);
+    comm.setSidebarPlaylistRefreshHandler(() => {
+        $scope.refreshPlaylist();
+    });
     // Playlist Add Sections
     $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
     $scope.nowUploader.filters.push({

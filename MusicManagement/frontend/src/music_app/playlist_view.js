@@ -76,18 +76,28 @@ angular.module('mm-app').controller("PlayListViewController", ["$http", "$scope"
         $scope.nowUploader.headers = { 'X-CSRFToken': $cookies.get("csrftoken") };
     };
     $scope.editPlaylist = (playlist) => {
-
-
         $http({
             url: "/api/playlist/my/" + playlist.id + "/",
             method: "PUT",
             data: playlist
         }).then(response => {
             $scope.nowUploader.uploadAll();
+            mmComm.sidebarPlaylistRefresh();
         });
-
     };
-
+    // Delete Playlist Sections
+    $scope.deletingPlaylist = null;
+    $scope.toDeletePlaylist = playlist => {
+        $scope.deletingPlaylist = playlist;
+    };
+    $scope.deletePlaylist = playlist => {
+        $http({
+            url: "/api/playlist/my/" + playlist.id + "/",
+            method: "DELETE"
+        }).then(response => {
+            mmComm.sidebarPlaylistRefresh();
+        });
+    };
     // Album Sections
     $scope.album = null;
     $scope.loadAlbumDetail = album => {
