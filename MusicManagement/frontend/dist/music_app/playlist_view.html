@@ -21,7 +21,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                    <button ng-click="addToPlaylist(selectedMusic,selectedPlaylistId);" type="button" class="btn btn-danger" data-dismiss="modal">添加</button>
+                    <button ng-click="addToPlaylist(selectedMusic,selectedPlaylistId);" type="button" class="btn btn-danger"
+                        data-dismiss="modal">添加</button>
                 </div>
             </div>
         </div>
@@ -99,8 +100,13 @@
                         <th scope="row">{{$index + 1}}</th>
                         <td class="clearfix">
                             <span class="float-left">{{track.title}}</span>
-                            <button ng-click="sendToPlay(track);" type="button" class="btn btn-outline-danger btn-sm float-right"><i
-                                    class="fas fa-play-circle"></i></button></td>
+                            <div class="float-right">
+                                <button ng-click="sendToPlay(track);" type="button" class="btn btn-outline-danger btn-sm"><i
+                                        class="fas fa-play-circle"></i></button>
+                                <button ng-click="getPlaylists();toSetSelectedMusic(track);" type="button" class="btn btn-outline-danger btn-sm"
+                                    data-toggle="modal" data-target="#addtoPlaylistModal"><i class="fas fa-folder-plus"></i></button>
+
+                            </div>
                         </td>
                         <td><span ng-repeat="artist in track.artists">{{artist.name}} </span></td>
                         <td>{{track.duration | musicTime}}</td>
