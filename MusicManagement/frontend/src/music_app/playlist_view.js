@@ -1,6 +1,6 @@
 import 'angular'
 import 'linqjs'
-angular.module('mm-app').controller("PlayListViewController", ["$http", "$scope", "mmMusic", "mainPageComm", ($http, $scope, mmMusic, mmComm) => {
+angular.module('mm-app').controller("PlayListViewController", ["$http", "$scope", "mmMusic", "mainPageComm", "FileUploader", "$cookies", ($http, $scope, mmMusic, mmComm, FileUploader, $cookies) => {
     $scope.nowView = 'playlist';
     // Set Handler When Other Controller notify this ctrl
     mmComm.setPlaylistViewCtrlSetDisplayerHandler((albumOrPlaylistId, displayName) => {
@@ -56,6 +56,37 @@ angular.module('mm-app').controller("PlayListViewController", ["$http", "$scope"
             })
         });
     }
+
+    // Edit Playlist Sections
+    $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
+    $scope.nowUploader.filters.push({
+        name: 'imageFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    $scope.nowUploader.onSuccessItem = function (fileItem, response, status, headers) {
+        $scope.nowUploader.clearQueue();
+    };
+    $scope.editingPlaylist = null;
+    $scope.toEditPlaylist = playlist => {
+        $scope.editingPlaylist = playlist;
+        $scope.nowUploader.url = "/api/playlist/my/" + playlist.id + "/cover/";
+        $scope.nowUploader.headers = { 'X-CSRFToken': $cookies.get("csrftoken") };
+    };
+    $scope.editPlaylist = (playlist) => {
+
+
+        $http({
+            url: "/api/playlist/my/" + playlist.id + "/",
+            method: "PUT",
+            data: playlist
+        }).then(response => {
+            $scope.nowUploader.uploadAll();
+        });
+
+    };
 
     // Album Sections
     $scope.album = null;

@@ -1,5 +1,6 @@
 {% verbatim %}
 <div ng-controller="PlayListViewController">
+    <!--加入歌单-->
     <div class="modal fade" tabindex="-1" role="dialog" id="addtoPlaylistModal">
         <div class="modal-dialog " role="document">
             <div class="modal-content">
@@ -12,8 +13,8 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="add-to-playlist">歌单</label>
-                            <select class="form-control" id="add-to-playlist" ng-model="selectedPlaylistId">
+                            <label for="add-to-playlist-playlist">歌单</label>
+                            <select class="form-control" id="add-to-playlist-playlist" ng-model="selectedPlaylistId">
                                 <option ng-repeat="playlist in availablePlaylists" value="{{playlist.id}}">{{playlist.name}}</option>
                             </select>
                         </div>
@@ -27,16 +28,118 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid" ng-if="nowView == 'playlist'">
+    <!-- 修改歌单 -->
+    <div class="modal fade" id="playlistEditModal" tabindex="-1" role="dialog" aria-labelledby="playlistEditModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="playlistEditModalLabel">修改歌单</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="playlist-title-edit" class="col-form-label">歌单标题：</label>
+                            <input ng-model="editingPlaylist.name" type="text" class="form-control" id="playlist-title-edit">
+                        </div>
+                        <div class="form-group">
+                            <label for="playlist-description-edit" class="col-form-label">歌单简介:</label>
+                            <textarea ng-model="editingPlaylist.description" type="text" class="form-control" id="playlist-description-edit"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="playlist-uploader-edit" class="col-form-label">歌单封面:</label>
+                            <div class="input-group">
+                                <div class="custom-file" ng-if="nowUploader">
+                                    <input type="file" class="custom-file-input" id="playlist-cover-upload-edit"
+                                        nv-file-select uploader="nowUploader">
+                                    <label class="custom-file-label" for="playlist-cover-upload">{{nowUploader.queue
+                                        == 0?"选择文件":nowUploader.queue[0].file.name}}</label>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-danger" type="button" ng-disabled="!nowUploader.queue.length"
+                                        ng-click="nowUploader.clearQueue()">删除</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="editPlaylist(editingPlaylist);">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 删除歌单 -->
+    <div class="modal fade" id="playlistEditModal" tabindex="-1" role="dialog" aria-labelledby="playlistEditModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="playlistEditModalLabel">删除歌单</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="playlist-title-delete" class="col-form-label">歌单标题：</label>
+                            <input ng-model="playlistEditName" type="text" class="form-control" id="playlist-title-delete">
+                        </div>
+                        <div class="form-group">
+                            <label for="playlist-description-edit" class="col-form-label">歌单简介:</label>
+                            <textarea ng-model="playlistAddDescription" type="text" class="form-control" id="playlist-description-delete"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="playlist-uploader-delete" class="col-form-label">歌单封面:</label>
+                            <div class="input-group">
+                                <div class="custom-file" ng-if="nowUploader">
+                                    <input type="file" class="custom-file-input" id="playlist-cover-upload-delete" nv-file-select
+                                        uploader="nowUploader">
+                                    <label class="custom-file-label" for="playlist-cover-upload">{{nowUploader.queue
+                                        == 0?"选择文件":nowUploader.queue[0].file.name}}</label>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-danger" type="button" ng-disabled="!nowUploader.queue.length"
+                                        ng-click="nowUploader.clearQueue()">删除</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deletePlaylist();">删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid animate-show-hide" ng-show="nowView == 'playlist'">
         <div class="row">
             <img class="col-md-auto rounded " ng-src="{{playlist.cover}}" width="200" height="200">
             <div class="col">
                 <h3><strong>{{playlist.name}}</strong></h3>
                 <p>
-                    <small class="text-secondary">
-                        <span>播放数量：</span>
-                        <span>{{playlist.play_count}}</span>
-                    </small>
+
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <small class="text-secondary">
+                                <span>播放数量：</span>
+                                <span>{{playlist.play_count}}</span>
+                            </small>
+                        </li>
+                        <li class="list-inline-item">
+                            <button type="button" ng-click="toEditPlaylist(playlist)" data-toggle="modal" data-target="#playlistEditModal" class="btn btn-outline-danger btn-sm"><i
+                                    class="fas fa-edit"></i></button>
+                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#playlistDeleteModal"><i
+                                    class="fas fa-minus-circle"></i></button>
+                        </li>
+                    </ul>
                 </p>
                 <p>
                     {{playlist.description}}
@@ -67,7 +170,7 @@
             </table>
         </div>
     </div>
-    <div class="container-fluid" ng-if="nowView == 'album'">
+    <div class="container-fluid animate-show-hide" ng-show="nowView == 'album'">
         <div class="row">
             <img class="col-md-auto rounded " ng-src="{{album.cover}}" width="200" height="200">
             <div class="col">
