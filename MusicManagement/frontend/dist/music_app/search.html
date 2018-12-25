@@ -1,5 +1,33 @@
 {% verbatim %}
 <div ng-controller="SearchController">
+    <div class="modal fade" tabindex="-1" role="dialog" id="addtoPlaylistModal">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">加入歌单</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="add-to-playlist">歌单</label>
+                            <select class="form-control" id="add-to-playlist" ng-model="selectedPlaylistId">
+                                <option ng-repeat="playlist in availablePlaylists" value="{{playlist.id}}">{{playlist.name}}</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button ng-click="addToPlaylist(selectedMusic,selectedPlaylistId);" type="button" class="btn btn-danger"
+                        data-dismiss="modal">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="input-group mb-3">
         <input type="text" ng-model="searchText" class="form-control" placeholder="搜索歌曲、专辑、歌单" aria-label="Search"
             aria-describedby="basic-addon2">
@@ -26,7 +54,14 @@
                     <tr class="animate-repeat" ng-repeat="music in musics">
                         <td class="clearfix">
                             <span class="float-left">{{music.title}}</span>
-                            <button ng-click="sendToPlay(music);" type="button" class="btn btn-outline-danger btn-sm float-right"><i class="fas fa-play-circle"></i></button></td>
+                            <div class="float-right">
+                                <button ng-click="sendToPlay(music);" type="button" class="btn btn-outline-danger btn-sm"><i
+                                        class="fas fa-play-circle"></i></button>
+                                <button ng-click="getPlaylists();toSetSelectedMusic(music);" type="button" class="btn btn-outline-danger btn-sm"
+                                    data-toggle="modal" data-target="#addtoPlaylistModal"><i class="fas fa-folder-plus"></i></button>
+
+                            </div>
+                        </td>
                         <td>{{music.artists.join("/")}}</td>
                         <td>{{music.albumTitle}}</td>
                         <td>{{music.duration | musicTime}}</td>
@@ -47,7 +82,8 @@
                         <td>{{album.year}}</td>
                         <td class="clearfix">
                             <span class="float-left">{{album.publisher}}</span>
-                            <button ng-click="viewAlbum(album);" type="button" class="btn btn-outline-danger btn-sm float-right"><i class="fas fa-eye"></i></button></td>
+                            <button ng-click="viewAlbum(album);" type="button" class="btn btn-outline-danger btn-sm float-right"><i
+                                    class="fas fa-eye"></i></button></td>
                         </td>
                     </tr>
                 </tbody>
@@ -65,7 +101,8 @@
                             <span>{{playlist.name}}</span>
                         <td class="clearfix">
                             <span class="float-left">{{playlist.play_count}}</span>
-                            <button ng-click="viewPlaylist(playlist);" type="button" class="btn btn-outline-danger btn-sm float-right"><i class="fas fa-eye"></i></button></td>
+                            <button ng-click="viewPlaylist(playlist);" type="button" class="btn btn-outline-danger btn-sm float-right"><i
+                                    class="fas fa-eye"></i></button></td>
                         </td>
                     </tr>
                 </tbody>

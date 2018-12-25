@@ -1,6 +1,6 @@
 import 'angular'
 import 'linqjs'
-angular.module('mm-app').controller("PlayListViewController", ["$http", "$scope", "mmMusic", "mainPageComm", ($http, $scope, mmMusic, mmComm) => {
+angular.module('mm-app').controller("PlayListViewController", ["$http", "$scope", "mmMusic", "mainPageComm", "FileUploader", "$cookies", ($http, $scope, mmMusic, mmComm, FileUploader, $cookies) => {
     $scope.nowView = 'playlist';
     // Set Handler When Other Controller notify this ctrl
     mmComm.setPlaylistViewCtrlSetDisplayerHandler((albumOrPlaylistId, displayName) => {
@@ -22,7 +22,82 @@ angular.module('mm-app').controller("PlayListViewController", ["$http", "$scope"
                 $scope.loadAlbumDetail($scope.album);
             });
     });
+    // Add to Playlist Sections
+    $scope.sendToPlay = music => {
+        mmMusic.setMusicPlaying(music);
+    };
+    $scope.selectedMusic = null;
+    $scope.toSetSelectedMusic = (music) => $scope.selectedMusic = music;
+    $scope.selectedPlaylistId = null;
+    $scope.availablePlaylists = [];
+    $scope.getPlaylists = () => {
+        $http({
+            url: "/api/playlist/my/",
+            method: "GET"
+        }).then(response => {
+            $scope.availablePlaylists = response.data;
+        })
+    };
+    $scope.addToPlaylist = (music, playlistid) => {
+        $http({
+            url: "/api/playlist/my/" + playlistid + "/",
+            method: "GET"
+        }).then(response => {
+            let data = {
+                name: response.data.name,
+                description: response.data.description,
+                songs: response.data.songs
+            }
+            data.songs.push(music.id);
+            $http({
+                url: "/api/playlist/my/" + playlistid + "/",
+                method: "PUT",
+                data: data
+            })
+        });
+    }
 
+    // Edit Playlist Sections
+    $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
+    $scope.nowUploader.filters.push({
+        name: 'imageFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    $scope.nowUploader.onSuccessItem = function (fileItem, response, status, headers) {
+        $scope.nowUploader.clearQueue();
+    };
+    $scope.editingPlaylist = null;
+    $scope.toEditPlaylist = playlist => {
+        $scope.editingPlaylist = playlist;
+        $scope.nowUploader.url = "/api/playlist/my/" + playlist.id + "/cover/";
+        $scope.nowUploader.headers = { 'X-CSRFToken': $cookies.get("csrftoken") };
+    };
+    $scope.editPlaylist = (playlist) => {
+        $http({
+            url: "/api/playlist/my/" + playlist.id + "/",
+            method: "PUT",
+            data: playlist
+        }).then(response => {
+            $scope.nowUploader.uploadAll();
+            mmComm.sidebarPlaylistRefresh();
+        });
+    };
+    // Delete Playlist Sections
+    $scope.deletingPlaylist = null;
+    $scope.toDeletePlaylist = playlist => {
+        $scope.deletingPlaylist = playlist;
+    };
+    $scope.deletePlaylist = playlist => {
+        $http({
+            url: "/api/playlist/my/" + playlist.id + "/",
+            method: "DELETE"
+        }).then(response => {
+            mmComm.sidebarPlaylistRefresh();
+        });
+    };
     // Album Sections
     $scope.album = null;
     $scope.loadAlbumDetail = album => {
@@ -77,9 +152,5 @@ angular.module('mm-app').controller("PlayListViewController", ["$http", "$scope"
             tracks: trackEntities,
             artists: nowArtistNames
         };
-    };
-
-    $scope.sendToPlay = music => {
-        mmMusic.setMusicPlaying(music);
     };
 }]);
