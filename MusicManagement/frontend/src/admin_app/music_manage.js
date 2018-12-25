@@ -135,7 +135,7 @@ angular.module('mm-app').controller('MusicManageController', ['$http', '$scope',
     };
 }]);
 
-angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, FileUploader, $cookies, djangoPage) => {
+angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', 'mmNotification', ($http, $scope, FileUploader, $cookies, djangoPage, mmNotify) => {
     //File Upload Sections
     $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
     $scope.nowUploader.filters.push({
@@ -245,7 +245,7 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
     $scope.toDeleteArtist = artist => $scope.deletingArtist = artist;
 }]);
 
-angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, FileUploader, $cookies, djangoPage) => {
+angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', 'mmNotification', ($http, $scope, FileUploader, $cookies, djangoPage, mmNotify) => {
     //File Upload Sections
     $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
     $scope.nowUploader.filters.push({
@@ -386,7 +386,7 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
     };
 }]);
 
-angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 'djangoPage', ($http, $scope, djangoPage) => {
+angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 'djangoPage', 'mmNotification', ($http, $scope, djangoPage, mmNotify) => {
     //Refresh User sections
     $scope.users = [];
     $scope.pagination = new djangoPage("/api/user/")
@@ -492,7 +492,7 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
     };
 }]);
 
-angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', ($http, $scope, FileUploader, $cookies, djangoPage) => {
+angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scope', 'FileUploader', '$cookies', 'djangoPage', "mmNotification", ($http, $scope, FileUploader, $cookies, djangoPage, mmNotify) => {
     //File Upload Sections
     $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
     $scope.nowUploader.filters.push({

@@ -1,5 +1,4 @@
 import $ from 'jquery'
-import 'bootstrap'
 import 'angular'
 import 'linqjs'
 angular.module('mm-app').controller('NavbarController', ["$http", "$scope", "mmNotification", function ($http, $scope, mmNotify) {
@@ -27,17 +26,7 @@ angular.module('mm-app').controller('NavbarController', ["$http", "$scope", "mmN
     };
     $scope.currentNotifications = [];
     mmNotify.setNotificationHandler((type, message, time) => {
-
         $scope.notifyCount++;
-        //Pop
-        $("#notification-link").popover("dispose");
-        $("#notification-link").popover({
-            title: convertToTitle(type),
-            content: typeStatus.first(p => p.status == type).text,
-            placement: "bottom",
-            trigger: "hover"
-        });
-        $("#notification-link").popover("show");
     });
     $scope.notifyClick = () => {
         $scope.currentNotifications = [];
