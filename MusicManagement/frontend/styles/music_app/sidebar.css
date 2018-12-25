@@ -135,3 +135,9 @@ body {
   margin-top: 10px;
   line-height: 20px;
 }
+
+.sidebar-title-button {
+  float: right;
+  color:white;
+  margin-right: 10px;
+}

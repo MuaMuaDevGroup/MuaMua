@@ -27,7 +27,8 @@ class PlaylistView(ListAPIView):
         serializer = PlaylistCreationSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(status=status.HTTP_201_CREATED)
+            rtn = PlaylistSerializer(serializer.instance)
+            return Response(data=rtn.data, status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -155,7 +156,8 @@ class PlaylistUserView(ListAPIView):
             playlist.play_count = 0
             playlist.save()
             playlist.songs.set(serializer.validated_data["songs"])
-            return Response(status=status.HTTP_201_CREATED)
+            rtnData = PlaylistSerializer(playlist)
+            return Response(data=rtnData.data, status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 

@@ -1,9 +1,42 @@
 import 'angular'
 import 'linqjs'
 
-angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "mainPageComm", ($scope, $http, comm) => {
+angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "mainPageComm", "FileUploader", "$cookies", ($scope, $http, comm, FileUploader, $cookies) => {
 
     $scope.setDisplay = (displayName) => comm.musicCtrlSetDisplay(displayName);
+    // Playlist Add Sections
+    $scope.nowUploader = $scope.nowUploader = new FileUploader({ method: "POST" });
+    $scope.nowUploader.filters.push({
+        name: 'imageFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    $scope.nowUploader.onSuccessItem = function (fileItem, response, status, headers) {
+        $scope.nowUploader.clearQueue();
+    };
+    $scope.playlistAddDescription = "";
+    $scope.playlistAddName = "";
+    $scope.addPlaylist = () => {
+        let d = {
+            description: $scope.playlistAddDescription,
+            name: $scope.playlistAddName,
+            songs: []
+        }
+        $http({
+            url: "/api/playlist/my/",
+            method: "POST",
+            data: d
+        }).then(response => {
+            $scope.nowUploader.url = "/api/playlist/my/" + response.data.id + "/cover/";
+            $scope.nowUploader.headers = { 'X-CSRFToken': $cookies.get("csrftoken") };
+            $scope.nowUploader.uploadAll();
+            $scope.refreshPlaylist();
+        });
+
+    };
+
     // Common User Info Sections
     $scope.checkLogin = function () {
         $http({
@@ -41,7 +74,7 @@ angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "ma
     $scope.logout = () => {
         $http({ method: "POST", url: "/api/account/logout/" }).then(function () { $scope.checkLogin(); });
     };
-    
+
     // Info Edit Sections
     $scope.editUserId = null;
     $scope.editUsername = "";
@@ -98,11 +131,11 @@ angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "ma
     // Playlist Sections
     $scope.playlists = [];
     $scope.favoritePlaylist = null;
-    $scope.refreshPlaylist = () => { 
+    $scope.refreshPlaylist = () => {
         $http({
             url: "/api/playlist/my/",
             method: "GET"
-        }).then(response => { 
+        }).then(response => {
             $scope.playlists = response.data;
             let f = $scope.playlists.first(p => p.name == "我喜欢的歌曲");
             $scope.favoritePlaylist = f;
