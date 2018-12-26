@@ -30,7 +30,9 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <img ng-src="data:image/png;base64,{{loginCaptchaImage}}">
+                                    <a href="#" ng-click="getCaptcha();">
+                                        <img ng-src="data:image/png;base64,{{loginCaptchaImage}}"></img>
+                                    </a>
                                 </div>
                                 <input class="form-control" type="text" ng-model="loginCaptchaCode" aria-label="With textarea">
                             </div>
@@ -156,7 +158,8 @@
                 </ul>
             </li>
             <li class="nav-item" ng-hide="isLogin">
-                <button class="btn btn-outline-success my-2 my-sm-0" ng-click="getCaptcha();" data-toggle="modal" data-target="#loginModal">登录</button>
+                <button class="btn btn-outline-success my-2 my-sm-0" ng-click="getCaptcha();" data-toggle="modal"
+                    data-target="#loginModal">登录</button>
             </li>
         </ul>
     </div>

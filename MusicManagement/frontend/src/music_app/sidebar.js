@@ -43,10 +43,24 @@ angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "ma
     // Login Sections
     $scope.loginPassword = "";
     $scope.loginUsername = "";
+    $scope.loginCaptchaCode = "";
+    $scope.loginCaptchaHash = "";
+    $scope.loginCaptchaImage = "";
+    $scope.getCaptcha = () => {
+        $http({
+            url: "/api/account/captcha/",
+            method: "POST"
+        }).then(response => {
+            $scope.loginCaptchaHash = response.data.key
+            $scope.loginCaptchaImage = response.data.image
+        });
+    }
     $scope.login = () => {
         let d = {
             username: $scope.loginUsername,
-            password: $scope.loginPassword
+            password: $scope.loginPassword,
+            validation_code: $scope.loginCaptchaCode,
+            validation_hash: $scope.loginCaptchaHash
         };
         $http({
             method: "POST",
@@ -58,6 +72,7 @@ angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "ma
         }, () => {
             $scope.loginStatus = "failed";
             setTimeout(function () { loginStatus = "login"; }, 3000);
+            $scope.getCaptcha();
         });
     };
     $scope.logout = () => {
