@@ -113,6 +113,12 @@ angular.module('mm-app').controller("PlayListViewController", ["$http", "$scope"
         let m = $scope.loadMusic(playlist.songs);
         playlist.songEntities = m.tracks;
         playlist.artistNames = m.artists.select(a => a.name);
+        // Check if Playlist belongs to user
+        $http({
+            url: "/api/playlist/my/" + playlist.id + "/",
+            method: "GET"
+        }).then(response => playlist.isOwner = true, response => playlist.isOwner = false);
+        
     };
     // Common Sections
     $scope.loadArtist = (artistIds, nowArtistNames) => {
