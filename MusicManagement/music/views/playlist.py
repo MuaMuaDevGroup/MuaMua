@@ -144,7 +144,10 @@ class PlaylistUserView(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return Playlist.objects.filter(owner=user)
+        if user.is_authenticated:
+            return Playlist.objects.filter(owner=user)
+        else:
+            return Playlist.objects.none()
 
     def post(self, request, format=None):
         serializer = PlaylistUserCreationSerializer(data=request.data)
@@ -302,7 +305,7 @@ class FavoriteDetailView(RetrieveAPIView):
         if len(playlists) != 0:
             return playlists.get().songs.all()
         else:
-            return None
+            return Playlist.objects.none()
 
     def delete(self, request, pk, format=None):
         playlist = Playlist.objects.get(name="我喜欢的歌曲", owner=request.user)
