@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/account/login/', AccountLoginView.as_view()),
     path('api/account/logout/', AccountLogoutView.as_view()),
+    path('api/account/registration/', AccountRegistrationView.as_view()),
     path('api/account/password/', AccountChangePasswordView.as_view()),
     path('api/account/captcha/', AccountCaptchaView.as_view()),
     path('api/account/', AccountDetailView.as_view()),

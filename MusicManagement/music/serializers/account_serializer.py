@@ -6,6 +6,16 @@ class AccountCaptchaGetSerializer(serializers.Serializer):
     key = serializers.CharField()
     image = serializers.CharField()
 
+
+class AccountRegistrationSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=150)
+    email = serializers.CharField(max_length=254)
+    first_name = serializers.CharField(max_length=254, allow_null=True)
+    last_name = serializers.CharField(max_length=254, allow_null=True)
+    password = serializers.CharField(max_length=100)
+    validation_code = serializers.CharField()
+    validation_hash = serializers.CharField()
+
 class AccountLoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=100)
     password = serializers.CharField(max_length=100)
@@ -33,10 +43,3 @@ class AccountDetailUpdateSerializer(serializers.ModelSerializer):
         fields = ('email', 'first_name', 'last_name')
 
 
-class AccountRegisterSerializer(serializers.Serializer):
-
-    username = serializers.CharField(max_length=150)
-    email = serializers.CharField(max_length=254)
-    first_name = serializers.CharField(max_length=254, allow_null=True)
-    last_name = serializers.CharField(max_length=254, allow_null=True)
-    password = serializers.CharField(max_length=100)

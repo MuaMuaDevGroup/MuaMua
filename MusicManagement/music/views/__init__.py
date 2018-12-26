@@ -1,4 +1,4 @@
-from .account import AccountLoginView, AccountLogoutView, AccountChangePasswordView, AccountDetailView, AccountCaptchaView
+from .account import AccountLoginView, AccountLogoutView, AccountChangePasswordView, AccountDetailView, AccountCaptchaView, AccountRegistrationView
 from .music import MusicView, MusicDetailView, MusicDetailUploadView
 from .artist import ArtistView, ArtistDetailView, ArtistPhotoUploadView
 from .album import AlbumView, AlbumDetailView, AlbumCoverUploadView
