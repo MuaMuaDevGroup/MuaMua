@@ -27,6 +27,7 @@ urlpatterns = [
     path('api/account/login/', AccountLoginView.as_view()),
     path('api/account/logout/', AccountLogoutView.as_view()),
     path('api/account/password/', AccountChangePasswordView.as_view()),
+    path('api/account/captcha/', AccountCaptchaView.as_view()),
     path('api/account/', AccountDetailView.as_view()),
     path('api/music/', MusicView.as_view()),
     path('api/music/<int:pk>/', MusicDetailView.as_view()),

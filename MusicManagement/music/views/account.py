@@ -6,7 +6,11 @@ from django.http import JsonResponse
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from music.serializers.account_serializer import AccountLoginSerializer, AccountChangePasswordSerializer, AccountDetailSerializer, AccountDetailUpdateSerializer, AccountRegisterSerializer
+from captcha.models import CaptchaStore
+from captcha.views import captcha_image
+from music.serializers.account_serializer import AccountLoginSerializer, AccountChangePasswordSerializer, AccountDetailSerializer, AccountDetailUpdateSerializer, AccountRegisterSerializer, AccountCaptchaGetSerializer
+import base64
+import datetime
 
 
 class AccountLoginView(APIView):
@@ -14,6 +18,13 @@ class AccountLoginView(APIView):
     def post(self, request, format=None):
         serializer = AccountLoginSerializer(data=request.data)
         if serializer.is_valid():
+            # Captcha
+            hashkey = serializer.validated_data["validation_hash"]
+            captcha = CaptchaStore.objects.filter(hashkey=hashkey).first()
+            if (captcha == None) or (captcha and datetime.datetime.now() > captcha.expiration) or (captcha and captcha.response != serializer.validated_data["validation_code"].lower()):
+                captcha.delete()
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
+            # Username And Password
             user = authenticate(
                 username=serializer.validated_data['username'], password=serializer.validated_data['password'])
             if user is not None:
@@ -21,6 +32,20 @@ class AccountLoginView(APIView):
                 return Response(status=status.HTTP_204_NO_CONTENT)
             else:
                 return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
+class AccountCaptchaView(APIView):
+
+    def post(self, request, format=None):
+
+        key = CaptchaStore.generate_key()
+        image = base64.b64encode(captcha_image(request, key).content)
+        serializer = AccountCaptchaGetSerializer(
+            data={"key": key, "image": image.decode()})
+        if serializer.is_valid():
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class AccountLogoutView(APIView):

@@ -2,10 +2,15 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 
 
+class AccountCaptchaGetSerializer(serializers.Serializer):
+    key = serializers.CharField()
+    image = serializers.CharField()
+
 class AccountLoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=100)
     password = serializers.CharField(max_length=100)
-
+    validation_code = serializers.CharField()
+    validation_hash = serializers.CharField()
 
 class AccountChangePasswordSerializer(serializers.Serializer):
     new_password = serializers.CharField(max_length=100)
