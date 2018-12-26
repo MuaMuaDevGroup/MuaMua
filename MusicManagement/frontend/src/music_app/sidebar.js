@@ -7,6 +7,14 @@ angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "ma
     comm.setSidebarPlaylistRefreshHandler(() => {
         $scope.refreshPlaylist();
     });
+    $scope.viewPlaylist = playlist => {
+        comm.playlistViewCtrlSetDisplay(playlist.id, "playlist");
+        comm.musicCtrlSetDisplay('playlist_view');
+    };
+    $scope.toRegistrationPage = () => {
+        comm.registerPageGetCaptcha();
+        comm.musicCtrlSetDisplay('registration');
+    };
     // Playlist Add Sections
     $scope.playlistAddDescription = "";
     $scope.playlistAddName = "";
@@ -149,9 +157,6 @@ angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "ma
             });
         });
     };
-    $scope.viewPlaylist = playlist => {
-        comm.playlistViewCtrlSetDisplay(playlist.id, "playlist");
-        comm.musicCtrlSetDisplay('playlist_view');
-    };
+
     $scope.refreshPlaylist();
 }]);

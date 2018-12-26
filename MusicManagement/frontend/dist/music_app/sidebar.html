@@ -122,6 +122,10 @@
                 </a>
             </li>
             <li ng-show="loginStatus=='unlogin'">
+                <a href="#" ng-click="toRegistrationPage();"><i class="fas fa-sign-in-alt"></i>
+                    注册</a>
+            </li>
+            <li ng-show="loginStatus=='unlogin'">
                 <a href="#" ng-click="getCaptcha();" data-toggle="modal" data-target="#loginModal"><i class="fas fa-sign-in-alt"></i>
                     登录</a>
             </li>

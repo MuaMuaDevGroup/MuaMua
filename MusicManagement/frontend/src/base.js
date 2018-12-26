@@ -34,6 +34,7 @@ angular.module('mm-app').factory("mainPageComm", () => {
     let musicCtrlSetDisplayHandler = null;
     let playlistViewCtrlSetDisplayHandler = null;
     let sidebarPlaylistRefreshHandler = null;
+    let registerPageGetCaptchaHandler = null;
     return {
         musicCtrlSetDisplay: (displayName) => {
             if (typeof musicCtrlSetDisplayHandler == "function")
@@ -55,7 +56,15 @@ angular.module('mm-app').factory("mainPageComm", () => {
         },
         setSidebarPlaylistRefreshHandler: (func) => {
             sidebarPlaylistRefreshHandler = func;
+        },
+        registerPageGetCaptcha: () => {
+            if (typeof registerPageGetCaptchaHandler == "function")
+                registerPageGetCaptchaHandler()
+        },
+        setRegisterPageGetCaptchaHandler: (func) => {
+            registerPageGetCaptchaHandler = func;
         }
+
     };
 });
 
