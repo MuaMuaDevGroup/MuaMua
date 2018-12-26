@@ -32,6 +32,8 @@ class AccountLoginView(APIView):
                 return Response(status=status.HTTP_204_NO_CONTENT)
             else:
                 return Response(status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class AccountCaptchaView(APIView):
