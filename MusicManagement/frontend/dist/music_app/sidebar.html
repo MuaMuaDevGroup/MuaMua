@@ -148,17 +148,17 @@
             <li>
                 <a href="#" ng-click="setDisplay('search')"><i class="fas fa-search"></i> 搜索</a>
             </li>
-            <li>
+            <li ng-show="loginStatus=='login'">
                 <a href="#" ng-click="setDisplay('collection')"><i class="fas fa-box"></i> 我的收藏</a>
             </li>
             <li class="sidebar-divider">
                 <a></a>
             </li>
-            <li class="sidebar-title">
+            <li class="sidebar-title" ng-show="loginStatus=='login'">
                 <a>我创建的歌单<span class="sidebar-title-button" data-toggle="modal" data-target="#playlistAddModal"><i
                             class="fas fa-plus-square"></i></span></a>
             </li>
-            <li>
+            <li ng-show="loginStatus=='login'">
                 <a href="#" ng-click="viewPlaylist(favoritePlaylist);"><i class="fab fa-gratipay"></i> 我最喜欢的歌曲</a>
             </li>
             <li ng-repeat="playlist in playlists">
