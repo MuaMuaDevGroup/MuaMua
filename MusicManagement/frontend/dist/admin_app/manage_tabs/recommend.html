@@ -1,0 +1,185 @@
+{% verbatim %}
+<!--推荐页面-->
+<div class="tab-pane fade" id="v-pills-recommend" role="tabpanel" aria-labelledby="v-pills-recommend-tab" ng-controller="RecommendController">
+    <!--对话框开始-->
+    <!-- 添加推荐 -->
+    <div class="modal fade" id="recommendAddModal" tabindex="-1" role="dialog" aria-labelledby="recommendAddModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recommendAddModalLabel">添加每日推荐</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="recommend-title-add" class="col-form-label">推荐标题：</label>
+                            <input ng-model="addTitle" type="text" class="form-control" id="recommend-title-add">
+                        </div>
+                        <div class="form-group">
+                            <label for="recommend-playlist-add" class="col-form-label">关联歌单:</label>
+                            <input ng-model="addPlaylistId" type="text" class="form-control" id="recommend-playlist-add">
+                        </div>
+                        <div class="form-group">
+                            <label for="recommend-description-add" class="col-form-label">文字排版:</label>
+                            <textarea ng-model="addDescription" class="form-control" id="recommend-description-add"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addRecommend();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 编辑推荐 -->
+    <div class="modal fade" id="recommendEditModal" tabindex="-1" role="dialog" aria-labelledby="recommendEditModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recommendEditModalLabel">编辑推荐</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="recommend-description-edit" class="col-form-label"></label>
+                            <textarea ng-model="editingRecommend.description" type="text" class="form-control" id="recommend-description-edit"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="editRecommend();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 封面上传 -->
+    <div class="modal fade" id="recommendCoverUploadModal" tabindex="-1" role="dialog" aria-labelledby="recommendCoverUploadModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recommendCoverUploadModalLabel">上传封面</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form>
+                        <div ng-show="isUploadSuccess" class="alert alert-success" role="alert">
+                            上传成功！
+                        </div>
+                        <div class="form-group">
+                            <label for="recommend-id-upload" class="col-form-label">推荐Id:</label>
+                            <input ng-model="nowUploadingId" type="text" class="form-control" id="recommend-id-upload"
+                                disabled>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="custom-file" ng-if="nowUploader">
+                                    <input type="file" class="custom-file-input" id="recommend-cover-upload"
+                                        nv-file-select uploader="nowUploader">
+                                    <label class="custom-file-label" for="recommend-cover-upload">{{nowUploader.queue
+                                        == 0?"选择文件":nowUploader.queue[0].file.name}}</label>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-success" type="button" ng-disabled="!nowUploader.queue.length"
+                                        ng-click="nowUploader.uploadAll()">上传</button>
+                                    <button class="btn btn-outline-danger" type="button" ng-disabled="!nowUploader.queue.length"
+                                        ng-click="nowUploader.clearQueue()">删除</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 删除推荐 -->
+    <div class="modal fade" id="recommendDeleteModal" tabindex="-1" role="dialog" aria-labelledby="recommendDeleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recommendDeleteModalTitle">删除歌单</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    您确定要删除推荐{{deletingRecommend.playlist_title}}？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" ng-click="deleteRecommend(deletingRecommend.id);"
+                        data-dismiss="modal">删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--对话框结束-->
+    <div class="btn-toolbar d-flex" role="toolbar" aria-label="User Management Toolbar">
+        <div class="btn-group mr-auto" role="group" aria-label="User Management Toolbar">
+            <button type="button" ng-click="refreshRecommend(pagination.resetPage());" class="btn btn-secondary"><i
+                    class="fas fa-sync-alt"></i>
+                刷新</button>
+            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#recommendAddModal"><i
+                    class="fas fa-plus"></i>
+                添加</button>
+        </div>
+        <div class="input-group mr-2">
+            <div class="input-group-prepend">
+                <div class="input-group-text" id="btnGroupAddon">每页条目数</div>
+            </div>
+            <input ng-model="pagination.countEachPage" ng-change="refreshRecommend(pagination.refreshPage());" type="number"
+                class="form-control" aria-label="Music Page Count" aria-describedby="btnGroupAddon">
+        </div>
+        <div class="btn-group" role="group" aria-label="Music Page Select">
+            <button ng-click="refreshRecommend(pagination.previousPage());" type="button" class="btn btn-secondary">上一页</button>
+            <button ng-click="refreshRecommend(pagination.nextPage());" type="button" class="btn btn-secondary">下一页</button>
+        </div>
+    </div>
+
+    <hr />
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">推荐标题</th>
+                <th scope="col">推荐时间</th>
+                <th scope="col">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="animate-repeat" ng-repeat="recommend in recommends">
+                <th>{{recommend.id}}</th>
+                <td>{{recommend.playlist_title}}</td>
+                <td>{{recommend.date}}</td>
+                <td>
+                    <button type="button" ng-click="toEditRecommend(recommend);" data-toggle="modal" data-target="#recommendEditModal"
+                        class="btn btn-info"><i class="fas fa-edit"></i> 编辑</button>
+                    <button type="button" ng-click="toDeleteRecommend(recommend);" data-toggle="modal" data-target="#recommendDeleteModal"
+                        class="btn btn-danger"><i class="fas fa-trash-alt"></i>
+                        删除</button>
+                    <button type="button" ng-click="setUploadId(recommend.id);" data-toggle="modal" data-target="#recommendCoverUploadModal"
+                        class="btn btn-success"><i class="fas fa-upload"></i> 上传</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endverbatim %}

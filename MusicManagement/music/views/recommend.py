@@ -4,10 +4,13 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from music.serializers import RecommendListSerializer, RecommendCreateSerializer, RecommendUpdateSerializer, MusicDetailSerializer, AlbumSerializer, PlaylistSerializer
 from music.models import Recommend, Music, Album, Playlist
 import random
+import os
+import hashlib
 
 
 class RecommendView(ListAPIView):
@@ -48,6 +51,28 @@ class RecommendUpdateView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         recommend.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class RecommendUploadCoverView(APIView):
+    parser_classes = (MultiPartParser,)
+    permission_classes = (IsAuthenticated, IsAdminUser,)
+
+    def post(self, request, pk, format=None):
+        recommend = Recommend.objects.filter(pk=pk).first()
+        if recommend == None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        file_object = request.FILES["file"]
+        # Hash filename
+        hasher = hashlib.md5()
+        file_name, file_ext = os.path.splitext(file_object.name)
+        hasher.update(str(pk).encode())
+        file_name = hasher.hexdigest()
+        file_object.name = "{0}{1}".format(file_name, file_ext)
+        if recommend.cover != None:
+            recommend.cover.delete()
+        recommend.cover = file_object
+        recommend.save()
+        return Response(status=status.HTTP_201_CREATED)
 
 
 class RecommendUserView(APIView):
