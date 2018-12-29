@@ -22,6 +22,8 @@ angular.module('mm-app').controller("PlayListViewController", ["$http", "$scope"
                 $scope.loadAlbumDetail($scope.album);
             });
     });
+    // Get Login State Sections
+    $scope.loginState = () => mmComm.getLoginState();
     // Add to Playlist Sections
     $scope.sendToPlay = music => {
         mmMusic.setMusicPlaying(music);

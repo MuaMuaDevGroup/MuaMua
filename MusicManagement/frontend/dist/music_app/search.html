@@ -57,7 +57,7 @@
                             <div class="float-right">
                                 <button ng-click="sendToPlay(music);" type="button" class="btn btn-outline-danger btn-sm"><i
                                         class="fas fa-play-circle"></i></button>
-                                <button ng-click="getPlaylists();toSetSelectedMusic(music);" type="button" class="btn btn-outline-danger btn-sm"
+                                <button ng-show="loginState()" ng-click="getPlaylists();toSetSelectedMusic(music);" type="button" class="btn btn-outline-danger btn-sm"
                                     data-toggle="modal" data-target="#addtoPlaylistModal"><i class="fas fa-folder-plus"></i></button>
 
                             </div>
