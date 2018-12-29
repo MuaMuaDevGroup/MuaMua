@@ -92,7 +92,7 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             $scope.addPlaylistDescription = "";
             $scope.addPlaylistTracks = "";
             $scope.addPlaylistOwner = "";
-            $scope.refreshPlaylists();
+            $scope.refreshPlaylists($scope.pagination.refreshPage());
         },
             response => {
                 mmNotify.notify(response.status, response.statusText);
@@ -126,7 +126,7 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             data: d
         }).then(response => {
             $scope.editingPlaylist = null;
-            $scope.refreshPlaylists();
+            $scope.refreshPlaylists($scope.pagination.refreshPage());
         },
             response => {
                 mmNotify.notify(response.status, response.statusText);
@@ -143,7 +143,7 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             method: "DELETE"
         }).then(response => {
             $scope.deletingPlaylist = null;
-            $scope.refreshPlaylists();
+            $scope.refreshPlaylists($scope.pagination.refreshPage());
         },
             response => {
                 mmNotify.notify(response.status, response.statusText);

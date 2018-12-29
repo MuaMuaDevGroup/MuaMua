@@ -40,7 +40,7 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
             $scope.addUserFirstname = "";
             $scope.addUserLastname = "";
             $scope.addUserIsAdminRaw = "false";
-            $scope.refreshUser();
+            $scope.refreshUser($scope.pagination.refreshPage());
         },
             response => {
                 mmNotify.notify(response.status, response.statusText);
@@ -73,7 +73,7 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
             data: d
         }).then(response => {
             $scope.editUser = null;
-            $scope.refreshUser();
+            $scope.refreshUser($scope.pagination.refreshPage());
         },
             response => {
                 mmNotify.notify(response.status, response.statusText);
@@ -99,7 +99,7 @@ angular.module('mm-app').controller('UserManageController', ['$http', '$scope', 
             $scope.editPassId = "";
             $scope.editPassName = "";
             $scope.editPassNew = "";
-            $scope.refreshUser();
+            $scope.refreshUser($scope.pagination.refreshPage());
         },
             response => {
                 mmNotify.notify(response.status, response.statusText);
