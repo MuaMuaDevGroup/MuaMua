@@ -64,7 +64,8 @@ angular.module('mm-app').controller("SearchController", ["$http", "$scope", "mmM
         });
     };
     $scope.musics = [];
-
+    // Get Login State Sections
+    $scope.loginState = () => mmComm.getLoginState();
     // Search Album Sections
     $scope.searchAlbum = text => {
         $http({
