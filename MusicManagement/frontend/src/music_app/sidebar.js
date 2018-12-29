@@ -15,7 +15,11 @@ angular.module('mm-app').controller("SidebarController", ["$scope", "$http", "ma
         comm.registerPageGetCaptcha();
         comm.musicCtrlSetDisplay('registration');
     };
-    comm.setGetLoginStateHandler(() => { 
+    $scope.toCollectionPage = () => {
+        comm.refreshCollectionPage();
+        comm.musicCtrlSetDisplay('collection');
+    };
+    comm.setGetLoginStateHandler(() => {
         return $scope.loginStatus == "login" ? true : false;
     });
     // Playlist Add Sections

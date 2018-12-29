@@ -1,0 +1,24 @@
+{% verbatim %}
+<div class="container" ng-controller="CollectionController">
+    <div class="row">
+        <h1>我的收藏</h1>
+        <hr />
+        <table class="table mt-30">
+            <tbody>
+                <tr class="animate-repeat" ng-repeat="playlist in collectionPlaylist">
+                    <td class="align-self-center">
+                        <a href="#">
+                            <img ng-src="{{playlist.cover}}" class="rounded" width="50" height="50">
+                        </a>
+                        <span>{{playlist.name}}</span>
+                    <td class="clearfix">
+                        <span class="float-left">{{playlist.play_count}}</span>
+                        <button ng-click="viewPlaylist(playlist);" type="button" class="btn btn-outline-danger btn-sm float-right"><i
+                                class="fas fa-eye"></i></button></td>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endverbatim %}

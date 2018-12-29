@@ -250,6 +250,13 @@ class PlaylistCollectionDeleteView(APIView):
 
     permission_classes = (IsAuthenticated, )
 
+    def get(self, request, pk, format=None):
+        playlist = Playlist.objects.filter(pk=pk).first()
+        if (playlist == None) or not(request.user in playlist.collectors.all()):
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = PlaylistDetailSerializer(playlist)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
     def delete(self, request, pk, format=None):
         if len(Playlist.objects.filter(pk=pk)) == 0:
             return Response(status=status.HTTP_404_NOT_FOUND)

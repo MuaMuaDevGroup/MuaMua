@@ -3,6 +3,7 @@ module.exports = {
     mode: 'development',
     entry: {
         app: [
+            './src/music_app/collection.js',
             './src/music_app/registration.js',
             './src/music_app/music.js',
             './src/music_app/player_mini.js',

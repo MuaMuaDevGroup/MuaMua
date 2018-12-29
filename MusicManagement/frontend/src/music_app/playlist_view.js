@@ -24,6 +24,28 @@ angular.module('mm-app').controller("PlayListViewController", ["$http", "$scope"
     });
     // Get Login State Sections
     $scope.loginState = () => mmComm.getLoginState();
+    // Collect Playlist
+    $scope.collectPlaylist = playlist => {
+        let d = {
+            playlist: playlist.id
+        };
+        $http({
+            url: "/api/playlist/my/collection/",
+            method: "POST",
+            data: d
+        }).then(response => {
+            playlist.isCollected = true;
+        });
+    }
+    $scope.uncollectPlaylist = playlist => {
+        $http({
+            url: "/api/playlist/my/collection/" + playlist.id + "/",
+            method: "DELETE"
+        }).then(response => {
+            playlist.isCollected = false;
+        });
+    };
+    $scope.isPlaylistCollected = false;
     // Add to Playlist Sections
     $scope.sendToPlay = music => {
         mmMusic.setMusicPlaying(music);
@@ -120,7 +142,12 @@ angular.module('mm-app').controller("PlayListViewController", ["$http", "$scope"
             url: "/api/playlist/my/" + playlist.id + "/",
             method: "GET"
         }).then(response => playlist.isOwner = true, response => playlist.isOwner = false);
-        
+        // Check if collects
+        $http({
+            url: "/api/playlist/my/collection/" + playlist.id + "/",
+            method: "GET"
+        }).then(response => playlist.isCollected = true, response => playlist.isCollected = false);
+
     };
     // Common Sections
     $scope.loadArtist = (artistIds, nowArtistNames) => {
