@@ -36,7 +36,9 @@ angular.module('mm-app').factory("mainPageComm", () => {
     let sidebarPlaylistRefreshHandler = null;
     let registerPageGetCaptchaHandler = null;
     let getLoginStateHandler = null;
+    let refreshCollectionPageHandler = null;
     return {
+        // Switch Views of Music
         musicCtrlSetDisplay: (displayName) => {
             if (typeof musicCtrlSetDisplayHandler == "function")
                 musicCtrlSetDisplayHandler(displayName);
@@ -44,6 +46,7 @@ angular.module('mm-app').factory("mainPageComm", () => {
         setMusicCtrlSetDisplayHandler: (func) => {
             musicCtrlSetDisplayHandler = func;
         },
+        // Switch playlist or album in playlist_view
         playlistViewCtrlSetDisplay: (albumOrPlaylistId, displayName) => {
             if (typeof playlistViewCtrlSetDisplayHandler == "function")
                 playlistViewCtrlSetDisplayHandler(albumOrPlaylistId, displayName);
@@ -51,6 +54,7 @@ angular.module('mm-app').factory("mainPageComm", () => {
         setPlaylistViewCtrlSetDisplayerHandler: (func) => {
             playlistViewCtrlSetDisplayHandler = func;
         },
+        // Refresh Sidebar to load playlist
         sidebarPlaylistRefresh: () => {
             if (typeof sidebarPlaylistRefreshHandler == "function")
                 sidebarPlaylistRefreshHandler();
@@ -58,6 +62,7 @@ angular.module('mm-app').factory("mainPageComm", () => {
         setSidebarPlaylistRefreshHandler: (func) => {
             sidebarPlaylistRefreshHandler = func;
         },
+        // Refresh Captcha when goto registration page
         registerPageGetCaptcha: () => {
             if (typeof registerPageGetCaptchaHandler == "function")
                 registerPageGetCaptchaHandler();
@@ -65,14 +70,22 @@ angular.module('mm-app').factory("mainPageComm", () => {
         setRegisterPageGetCaptchaHandler: (func) => {
             registerPageGetCaptchaHandler = func;
         },
+        // Get Login State
         setGetLoginStateHandler: (func) => {
             getLoginStateHandler = func;
         },
         getLoginState: () => {
             if (typeof getLoginStateHandler == "function")
                 return getLoginStateHandler();
+        },
+        // Refresh Collection page
+        setRefreshCollectionPageHandler: (func) => {
+            refreshCollectionPageHandler = func;
+        },
+        refreshCollectionPage: () => {
+            if (typeof refreshCollectionPageHandler == "function")
+                refreshCollectionPageHandler();
         }
-
     };
 });
 
