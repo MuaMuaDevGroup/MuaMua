@@ -54,7 +54,7 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
             $scope.addArtistName = "";
             $scope.addArtistBirth = "";
             $scope.addArtistCountry = "";
-            $scope.refreshArtist();
+            $scope.refreshArtist($scope.pagination.refreshPage());
         },
             response => {
                 mmNotify.notify(response.status, response.statusText);
@@ -86,7 +86,7 @@ angular.module('mm-app').controller('ArtistManageController', ['$http', '$scope'
             $scope.editArtistName = "";
             $scope.editArtistCountry = "";
             $scope.editArtistBirth = "";
-            $scope.refreshArtist();
+            $scope.refreshArtist($scope.pagination.refreshPage());
         },
             response => {
                 mmNotify.notify(response.status, response.statusText);

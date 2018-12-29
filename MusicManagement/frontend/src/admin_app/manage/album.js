@@ -67,7 +67,7 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
             method: "PUT",
             data: d
         }).then(response => {
-            $scope.refreshAlbums();
+            $scope.refreshAlbums($scope.pagination.refreshPage());
         },
             response => {
                 mmNotify.notify(response.status, response.statusText);
@@ -83,7 +83,7 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
             url: "/api/album/" + id + "/",
             method: "DELETE"
         }).then(response => {
-            $scope.refreshAlbums();
+            $scope.refreshAlbums($scope.pagination.refreshPage());
         },
             response => {
                 mmNotify.notify(response.status, response.statusText);
@@ -112,7 +112,7 @@ angular.module('mm-app').controller('AlbumManageController', ['$http', '$scope',
             $scope.addAlbumYear = "";
             $scope.addAlbumTracks = "";
             $scope.addAlbumDescription = "";
-            $scope.refreshAlbums();
+            $scope.refreshAlbums($scope.pagination.refreshPage());
         },
             response => {
                 mmNotify.notify(response.status, response.statusText);
