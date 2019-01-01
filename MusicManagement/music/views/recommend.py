@@ -6,6 +6,7 @@ from rest_framework.filters import SearchFilter
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from music.permissions import IsAdminOrReadOnly
 from music.serializers import RecommendListSerializer, RecommendCreateSerializer, RecommendUpdateSerializer, MusicDetailSerializer, AlbumSerializer, PlaylistSerializer
 from music.models import Recommend, Music, Album, Playlist
 import random
@@ -14,12 +15,15 @@ import hashlib
 
 
 class RecommendView(ListAPIView):
-    queryset = Recommend.objects.all()
     serializer_class = RecommendListSerializer
     pagination_class = LimitOffsetPagination
-    permission_classes = (IsAuthenticated, IsAdminUser,)
+    permission_classes = (IsAdminOrReadOnly,)
     search_fields = ('description',)
     filter_backends = (SearchFilter,)
+
+    def get_queryset(self):
+        recommends = Recommend.objects.all().order_by('-date')
+        return recommends
 
     def post(self, request, format=None):
         serializer = RecommendCreateSerializer(data=request.data)
@@ -78,7 +82,7 @@ class RecommendUploadCoverView(APIView):
 class RecommendUserView(APIView):
 
     def get(self, request, format=None):
-        recommend = Recommend.objects.all().order_by('date')[:1].get()
+        recommend = Recommend.objects.all().order_by('-date')[:1].first()
         serializer = RecommendListSerializer(recommend)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
