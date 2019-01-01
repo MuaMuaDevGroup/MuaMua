@@ -10,6 +10,7 @@ module.exports = {
             './src/music_app/player.js',
             './src/music_app/playlist_view.js',
             './src/music_app/recommend.js',
+            './src/music_app/recommend_detail.js',
             './src/music_app/search.js',
             './src/music_app/sidebar.js',
             './styles/music_app/player_mini.css',

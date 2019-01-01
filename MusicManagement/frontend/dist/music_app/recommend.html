@@ -9,7 +9,11 @@
                 <div class="carousel-item" ng-class="{active:$index==0}" ng-repeat="recommend in recommends">
                     <img ng-src="{{recommend.cover}}" class="d-block w-100" height="350" alt="{{recommend.playlist_title}}">
                     <div class="carousel-caption d-none d-md-block">
-                        <h5>{{recommend.playlist_title}}</h5>
+                        <h5>
+                            <button class="btn btn-link" style="color:white;" ng-click="viewRecommend(recommend);">
+                                {{recommend.playlist_title}}
+                            </button>
+                        </h5>
                     </div>
                 </div>
             </div>
@@ -78,7 +82,8 @@
                         <small class="text-muted">{{music.artists.join("/")}}</small>
                     </div>
                     <div class="float-right">
-                        <button ng-click="sendToPlay(music);" type="button" class="btn btn-outline-danger btn-sm"><i class="fas fa-play-circle"></i></button>
+                        <button ng-click="sendToPlay(music);" type="button" class="btn btn-outline-danger btn-sm"><i
+                                class="fas fa-play-circle"></i></button>
                     </div>
                 </a>
             </div>

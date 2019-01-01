@@ -15,7 +15,10 @@ angular.module('mm-app').controller("RecommendController", ["$http", "$scope", "
         mmComm.playlistViewCtrlSetDisplay(playlist.id, "playlist");
         mmComm.musicCtrlSetDisplay('playlist_view');
     };
-
+    $scope.viewRecommend = recommend => {
+        mmComm.recommendDetailLoad(recommend);
+        mmComm.musicCtrlSetDisplay('recommend_detail');
+    }
     $scope.recommends = [];
     $scope.musics = [];
     $scope.albums = [];

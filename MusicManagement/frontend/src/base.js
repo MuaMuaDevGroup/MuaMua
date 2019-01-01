@@ -37,6 +37,7 @@ angular.module('mm-app').factory("mainPageComm", () => {
     let registerPageGetCaptchaHandler = null;
     let getLoginStateHandler = null;
     let refreshCollectionPageHandler = null;
+    let recommendDetailLoadHandler = null;
     return {
         // Switch Views of Music
         musicCtrlSetDisplay: (displayName) => {
@@ -85,6 +86,14 @@ angular.module('mm-app').factory("mainPageComm", () => {
         refreshCollectionPage: () => {
             if (typeof refreshCollectionPageHandler == "function")
                 refreshCollectionPageHandler();
+        },
+        // Load Recommend Detail in Page
+        setRecommendDetailLoadHandler: (func) => {
+            recommendDetailLoadHandler = func;
+        },
+        recommendDetailLoad: (recommend) => {
+            if (typeof recommendDetailLoadHandler == "function")
+                recommendDetailLoadHandler(recommend);
         }
     };
 });
