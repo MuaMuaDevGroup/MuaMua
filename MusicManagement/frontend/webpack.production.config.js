@@ -3,17 +3,21 @@ module.exports = {
     mode: 'production',
     entry: {
         app: [
+            './src/music_app/collection.js',
+            './src/music_app/registration.js',
             './src/music_app/music.js',
             './src/music_app/player_mini.js',
             './src/music_app/player.js',
             './src/music_app/playlist_view.js',
             './src/music_app/recommend.js',
+            './src/music_app/recommend_detail.js',
             './src/music_app/search.js',
             './src/music_app/sidebar.js',
             './styles/music_app/player_mini.css',
             './styles/music_app/sidebar.css'
         ],
         adminApp: [
+            './src/admin_app/notification.js',
             './src/admin_app/music_manage.js',
             './src/admin_app/navbar.js',
         ],

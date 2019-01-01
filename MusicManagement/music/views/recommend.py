@@ -4,19 +4,26 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from music.permissions import IsAdminOrReadOnly
 from music.serializers import RecommendListSerializer, RecommendCreateSerializer, RecommendUpdateSerializer, MusicDetailSerializer, AlbumSerializer, PlaylistSerializer
 from music.models import Recommend, Music, Album, Playlist
 import random
+import os
+import hashlib
 
 
 class RecommendView(ListAPIView):
-    queryset = Recommend.objects.all()
     serializer_class = RecommendListSerializer
     pagination_class = LimitOffsetPagination
-    permission_classes = (IsAuthenticated, IsAdminUser,)
+    permission_classes = (IsAdminOrReadOnly,)
     search_fields = ('description',)
     filter_backends = (SearchFilter,)
+
+    def get_queryset(self):
+        recommends = Recommend.objects.all().order_by('-date')
+        return recommends
 
     def post(self, request, format=None):
         serializer = RecommendCreateSerializer(data=request.data)
@@ -50,10 +57,32 @@ class RecommendUpdateView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class RecommendUploadCoverView(APIView):
+    parser_classes = (MultiPartParser,)
+    permission_classes = (IsAuthenticated, IsAdminUser,)
+
+    def post(self, request, pk, format=None):
+        recommend = Recommend.objects.filter(pk=pk).first()
+        if recommend == None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        file_object = request.FILES["file"]
+        # Hash filename
+        hasher = hashlib.md5()
+        file_name, file_ext = os.path.splitext(file_object.name)
+        hasher.update(str(pk).encode())
+        file_name = hasher.hexdigest()
+        file_object.name = "{0}{1}".format(file_name, file_ext)
+        if recommend.cover != None:
+            recommend.cover.delete()
+        recommend.cover = file_object
+        recommend.save()
+        return Response(status=status.HTTP_201_CREATED)
+
+
 class RecommendUserView(APIView):
 
     def get(self, request, format=None):
-        recommend = Recommend.objects.all().order_by('date')[:1].get()
+        recommend = Recommend.objects.all().order_by('-date')[:1].first()
         serializer = RecommendListSerializer(recommend)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

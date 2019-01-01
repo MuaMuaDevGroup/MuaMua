@@ -35,6 +35,7 @@ class Base(Configuration):
         'django.contrib.staticfiles',
         'rest_framework',
         'django_filters',
+        'captcha',
         'music.apps.MusicConfig'
     ]
 

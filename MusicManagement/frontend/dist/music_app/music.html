@@ -9,6 +9,9 @@
     <div class="wrapper toggled">
         {% include "music_app/sidebar.html" %}
         <div class="page-content-wrapper">
+            <div class="animate-show-hide" ng-show="nowDisplay == 'registration'">
+                {% include "music_app/registration.html" %}
+            </div>
             <div class="animate-show-hide" ng-show="nowDisplay == 'player'">
                 {% include "music_app/player.html" %}
             </div>
@@ -20,6 +23,12 @@
             </div>
             <div class="animate-show-hide" ng-show="nowDisplay == 'playlist_view'">
                 {% include "music_app/playlist_view.html" %}
+            </div>
+            <div class="animate-show-hide" ng-show="nowDisplay == 'collection'">
+                {% include "music_app/collection.html" %}
+            </div>
+            <div class="animate-show-hide" ng-show="nowDisplay == 'recommend_detail'">
+                {% include "music_app/recommend_detail.html" %}
             </div>
         </div>
     </div>

@@ -27,7 +27,8 @@ class PlaylistView(ListAPIView):
         serializer = PlaylistCreationSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(status=status.HTTP_201_CREATED)
+            rtn = PlaylistSerializer(serializer.instance)
+            return Response(data=rtn.data, status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -143,7 +144,10 @@ class PlaylistUserView(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return Playlist.objects.filter(owner=user)
+        if user.is_authenticated:
+            return Playlist.objects.filter(owner=user)
+        else:
+            return Playlist.objects.none()
 
     def post(self, request, format=None):
         serializer = PlaylistUserCreationSerializer(data=request.data)
@@ -155,7 +159,8 @@ class PlaylistUserView(ListAPIView):
             playlist.play_count = 0
             playlist.save()
             playlist.songs.set(serializer.validated_data["songs"])
-            return Response(status=status.HTTP_201_CREATED)
+            rtnData = PlaylistSerializer(playlist)
+            return Response(data=rtnData.data, status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -245,6 +250,13 @@ class PlaylistCollectionDeleteView(APIView):
 
     permission_classes = (IsAuthenticated, )
 
+    def get(self, request, pk, format=None):
+        playlist = Playlist.objects.filter(pk=pk).first()
+        if (playlist == None) or not(request.user in playlist.collectors.all()):
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = PlaylistDetailSerializer(playlist)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
     def delete(self, request, pk, format=None):
         if len(Playlist.objects.filter(pk=pk)) == 0:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -300,7 +312,7 @@ class FavoriteDetailView(RetrieveAPIView):
         if len(playlists) != 0:
             return playlists.get().songs.all()
         else:
-            return None
+            return Playlist.objects.none()
 
     def delete(self, request, pk, format=None):
         playlist = Playlist.objects.get(name="我喜欢的歌曲", owner=request.user)

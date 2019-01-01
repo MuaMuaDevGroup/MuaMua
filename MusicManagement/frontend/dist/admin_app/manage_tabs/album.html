@@ -1,0 +1,250 @@
+{% verbatim %}
+<!--专辑页面-->
+<div class="tab-pane fade" id="v-pills-album" role="tabpanel" aria-labelledby="v-pills-album-tab" ng-controller="AlbumManageController">
+    <!--对话框开始-->
+    <!-- 添加新专辑 -->
+    <div class="modal fade" id="albumAddModal" tabindex="-1" role="dialog" aria-labelledby="albumAddModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="albumAddModalLabel">添加专辑</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="album-title-add" class="col-form-label">专辑标题：</label>
+                            <input ng-model="addAlbumTitle" type="text" class="form-control" id="album-title-add">
+                        </div>
+                        <div class="form-group">
+                            <label for="album-year-add" class="col-form-label">出版时间:</label>
+                            <input ng-model="addAlbumYear" type="text" placeholder="1970-01-01" class="form-control" id="album-year-add">
+                        </div>
+                        <div class="form-group">
+                            <label for="album-publisher-add" class="col-form-label">唱片公司:</label>
+                            <input ng-model="addAlbumPublisher" type="text" class="form-control" id="album-publisher-add">
+                        </div>
+                        <div class="form-group">
+                            <label for="album-description-add" class="col-form-label">唱片简介:</label>
+                            <textarea ng-model="addAlbumDescription" type="text" class="form-control" id="album-description-add"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="album-track-add" class="col-form-label">歌曲Id:</label>
+                            <input ng-model="addAlbumTracks" type="text" class="form-control" id="album-track-add">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addAlbum();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 编辑专辑 -->
+    <div class="modal fade" id="albumEditModal" tabindex="-1" role="dialog" aria-labelledby="albumEditModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="albumEditModalLabel">编辑专辑</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="album-id-edit" class="col-form-label">专辑Id：</label>
+                            <input ng-model="editingAlbum.id" type="text" class="form-control" id="album-id-edit"
+                                disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="album-title-edit" class="col-form-label">专辑标题：</label>
+                            <input ng-model="editingAlbum.title" type="text" class="form-control" id="album-title-edit">
+                        </div>
+                        <div class="form-group">
+                            <label for="album-year-adeditd" class="col-form-label">出版时间:</label>
+                            <input ng-model="editingAlbum.year" type="text" placeholder="1970-01-01" class="form-control"
+                                id="album-year-edit">
+                        </div>
+                        <div class="form-group">
+                            <label for="album-publisher-edit" class="col-form-label">唱片公司:</label>
+                            <input ng-model="editingAlbum.publisher" type="text" class="form-control" id="album-publisher-edit">
+                        </div>
+                        <div class="form-group">
+                            <label for="album-description-edit" class="col-form-label">唱片简介:</label>
+                            <textarea ng-model="editingAlbum.description" type="text" class="form-control" id="album-description-edit"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="album-track-edit" class="col-form-label">歌曲Id:</label>
+                            <input ng-model="editingAlbum.rawTracks" type="text" class="form-control" id="album-track-edit">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="editAlbum();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 删除专辑确认 -->
+    <div class="modal fade" id="albumDeleteModal" tabindex="-1" role="dialog" aria-labelledby="albumDeleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="albumDeleteModalTitle">删除专辑</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    您确定要删除专辑{{deletingAlbum.title}}？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" ng-click="deleteAlbum(deletingAlbum.id);" data-dismiss="modal">删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 专辑封面上传 -->
+    <div class="modal fade" id="albumCoverUploadModal" tabindex="-1" role="dialog" aria-labelledby="albumCoverUploadModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="musicUploadModalLabel">上传专辑封面</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form>
+                        <div ng-show="isUploadSuccess" class="alert alert-success" role="alert">
+                            上传成功！
+                        </div>
+                        <div class="form-group">
+                            <label for="album-id-upload" class="col-form-label">歌曲Id:</label>
+                            <input ng-model="nowUploadingId" type="text" class="form-control" id="album-id-upload"
+                                disabled>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="custom-file" ng-if="nowUploader">
+                                    <input type="file" class="custom-file-input" id="album-cover-upload" nv-file-select
+                                        uploader="nowUploader">
+                                    <label class="custom-file-label" for="album-cover-upload">{{nowUploader.queue
+                                        == 0?"选择文件":nowUploader.queue[0].file.name}}</label>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-success" type="button" ng-disabled="!nowUploader.queue.length"
+                                        ng-click="nowUploader.uploadAll()">上传</button>
+                                    <button class="btn btn-outline-danger" type="button" ng-disabled="!nowUploader.queue.length"
+                                        ng-click="nowUploader.clearQueue()">删除</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--对话框结束-->
+    <div class="btn-toolbar d-flex" role="toolbar" aria-label="Music Management Toolbar">
+        <div class="btn-group mr-auto" role="group" aria-label="Album Management Toolbar">
+            <button type="button" ng-click="refreshAlbums(pagination.resetPage());" class="btn btn-secondary"><i class="fas fa-sync-alt"></i>
+                刷新</button>
+            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#albumAddModal"><i class="fas fa-plus"></i>
+                添加</button>
+        </div>
+        <div class="input-group mr-2">
+            <div class="input-group-prepend">
+                <div class="input-group-text" id="btnGroupAddon">每页条目数</div>
+            </div>
+            <input ng-model="pagination.countEachPage" ng-change="refreshAlbums(pagination.refreshPage());" type="number"
+                class="form-control" aria-label="Music Page Count" aria-describedby="btnGroupAddon">
+        </div>
+        <div class="btn-group" role="group" aria-label="Music Page Select">
+            <button ng-click="refreshAlbums(pagination.previousPage());" type="button" class="btn btn-secondary">上一页</button>
+            <button ng-click="refreshAlbums(pagination.nextPage());" type="button" class="btn btn-secondary">下一页</button>
+        </div>
+
+    </div>
+
+    <hr />
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">专辑标题</th>
+                <th scope="col">发行日期</th>
+                <th scope="col">简介</th>
+                <th scope="col">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="animate-repeat" ng-repeat="album in albums">
+                <th>
+                    <span ng-if="!album.cover">{{album.id}}</span>
+                    <div ng-if="album.cover" class="dropdown">
+                        <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{album.id}}
+                        </a>
+                        <div class="dropdown-menu">
+                            <img ng-src="{{album.cover}}" alt="专辑{{album.title}}封面">
+                        </div>
+                    </div>
+                </th>
+                <td>
+                    <div class="dropdown">
+                        <a href="#" ng-click="loadAlbumTrack(album.id);" data-toggle="dropdown">{{album.title}}</a>
+                        <div class="dropdown-menu">
+                            <h6 class="dropdown-header">{{album.title}}专辑歌曲列表</h6>
+                            <a class="dropdown-item disabled" ng-hide="viewTracksAlbum.tracks.length!=0" href="#">该专辑暂无歌曲</a>
+                            <table class="table" ng-show="viewTracksAlbum.tracks.length!=0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">标题</th>
+                                        <th scope="col">歌手</th>
+                                        <th scope="col">时长</th>
+                                        <th scope="col">风格</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="track in viewTracksAlbum.tracks">
+                                        <td>{{track.title}}</td>
+                                        <td>{{track.artist.join(",")}}</td>
+                                        <td>{{track.duration}}</td>
+                                        <td>{{track.style}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+                <td>{{album.year}}</td>
+                <td>{{album.description}}</td>
+                <td>
+                    <button type="button" ng-click="setDeleteId(album.id);" data-toggle="modal" data-target="#albumDeleteModal"
+                        class="btn btn-danger"><i class="fas fa-trash-alt"></i> 删除</button>
+                    <button type="button" ng-click="toEditAlbum(album.id);" data-toggle="modal" data-target="#albumEditModal"
+                        class="btn btn-info"><i class="fas fa-edit"></i> 编辑</button>
+                    <button type="button" ng-click="setUploadId(album.id);" data-toggle="modal" data-target="#albumCoverUploadModal"
+                        class="btn btn-warning"><i class="fas fa-upload"></i> 上传</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endverbatim %}

@@ -1,0 +1,46 @@
+{% verbatim %}
+<div class="container" ng-controller="RegistrationController">
+    <h1 class="text-center">注册MuaMua账号</h1>
+    <hr/>
+    <div ng-show="errorText!=''" class="alert alert-danger" role="alert">
+        {{errorText}}
+    </div>
+    <div ng-show="isSuccess" class="alert alert-success" role="alert">
+        注册成功
+    </div>
+    <form>
+        <div class="form-group">
+            <label for="registration-username">用户名</label>
+            <input ng-model="regUsername" type="text" class="form-control" id="registration-username" placeholder="用户名">
+        </div>
+        <div class="form-group">
+            <label for="registration-email">电子邮箱</label>
+            <input ng-model="regEmail" type="email" class="form-control" id="registration-email" placeholder="电子邮箱">
+        </div>
+        <div class="form-group">
+            <label for="registration-password">密码</label>
+            <input ng-model="regPassword" type="password" class="form-control" id="registration-password" placeholder="密码">
+        </div>
+        <div class="form-group">
+            <label for="registration-lastname">姓</label>
+            <input ng-model="regLastname" type="text" class="form-control" id="registration-lastname" placeholder="请填写您的姓（可选）">
+        </div>
+        <div class="form-group">
+            <label for="registration-firstname">名</label>
+            <input ng-model="regFirstname" type="text" class="form-control" id="registration-firstname" placeholder="请填写您的名（可选）">
+        </div>
+        <div class="form-group">
+            <label for="registration-validation">验证码</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <a href="#" ng-click="getCaptcha();">
+                        <img ng-src="data:image/png;base64,{{regValidationImage}}"></img>
+                    </a>
+                </div>
+                <input class="form-control" type="text" ng-model="regValidationCode">
+            </div>
+        </div>
+        <button ng-click="registerUser();" type="submit" class="btn btn-primary">注册</button>
+    </form>
+</div>
+{% endverbatim %}
