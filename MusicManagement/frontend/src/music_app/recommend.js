@@ -2,10 +2,18 @@ import 'angular'
 import 'angular-audio'
 import 'linqjs'
 
-angular.module('mm-app').controller("RecommendController", ["$http", "$scope", "mmMusic", ($http, $scope, mmMusic) => {
+angular.module('mm-app').controller("RecommendController", ["$http", "$scope", "mmMusic", "mainPageComm", ($http, $scope, mmMusic, mmComm) => {
 
     $scope.sendToPlay = music => {
         mmMusic.setMusicPlaying(music);
+    };
+    $scope.viewAlbum = album => {
+        mmComm.playlistViewCtrlSetDisplay(album.id, "album");
+        mmComm.musicCtrlSetDisplay('playlist_view');
+    };
+    $scope.viewPlaylist = playlist => {
+        mmComm.playlistViewCtrlSetDisplay(playlist.id, "playlist");
+        mmComm.musicCtrlSetDisplay('playlist_view');
     };
 
     $scope.recommends = [];

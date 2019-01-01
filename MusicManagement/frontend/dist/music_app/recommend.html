@@ -23,21 +23,21 @@
                 <div class="row align-items-center">
                     <div class="col-6 text-center">
                         <img ng-src="{{albums[0].cover}}" class="d-block w-100 rounded " alt="{{albums[0].title}}">
-                        <button type="button" class="btn btn-link">{{albums[0].title}}</button>
+                        <button ng-click="viewAlbum(albums[0]);" type="button" class="btn btn-link">{{albums[0].title}}</button>
                     </div>
                     <div class="col-6 text-center">
                         <img ng-src="{{albums[1].cover}}" class="d-block w-100 rounded " alt="{{albums[1].title}}">
-                        <button type="button" class="btn btn-link">{{albums[1].title}}</button>
+                        <button ng-click="viewAlbum(albums[1]);" type="button" class="btn btn-link">{{albums[1].title}}</button>
                     </div>
                 </div>
                 <div class="row align-items-center">
                     <div class="col-6 text-center">
                         <img ng-src="{{albums[2].cover}}" class="d-block w-100 rounded " alt="{{albums[2].title}}">
-                        <button type="button" class="btn btn-link">{{albums[2].title}}</button>
+                        <button ng-click="viewAlbum(albums[2]);" type="button" class="btn btn-link">{{albums[2].title}}</button>
                     </div>
                     <div class="col-6 text-center">
                         <img ng-src="{{albums[3].cover}}" class="d-block w-100 rounded " alt="{{albums[3].title}}">
-                        <button type="button" class="btn btn-link">{{albums[3].title}}</button>
+                        <button ng-click="viewAlbum(albums[3]);" type="button" class="btn btn-link">{{albums[3].title}}</button>
                     </div>
                 </div>
             </div>
@@ -49,21 +49,21 @@
                 <div class="row align-items-center">
                     <div class="col-6 text-center">
                         <img ng-src="{{playlists[0].cover}}" class="d-block w-100 rounded " alt="{{playlists[0].title}}">
-                        <button type="button" class="btn btn-link">{{playlists[0].name}}</button>
+                        <button ng-click="viewPlaylist(playlists[0]);" type="button" class="btn btn-link">{{playlists[0].name}}</button>
                     </div>
                     <div class="col-6 text-center">
                         <img ng-src="{{playlists[1].cover}}" class="d-block w-100 rounded " alt="{{playlists[1].title}}">
-                        <button type="button" class="btn btn-link">{{playlists[1].name}}</button>
+                        <button ng-click="viewPlaylist(playlists[1]);" type="button" class="btn btn-link">{{playlists[1].name}}</button>
                     </div>
                 </div>
                 <div class="row align-items-center">
                     <div class="col-6 text-center">
                         <img ng-src="{{playlists[2].cover}}" class="d-block w-100 rounded " alt="{{playlists[2].title}}">
-                        <button type="button" class="btn btn-link">{{playlists[2].name}}</button>
+                        <button ng-click="viewPlaylist(playlists[2]);" type="button" class="btn btn-link">{{playlists[2].name}}</button>
                     </div>
                     <div class="col-6 text-center">
                         <img ng-src="{{playlists[3].cover}}" class="d-block w-100 rounded " alt="{{playlists[3].title}}">
-                        <button type="button" class="btn btn-link">{{playlists[3].name}}</button>
+                        <button ng-click="viewPlaylist(playlists[3]);" type="button" class="btn btn-link">{{playlists[3].name}}</button>
                     </div>
                 </div>
             </div>
