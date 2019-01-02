@@ -33,6 +33,15 @@ class PlaylistUpdateSerializer(serializers.ModelSerializer):
         model = Playlist
         fields = ('name', 'description', 'songs', 'play_count', 'owner')
 
+    def update(self, instance, validated_data):
+        instance.songs.set(validated_data.get("songs"))
+        instance.name = validated_data.get("name")
+        instance.description = validated_data.get("description")
+        instance.play_count = validated_data.get("play_count")
+        instance.owner = validated_data.get("owner")
+        instance.save()
+        return instance
+
 
 class PlaylistSerializer(serializers.ModelSerializer):
 
