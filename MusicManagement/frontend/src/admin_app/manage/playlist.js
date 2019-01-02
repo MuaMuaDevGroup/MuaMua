@@ -118,7 +118,7 @@ angular.module('mm-app').controller('PlaylistManageController', ['$http', '$scop
             description: $scope.editingPlaylist.description,
             play_count: $scope.editingPlaylist.play_count,
             owner: $scope.editingPlaylist.owner,
-            songs: $scope.editingPlaylist.songs == "" ? [] : $scope.editingPlaylist.rawSongs.split(",").select(t => parseInt(t))
+            songs: $scope.editingPlaylist.rawSongs == "" ? [] : $scope.editingPlaylist.rawSongs.split(",").select(t => parseInt(t))
         };
         $http({
             url: "/api/playlist/" + $scope.editingPlaylist.id + "/",
