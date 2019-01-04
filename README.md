@@ -1,6 +1,8 @@
 # Introduction 
 MuaMua is a course project for JNU's Principle of Database System(08060113,201912273)
 
+Imported from Azure DevOps
+
 # Getting Started
 ##	Installation process
 
