@@ -1,20 +1,41 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+MuaMua is a course project for JNU's Principle of Database System(08060113,201912273)
+
+Imported from Azure DevOps
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+##	Installation process
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+First restore packages and compile frontend with Webpack:
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+    cd ./MusicManagement
+    python -m pip install -r ./requirements.txt
+    cd ./MusicManagement/frontend
+    npm install
+    npm run-script debug
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://www.visualstudio.com/en-us/docs/git/create-a-readme). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+Then debug project by Django internal web server:
+
+    python ./manage.py runserver --settings=MusicManagement.settings --configuration=Development
+
+##	Software dependencies
+
+### Tools
+
+- Python3
+- NPM
+
+### Libraries
+
+#### Web frontend
+
+- AngularJS
+- Bootstrap4
+- Webpack
+
+#### Web backend
+
+- Django
+- Django REST Framework
+- Django Simple Captcha
+- pyODBC
