@@ -18,6 +18,7 @@ class UserUpdateSerializer(serializers.Serializer):
     first_name = serializers.CharField(allow_null=True)
     last_name = serializers.CharField(allow_null=True)
     is_admin = serializers.BooleanField()
+    is_active = serializers.BooleanField()
 
 
 class UserPasswordChangeSerializer(serializers.Serializer):
@@ -30,7 +31,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'first_name', 'last_name',
-                  "is_staff", 'last_login', 'date_joined')
+                  "is_staff", 'last_login', 'date_joined', 'is_active')
 
 
 class UserSerializer(serializers.ModelSerializer):

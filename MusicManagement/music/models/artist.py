@@ -5,3 +5,5 @@ class Artist(models.Model):
     name = models.TextField(unique=False)
     country = models.TextField()
     birth = models.DateField(null=True)
+    photo = models.ImageField(upload_to="artist_photo", null=True)
+    

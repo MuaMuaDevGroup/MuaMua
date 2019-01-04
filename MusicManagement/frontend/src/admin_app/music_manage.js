@@ -1,0 +1,6 @@
+import './manage/album'
+import './manage/artist'
+import './manage/music'
+import './manage/playlist'
+import './manage/recommend'
+import './manage/user'

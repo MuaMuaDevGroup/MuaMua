@@ -7,9 +7,12 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.parsers import MultiPartParser, FormParser
 from music.serializers import AlbumCreationSerializer, AlbumDetailSerializer, AlbumUpdateSerializer, AlbumSerializer
 from music.models import Album
-
+from music.permissions import IsAdminOrReadOnly
+import hashlib
+import os
 
 class AlbumView(ListAPIView):
 
@@ -19,9 +22,10 @@ class AlbumView(ListAPIView):
     filter_fields = ('publisher',)
     pagination_class = LimitOffsetPagination
     search_fields = ('title',)
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    permission_classes = (IsAdminOrReadOnly,)
 
     def post(self, request, format=None):
+
         serializer = AlbumCreationSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -31,7 +35,7 @@ class AlbumView(ListAPIView):
 
 
 class AlbumDetailView(APIView):
-    permission_classes = (IsAuthenticated, IsAdminUser,)
+    permission_classes = (IsAdminOrReadOnly,)
 
     def put(self, request, pk, format=None):
         albums = Album.objects.filter(pk=pk)
@@ -60,3 +64,27 @@ class AlbumDetailView(APIView):
         album = albums.get(pk=pk)
         album.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class AlbumCoverUploadView(APIView):
+
+    parser_classes = (MultiPartParser,)
+    permission_classes = (IsAuthenticated, IsAdminUser,)
+    
+    def post(self, request, pk, format=None):
+        albums = Album.objects.filter(pk=pk)
+        if len(albums) == 0:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        album = albums.get(pk=pk)
+        file_object = request.FILES["file"]
+        # Hash filename
+        hasher = hashlib.md5()
+        file_name, file_ext = os.path.splitext(file_object.name)
+        hasher.update(str(pk).encode())
+        file_name = hasher.hexdigest()
+        file_object.name = "{0}{1}".format(file_name, file_ext)
+        if album.cover != None:
+            album.cover.delete()
+        album.cover = file_object
+        album.save()
+        return Response(status=status.HTTP_201_CREATED)
+    

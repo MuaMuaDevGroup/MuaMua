@@ -1,0 +1,40 @@
+{% extends "admin_app/manage_base.html" %}
+{% block title %} 音乐管理 - MuaMua {% endblock %}
+{% block main %}
+<div class="body-content">
+    <h1>音乐管理</h1>
+    <hr />
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link active" href="#v-pills-music" data-toggle="pill" href="#">歌曲管理</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#v-pills-album" data-toggle="pill" href="#">专辑管理</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#v-pills-artist" data-toggle="pill" href="#">歌手管理</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#v-pills-playlist" data-toggle="pill" href="#">歌单管理</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#v-pills-recommend" data-toggle="pill" href="#">推荐管理</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#v-pills-user" data-toggle="pill" href="#">用户管理</a>
+        </li>
+    </ul>
+    <hr />
+
+    <div class="tab-content" id="v-pills-tabContent">
+        
+        {% include "admin_app/manage_tabs/music.html" %}
+        {% include "admin_app/manage_tabs/artist.html" %}
+        {% include "admin_app/manage_tabs/album.html" %}
+        {% include "admin_app/manage_tabs/playlist.html" %}
+        {% include "admin_app/manage_tabs/recommend.html" %}
+        {% include "admin_app/manage_tabs/user.html" %}
+        
+    </div>
+</div>
+{% endblock %}

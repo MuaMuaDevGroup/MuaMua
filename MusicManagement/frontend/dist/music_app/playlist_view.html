@@ -1,0 +1,207 @@
+{% verbatim %}
+<div ng-controller="PlayListViewController">
+    <!--加入歌单-->
+    <div class="modal fade" id="addtoPlaylistPlaylistModal" tabindex="-1" role="dialog" aria-labelledby="addtoPlaylistPlaylistModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">加入歌单</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="add-to-playlist-playlist">歌单</label>
+                            <select class="form-control" id="add-to-playlist-playlist" ng-model="selectedPlaylistId">
+                                <option ng-repeat="playlist in availablePlaylists" value="{{playlist.id}}">{{playlist.name}}</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button ng-click="addToPlaylist(selectedMusic,selectedPlaylistId);" type="button" class="btn btn-danger"
+                        data-dismiss="modal">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 修改歌单 -->
+    <div class="modal fade" id="playlistEditModal" tabindex="-1" role="dialog" aria-labelledby="playlistEditModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="playlistEditModalLabel">修改歌单</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="playlist-title-edit" class="col-form-label">歌单标题：</label>
+                            <input ng-model="editingPlaylist.name" type="text" class="form-control" id="playlist-title-edit">
+                        </div>
+                        <div class="form-group">
+                            <label for="playlist-description-edit" class="col-form-label">歌单简介:</label>
+                            <textarea ng-model="editingPlaylist.description" type="text" class="form-control" id="playlist-description-edit"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="playlist-uploader-edit" class="col-form-label">歌单封面:</label>
+                            <div class="input-group">
+                                <div class="custom-file" ng-if="nowUploader">
+                                    <input type="file" class="custom-file-input" id="playlist-cover-upload-edit"
+                                        nv-file-select uploader="nowUploader">
+                                    <label class="custom-file-label" for="playlist-cover-upload">{{nowUploader.queue
+                                        == 0?"选择文件":nowUploader.queue[0].file.name}}</label>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-danger" type="button" ng-disabled="!nowUploader.queue.length"
+                                        ng-click="nowUploader.clearQueue()">删除</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="editPlaylist(editingPlaylist);">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 删除歌单 -->
+    <div class="modal fade" id="playlistDeleteModal" tabindex="-1" role="dialog" aria-labelledby="playlistDeleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="playlistDeleteModalLabel">删除歌单</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>您是否要删除歌单{{deletingPlaylist.name}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deletePlaylist(deletingPlaylist);">删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid animate-show-hide" ng-show="nowView == 'playlist'">
+        <div class="row">
+            <img class="col-md-auto rounded " ng-src="{{playlist.cover}}" width="200" height="200">
+            <div class="col">
+                <h3><strong>{{playlist.name}}</strong></h3>
+                <p>
+
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <small class="text-secondary">
+                                <span>播放数量：</span>
+                                <span>{{playlist.play_count}}</span>
+                            </small>
+                        </li>
+                        <li class="list-inline-item">
+                            <button type="button" ng-show="playlist.isOwner" ng-click="toEditPlaylist(playlist);"
+                                data-toggle="modal" data-target="#playlistEditModal" class="btn btn-outline-danger btn-sm animate-none"><i
+                                    class="fas fa-edit"></i></button>
+                            <button type="button" ng-show="playlist.isOwner" ng-click="toDeletePlaylist(playlist);"
+                                class="btn btn-outline-danger btn-sm animate-none" data-toggle="modal" data-target="#playlistDeleteModal"><i
+                                    class="fas fa-minus-circle"></i></button>
+                            <button type="button" ng-show="playlist.isCollected" ng-click="uncollectPlaylist(playlist);"
+                                class="btn btn-outline-danger btn-sm animate-none"><i class="fas fa-heart"></i></button>
+                            <button type="button" ng-hide="playlist.isCollected" ng-click="collectPlaylist(playlist);"
+                                class="btn btn-outline-danger btn-sm animate-none"><i class="far fa-heart"></i></button>
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    {{playlist.description}}
+                </p>
+            </div>
+        </div>
+        <div class="row" style="margin-top:30px;">
+            <table class="table">
+                <tbody>
+                    <tr class="animate-repeat" ng-repeat="song in playlist.songEntities">
+                        <th scope="row">{{$index + 1}}</th>
+                        <td class="clearfix">
+                            <span class="float-left">{{song.title}}</span>
+                            <div class="float-right">
+                                <button ng-click="sendToPlay(song);" type="button" class="btn btn-outline-danger btn-sm"><i
+                                        class="fas fa-play-circle"></i></button>
+                                <button ng-show="loginState()" ng-click="getPlaylists();toSetSelectedMusic(song);" type="button"
+                                    class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#addtoPlaylistPlaylistModal"><i
+                                        class="fas fa-folder-plus"></i></button>
+
+                            </div>
+                        </td>
+                        </td>
+                        <td><span ng-repeat="artist in song.artists">{{artist.name}}/</span></td>
+                        <td>{{song.albumTitle}}</td>
+                        <td>{{song.duration | musicTime}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="container-fluid animate-show-hide" ng-show="nowView == 'album'">
+        <div class="row">
+            <img class="col-md-auto rounded " ng-src="{{album.cover}}" width="200" height="200">
+            <div class="col">
+                <h3><strong>{{album.title}}</strong></h3>
+                <p>
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <small class="text-secondary">
+                                <span>发行商：</span>
+                                <span>{{album.publisher}}</span>
+                            </small>
+                        </li>
+                        <li class="list-inline-item">
+                            <small class="text-secondary">
+                                <span>发行日期：</span>
+                                <span>{{album.year}}</span>
+                            </small>
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    {{album.description}}
+                </p>
+            </div>
+        </div>
+        <div class="row" style="margin-top:30px;">
+            <table class="table">
+                <tbody>
+                    <tr class="animate-repeat" ng-repeat="track in album.trackEntities">
+                        <th scope="row">{{$index + 1}}</th>
+                        <td class="clearfix">
+                            <span class="float-left">{{track.title}}</span>
+                            <div class="float-right">
+                                <button ng-click="sendToPlay(track);" type="button" class="btn btn-outline-danger btn-sm"><i
+                                        class="fas fa-play-circle"></i></button>
+                                <button ng-show="loginState()" ng-click="getPlaylists();toSetSelectedMusic(track);"
+                                    type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#addtoPlaylistPlaylistModal"><i
+                                        class="fas fa-folder-plus"></i></button>
+
+                            </div>
+                        </td>
+                        <td><span ng-repeat="artist in track.artists">{{artist.name}} </span></td>
+                        <td>{{track.duration | musicTime}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endverbatim %}

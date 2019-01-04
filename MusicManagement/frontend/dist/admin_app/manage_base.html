@@ -4,13 +4,13 @@
     <title>{% block title %}Music Management{% endblock %}</title>  
 </head>
 <body>
-    {% include "navbar.html" %}
+    {% include "admin_app/navbar.html" %}
     {% block main %}
     {% endblock%}
     {% load static %}
-    <script src="{% static './app.js' %}"></script>
-    <script src="{% static './style.js' %}"></script>
-    <script src="{% static './vendors~app.js' %}"></script>
+    <script src="{% static './static/scripts/public.bundle.js' %}"></script>
+    <script src="{% static './static/scripts/adminApp.bundle.js' %}"></script>
+
 </body>
 
 </html>
